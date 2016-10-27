@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+    <solutionClass>org.optaplanner.examples.greatlearning.domain.GLCalendar</solutionClass>
+    <entityClass>org.optaplanner.examples.greatlearning.domain.CourseSchedule</entityClass>
+
+    <scoreDirectorFactory>
+        <scoreDefinitionType>HARD_MEDIUM_SOFT</scoreDefinitionType>
+        <easyScoreCalculatorClass>org.optaplanner.examples.greatlearning.solver.score.GLCalendarScoreCalculator</easyScoreCalculatorClass>
+    </scoreDirectorFactory>
+
+    <termination>
+        <secondsSpentLimit>20</secondsSpentLimit>
+    </termination>
+    <constructionHeuristic>
+        <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
+    </constructionHeuristic>
+    <localSearch>
+        <unionMoveSelector>
+            <changeMoveSelector/>
+            <!--<swapMoveSelector>-->
+            <!--<filterClass>org.optaplanner.examples.gl.solver.move.ResidencySwapMoveFilter</filterClass>-->
+            <!--</swapMoveSelector>-->
+        </unionMoveSelector>
+        <acceptor>
+            <lateAcceptanceSize>100</lateAcceptanceSize>
+        </acceptor>
+        <forager>
+            <acceptedCountLimit>4</acceptedCountLimit>
+        </forager>
+    </localSearch>
+</solver>

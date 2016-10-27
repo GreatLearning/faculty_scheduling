@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+    <!--<environmentMode>FAST_ASSERT</environmentMode>-->
+    <solutionClass>org.optaplanner.examples.gl.domain.GLResidencyCalendar</solutionClass>
+    <entityClass>org.optaplanner.examples.gl.domain.Residency</entityClass>
+
+    <scoreDirectorFactory>
+        <scoreDefinitionType>HARD_MEDIUM_SOFT</scoreDefinitionType>
+        <easyScoreCalculatorClass>org.optaplanner.examples.gl.solver.score.GLScoreCalculator</easyScoreCalculatorClass>
+    </scoreDirectorFactory>
+
+    <termination>
+        <!--
+          Official benchmark secondsSpentLimit allowed on:
+          ge0ffrey's main pc: 429
+          ge0ffrey's old pc: 1152
+        -->
+        <secondsSpentLimit>20</secondsSpentLimit>
+        <!--<bestScoreLimit>-0hard/-999999soft</bestScoreLimit>-->
+    </termination>
+    <constructionHeuristic>
+        <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+    </constructionHeuristic>
+    <localSearch>
+        <unionMoveSelector>
+            <changeMoveSelector/>
+            <!--<swapMoveSelector>-->
+            <!--<filterClass>org.optaplanner.examples.gl.solver.move.ResidencySwapMoveFilter</filterClass>-->
+            <!--</swapMoveSelector>-->
+        </unionMoveSelector>
+        <!--<acceptor>-->
+        <!--<entityTabuSize>9</entityTabuSize>-->
+        <!--</acceptor>-->
+        <!--<forager>-->
+        <!--<acceptedCountLimit>900</acceptedCountLimit>-->
+        <!--</forager>-->
+        <acceptor>
+            <lateAcceptanceSize>600</lateAcceptanceSize>
+        </acceptor>
+        <forager>
+            <acceptedCountLimit>4</acceptedCountLimit>
+        </forager>
+        <!--<acceptor>-->
+        <!--<stepCountingHillClimbingSize>200</stepCountingHillClimbingSize>-->
+        <!--</acceptor>-->
+        <!--<forager>-->
+        <!--<acceptedCountLimit>1</acceptedCountLimit>-->
+        <!--</forager>-->
+    </localSearch>
+</solver>
