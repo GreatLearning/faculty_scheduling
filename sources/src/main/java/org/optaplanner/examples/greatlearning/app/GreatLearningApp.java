@@ -45,11 +45,13 @@ public class GreatLearningApp {
         Teacher teacher1 = new Teacher();
         teacher1.setName("teacher_1");
         teacher1.setCanTeachCourses(new HashSet<>(Arrays.asList("course_1", "course_2")));
+        teacher1.setHolidays(Arrays.asList(LocalDate.parse("2016-01-02")));
         teacherList.add(teacher1);
 
         Teacher teacher2 = new Teacher();
         teacher2.setName("teacher_2");
         teacher2.setCanTeachCourses(new HashSet<>(Arrays.asList("course_1", "course_2")));
+        teacher2.setRestrictedLocations(new HashSet<>(Arrays.asList("bangalore")));
         teacherList.add(teacher2);
 
         Course course_1 = new Course();
