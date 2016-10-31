@@ -1,0 +1,915 @@
+{
+  "programs": {
+    "PGPBA-BI": {
+      "courses": [
+        "IA",
+        "SMDM",
+        "BF",
+        "MCRM",
+        "PM",
+        "SCMO",
+        "AS",
+        "DM",
+        "OT",
+        "DVT",
+        "BDA",
+        "MRA",
+        "FRA",
+        "WSMA",
+        "SCLA",
+        "ODA",
+        "Capstone"
+      ],
+      "residency_days_count": [
+        3,
+        2
+      ],
+      "residency_days": {
+        "2": [
+          "Saturday",
+          "Sunday"
+        ],
+        "3": [
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ]
+      },
+      "min_gap_bw_residencies": 27,
+      "max_gap_bw_residencies": 33,
+      "min_hours_in_day": 6,
+      "max_hours_in_day": 9,
+      "max_courses_in_flight": 3
+    }
+  },
+  "locations": {
+    "Bangalore": {
+      "simultaneous_batches": 2,
+      "exception_days": [
+        "2017-01-01",
+        "2017-04-14",
+        "2017-06-26",
+        "2017-08-25",
+        "2017-09-30",
+        "2017-10-18",
+        "2017-12-25",
+        "2017-01-14",
+        "2017-03-28",
+        "2017-11-01"
+      ]
+    },
+    "Chennai": {
+      "simultaneous_batches": 1,
+      "exception_days": [
+        "2017-01-01",
+        "2017-04-14",
+        "2017-06-26",
+        "2017-08-25",
+        "2017-09-30",
+        "2017-10-18",
+        "2017-12-25",
+        "2017-01-14"
+      ]
+    },
+    "Gurgaon": {
+      "simultaneous_batches": 1,
+      "exception_days": [
+        "2017-01-01",
+        "2017-04-14",
+        "2017-06-26",
+        "2017-08-25",
+        "2017-09-30",
+        "2017-10-18",
+        "2017-12-25",
+        "2017-03-13"
+      ]
+    },
+    "Pune": {
+      "simultaneous_batches": 2,
+      "exception_days": [
+        "2017-01-01",
+        "2017-04-14",
+        "2017-06-26",
+        "2017-08-25",
+        "2017-09-30",
+        "2017-10-18",
+        "2017-12-25",
+        "2017-03-13",
+        "2017-05-01"
+      ]
+    },
+    "Hyderabad": {
+      "simultaneous_batches": 1,
+      "exception_days": [
+        "2017-01-01",
+        "2017-04-14",
+        "2017-06-26",
+        "2017-08-25",
+        "2017-09-30",
+        "2017-10-18",
+        "2017-12-25",
+        "2017-03-13"
+      ]
+    },
+    "Mumbai": {
+      "simultaneous_batches": 1,
+      "exception_days": [
+        "2017-01-01",
+        "2017-04-14",
+        "2017-06-26",
+        "2017-08-25",
+        "2017-09-30",
+        "2017-10-18",
+        "2017-12-25",
+        "2017-03-13",
+        "2017-05-01"
+      ]
+    }
+  },
+  "batches": [
+    {
+      "name": "PGPBABI Bangalore Feb17_A",
+      "program": "PGPBA-BI",
+      "location": "Bangalore",
+      "start_date": "2017-02-03"
+    },
+    {
+      "name": "PGPBABI Bangalore Feb17_B",
+      "program": "PGPBA-BI",
+      "location": "Bangalore",
+      "start_date": "2017-02-03"
+    },
+    {
+      "name": "PGPBABI Chennai Jan17",
+      "program": "PGPBA-BI",
+      "location": "Chennai",
+      "start_date": "2017-01-18",
+      "residency_days_count": [
+        5
+      ],
+      "residency_days": {
+        "5": [
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ]
+      },
+      "min_gap_bw_residencies": 55,
+      "max_gap_bw_residencies": 65,
+      "max_courses_in_flight": 5
+    },
+    {
+      "name": "PGPBABI Gurgaon Jan17",
+      "program": "PGPBA-BI",
+      "location": "Gurgaon",
+      "start_date": "2017-01-27"
+    },
+    {
+      "name": "PGPBABI Gurgaon Feb17",
+      "program": "PGPBA-BI",
+      "location": "Gurgaon",
+      "start_date": "2017-02-17"
+    },
+    {
+      "name": "PGPBABI Pune Mar17",
+      "program": "PGPBA-BI",
+      "location": "Pune",
+      "start_date": "2017-03-03"
+    },
+    {
+      "name": "PGPBABI Hyderabad Mar17",
+      "program": "PGPBA-BI",
+      "location": "Hyderabad",
+      "start_date": "2017-03-17"
+    },
+    {
+      "name": "PGPBABI Mumbai Mar17",
+      "program": "PGPBA-BI",
+      "location": "Mumbai",
+      "start_date": "2017-03-24"
+    }
+  ],
+  "courses": {
+    "IA": {
+      "duration": 8,
+      "slots": [
+        {
+          "name": "IA-1",
+          "duration": 4
+        },
+        {
+          "name": "IA-2",
+          "duration": 4
+        }
+      ]
+    },
+    "SMDM": {
+      "duration": 16,
+      "slots": [
+        {
+          "name": "SMDM-1",
+          "duration": 4
+        },
+        {
+          "name": "SMDM-2",
+          "duration": 4
+        },
+        {
+          "name": "SMDM-3",
+          "duration": 4
+        },
+        {
+          "name": "SMDM-4",
+          "duration": 4
+        }
+      ]
+    },
+    "BF": {
+      "duration": 12,
+      "slots": [
+        {
+          "name": "BF-1",
+          "duration": 4
+        },
+        {
+          "name": "BF-2",
+          "duration": 4
+        },
+        {
+          "name": "BF-3",
+          "duration": 4
+        }
+      ]
+    },
+    "MCRM": {
+      "duration": 12,
+      "slots": [
+        {
+          "name": "MCRM-1",
+          "duration": 4
+        },
+        {
+          "name": "MCRM-2",
+          "duration": 4
+        },
+        {
+          "name": "MCRM-3",
+          "duration": 4
+        }
+      ]
+    },
+    "PM": {
+      "duration": 16,
+      "slots": [
+        {
+          "name": "PM-1",
+          "duration": 4
+        },
+        {
+          "name": "PM-2",
+          "duration": 4
+        },
+        {
+          "name": "PM-3",
+          "duration": 4
+        },
+        {
+          "name": "PM-4",
+          "duration": 4
+        }
+      ]
+    },
+    "SCMO": {
+      "duration": 12,
+      "slots": [
+        {
+          "name": "SCMO-1",
+          "duration": 4
+        },
+        {
+          "name": "SCMO-2",
+          "duration": 4
+        },
+        {
+          "name": "SCMO-3",
+          "duration": 4
+        }
+      ]
+    },
+    "AS": {
+      "duration": 16,
+      "slots": [
+        {
+          "name": "AS-1",
+          "duration": 4
+        },
+        {
+          "name": "AS-2",
+          "duration": 4
+        },
+        {
+          "name": "AS-3",
+          "duration": 4
+        },
+        {
+          "name": "AS-4",
+          "duration": 4
+        }
+      ]
+    },
+    "DM": {
+      "duration": 16,
+      "slots": [
+        {
+          "name": "DM-1",
+          "duration": 4
+        },
+        {
+          "name": "DM-2",
+          "duration": 4
+        },
+        {
+          "name": "DM-3",
+          "duration": 4
+        },
+        {
+          "name": "DM-4",
+          "duration": 4
+        }
+      ]
+    },
+    "OT": {
+      "duration": 16,
+      "slots": [
+        {
+          "name": "OT-1",
+          "duration": 4
+        },
+        {
+          "name": "OT-2",
+          "duration": 4
+        },
+        {
+          "name": "OT-3",
+          "duration": 4
+        },
+        {
+          "name": "OT-4",
+          "duration": 4
+        }
+      ]
+    },
+    "DVT": {
+      "duration": 12,
+      "slots": [
+        {
+          "name": "DVT-1",
+          "duration": 8
+        },
+        {
+          "name": "DVT-2",
+          "duration": 4
+        }
+      ]
+    },
+    "BDA": {
+      "duration": 12,
+      "slots": [
+        {
+          "name": "BDA-1",
+          "duration": 4
+        },
+        {
+          "name": "BDA-2",
+          "duration": 4
+        },
+        {
+          "name": "BDA-3",
+          "duration": 4
+        }
+      ]
+    },
+    "MRA": {
+      "duration": 12,
+      "slots": [
+        {
+          "name": "MRA-1",
+          "duration": 4
+        },
+        {
+          "name": "MRA-2",
+          "duration": 4
+        },
+        {
+          "name": "MRA-3",
+          "duration": 4
+        }
+      ]
+    },
+    "FRA": {
+      "duration": 12,
+      "slots": [
+        {
+          "name": "FRA-1",
+          "duration": 4
+        },
+        {
+          "name": "FRA-2",
+          "duration": 4
+        },
+        {
+          "name": "FRA-3",
+          "duration": 4
+        }
+      ]
+    },
+    "WSMA": {
+      "duration": 12,
+      "slots": [
+        {
+          "name": "WSMA-1",
+          "duration": 4
+        },
+        {
+          "name": "WSMA-2",
+          "duration": 4
+        },
+        {
+          "name": "WSMA-3",
+          "duration": 4
+        }
+      ]
+    },
+    "SCLA": {
+      "duration": 12,
+      "slots": [
+        {
+          "name": "SCLA-1",
+          "duration": 4
+        },
+        {
+          "name": "SCLA-2",
+          "duration": 4
+        },
+        {
+          "name": "SCLA-3",
+          "duration": 4
+        }
+      ]
+    },
+    "ODA": {
+      "duration": 12,
+      "slots": [
+        {
+          "name": "ODA-1",
+          "duration": 4
+        },
+        {
+          "name": "ODA-2",
+          "duration": 4
+        },
+        {
+          "name": "ODA-3",
+          "duration": 4
+        }
+      ]
+    },
+    "Capstone": {
+      "duration": 12,
+      "slots": [
+        {
+          "name": "Capstone-1",
+          "duration": 8
+        },
+        {
+          "name": "Capstone-2",
+          "duration": 4
+        }
+      ]
+    }
+  },
+  "faculties": {
+    "Dr.PKV": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {
+        "C1": [
+          "B1"
+        ]
+      }
+    },
+    "Dr.Bappa": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {
+        "C1": [
+          "B3"
+        ]
+      }
+    },
+    "Srabashi": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Sridar": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Jatinder": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Tushar": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Umashankar": {
+      "locations_available": [
+        "Bangalore",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Easwar": {
+      "locations_available": [
+        "Bangalore",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Sriram": {
+      "locations_available": [
+        "Bangalore",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Ahindra": {
+      "locations_available": [
+        "Bangalore",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Shanti": {
+      "locations_available": [
+        "Bangalore",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Sanjoy": {
+      "locations_available": [
+        "Chennai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Vaidy": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Rohit": {
+      "locations_available": [
+        "Bangalore",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Narain": {
+      "locations_available": [
+        "Bangalore",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Rajesh": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Anshuman": {
+      "locations_available": [
+        "Bangalore",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Raghavshyam & Vivek": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Pradeepta": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Arun": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Snehamoy": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Yugandar": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Vidya shankar": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Ashish": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Jaytu": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "RL Shankar": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Pooja": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    },
+    "Faculty1": {
+      "locations_available": [
+        "Bangalore",
+        "Chennai",
+        "Gurgaon",
+        "Pune",
+        "Hyderabad",
+        "Mumbai"
+      ],
+      "not_available_days": [],
+      "courses_in_batches": {}
+    }
+  },
+  "courses_faculties": {
+    "IA": [
+      "Dr.PKV",
+      "Dr.Bappa",
+      "Srabashi",
+      "Sridar",
+      "Jatinder",
+      "Tushar"
+    ],
+    "SMDM": [
+      "Dr.PKV",
+      "Dr.Bappa",
+      "Srabashi",
+      "Sridar"
+    ],
+    "MCRM": [
+      "Umashankar",
+      "Easwar",
+      "Sriram"
+    ],
+    "BF": [
+      "Ahindra",
+      "Shanti",
+      "Sanjoy"
+    ],
+    "SCMO": [
+      "Vaidy",
+      "Rohit",
+      "Narain"
+    ],
+    "AS": [
+      "Dr.PKV",
+      "Dr.Bappa",
+      "Srabashi",
+      "Sridar"
+    ],
+    "PM": [
+      "Dr.PKV",
+      "Dr.Bappa",
+      "Srabashi",
+      "Sridar"
+    ],
+    "DM": [
+      "Rajesh",
+      "Srabashi"
+    ],
+    "OT": [
+      "Vaidy",
+      "Rohit",
+      "Narain",
+      "Anshuman"
+    ],
+    "DVT": [
+      "Raghavshyam & Vivek"
+    ],
+    "BDA": [
+      "Pradeepta",
+      "Arun"
+    ],
+    "MRA": [
+      "Snehamoy",
+      "Yugandar",
+      "Vidya shankar"
+    ],
+    "FRA": [
+      "Ashish",
+      "Jaytu",
+      "RL Shankar"
+    ],
+    "WSMA": [
+      "Pooja",
+      "Tushar "
+    ],
+    "SCLA": [
+      "Vaidy",
+      "Rohit",
+      "Narain",
+      "Anshuman"
+    ],
+    "ODA": [
+      "Faculty1"
+    ],
+    "Capstone": [
+      "Dr.PKV",
+      "Dr.Bappa",
+      "Srabashi",
+      "Sridar"
+    ]
+  }
+}

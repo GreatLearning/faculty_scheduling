@@ -15,17 +15,21 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
         int mediumScore = 0;
         int softScore = 0;
 
+        Map<Batch, Map<DateTimeSlot, List<CourseSchedule>>> calendar = new HashMap<>();
+
         Map<DateTimeSlot, Map<String, Set<String>>> courseDateTimeSlotMap = new HashMap<>(); //DateTimeSlot vs batchName vs Courses
         Map<DateTimeSlot, Map<String, Set<String>>> teacherDateTimeSlotMap = new HashMap<>(); //DateTimeSlot vs teacher vs batchName
         Map<LocalDate, Map<Teacher, Set<String>>> teacherLocationDateMap = new HashMap<>(); //Date vs teacher vs location
-
+        Map<DateTimeSlot, Map<Location, Set<String>>> locationDateMap = new HashMap<>(); //DateTimeSlot vs location vs batches
 
         List<CourseSchedule> courseScheduleList = solution.getCourseScheduleList();
         for (CourseSchedule courseSchedule : courseScheduleList) {
             populateCourseDateTimeSlot(courseDateTimeSlotMap, courseSchedule);
             populateTeacherDateTimeSlot(teacherDateTimeSlotMap, courseSchedule);
             populateTeacherLocationDates(teacherLocationDateMap, courseSchedule);
+            populateLocationBatchDateTimeSlot(locationDateMap, courseSchedule);
 
+            buildCalendar(calendar, courseSchedule);
         }
 
         /**
@@ -55,13 +59,14 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
          * decrementing hardScore by #conflicting locations
          *
          * 8. Faculty unavailable days (on leave )
+         * 10. Faculty restricted location ( example : can’t teach in gurgaon )
          */
         for (Map.Entry<LocalDate, Map<Teacher, Set<String>>> entry : teacherLocationDateMap.entrySet()) {
             for (Map.Entry<Teacher, Set<String>> setEntry : entry.getValue().entrySet()) {
                 if (setEntry.getValue().size() > 1) {
                     hardScore -= setEntry.getValue().size();
                 }
-                List<LocalDate> holidays = setEntry.getKey().getHolidays();
+                Set<LocalDate> holidays = setEntry.getKey().getHolidays();
                 if (holidays != null && setEntry.getKey().getHolidays().contains(entry.getKey())) {
                     hardScore--;
                 }
@@ -69,24 +74,86 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                 if (locations == null) {
                     locations = new HashSet<>();
                 }
-                Set<String> restrictedLocations = setEntry.getKey().getRestrictedLocations();
-                if (restrictedLocations == null) {
-                    restrictedLocations = new HashSet<>();
+                Set<String> availableLocations = setEntry.getKey().getAvailableLocations();
+                if (availableLocations == null) {
+                    availableLocations = new HashSet<>();
                 }
-                Collection overlappingLocations = CollectionUtils.intersection(locations, restrictedLocations);
-                hardScore -= overlappingLocations.size();
+                Collection allLocations = CollectionUtils.union(locations, availableLocations);
+                hardScore -= allLocations.size() - availableLocations.size();
             }
         }
+
+        /**
+         * 6. No. of residency for a location on same day should not exceed number of rooms.
+         */
+        for (Map.Entry<DateTimeSlot, Map<Location, Set<String>>> entry : locationDateMap.entrySet()) {
+            for (Map.Entry<Location, Set<String>> setEntry : entry.getValue().entrySet()) {
+                if (setEntry.getValue().size() > setEntry.getKey().getRooms()) {
+                    hardScore -= (setEntry.getValue().size() - setEntry.getKey().getRooms());
+                }
+            }
+        }
+
+        /**
+         * 7. faculty stickiness ( if a faculty starts teaching a course, then only he should continue )
+         *9. Course only in one slot in any day
+         * Above should be handled by input generator
+         */
+
 
         return HardMediumSoftScore.valueOf(hardScore, mediumScore, softScore);
     }
 
-    private void populateTeacherLocationDates(Map<LocalDate, Map<Teacher, Set<String>>> teacherLocationDateMap, CourseSchedule courseSchedule) {
+    private void buildCalendar(Map<Batch, Map<DateTimeSlot, List<CourseSchedule>>> calendar, CourseSchedule courseSchedule) {
+        Batch batch = courseSchedule.getBatch();
+        DateTimeSlots dateTimeSlots = getDateTimeSlots(courseSchedule);
+        Map<DateTimeSlot, List<CourseSchedule>> slotsCourseScheduleMap = calendar.get(batch);
+        if (slotsCourseScheduleMap == null) {
+            slotsCourseScheduleMap = new HashMap<>();
+        }
+        for (DateTimeSlot dateTimeSlot : dateTimeSlots.getDateTimeSlots()) {
+            List<CourseSchedule> courseScheduleList = slotsCourseScheduleMap.get(dateTimeSlot);
+            if (courseScheduleList == null) {
+                courseScheduleList = new ArrayList<>();
+            }
+            courseScheduleList.add(courseSchedule);
+            slotsCourseScheduleMap.put(dateTimeSlot, courseScheduleList);
+        }
+        calendar.put(batch, slotsCourseScheduleMap);
+    }
+
+    private void populateLocationBatchDateTimeSlot(Map<DateTimeSlot, Map<Location, Set<String>>> locationDateMap, CourseSchedule courseSchedule) {
+
+        DateTimeSlots dateTimeSlots = getDateTimeSlots(courseSchedule);
+        for (DateTimeSlot dateTimeSlot : dateTimeSlots.getDateTimeSlots()) {
+            Location location = courseSchedule.getBatch().getLocation();
+            String batchName = courseSchedule.getBatch().getName();
+            Map<Location, Set<String>> map = locationDateMap.get(dateTimeSlot);
+            if (map == null) {
+                map = new HashMap<>();
+            }
+            Set<String> batchNames = map.get(location);
+            if (batchNames == null) {
+                batchNames = new HashSet<>();
+            }
+            batchNames.add(batchName);
+            map.put(location, batchNames);
+            locationDateMap.put(dateTimeSlot, map);
+        }
+
+    }
+
+    private DateTimeSlots getDateTimeSlots(CourseSchedule courseSchedule) {
         DateTimeSlots dateTimeSlots = courseSchedule.getDateTimeSlots();
         if (dateTimeSlots == null) {
             dateTimeSlots = new DateTimeSlots();
             dateTimeSlots.setDateTimeSlots(new ArrayList<>());
         }
+        return dateTimeSlots;
+    }
+
+    private void populateTeacherLocationDates(Map<LocalDate, Map<Teacher, Set<String>>> teacherLocationDateMap, CourseSchedule courseSchedule) {
+        DateTimeSlots dateTimeSlots = getDateTimeSlots(courseSchedule);
         for (DateTimeSlot dateTimeSlot : dateTimeSlots.getDateTimeSlots()) {
             String location = courseSchedule.getBatch().getLocation().getName();
             Teacher teacherName = courseSchedule.getTeacher();
@@ -105,11 +172,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
     }
 
     private void populateTeacherDateTimeSlot(Map<DateTimeSlot, Map<String, Set<String>>> teacherDateTimeSlotMap, CourseSchedule courseSchedule) {
-        DateTimeSlots dateTimeSlots = courseSchedule.getDateTimeSlots();
-        if (dateTimeSlots == null) {
-            dateTimeSlots = new DateTimeSlots();
-            dateTimeSlots.setDateTimeSlots(new ArrayList<>());
-        }
+        DateTimeSlots dateTimeSlots = getDateTimeSlots(courseSchedule);
         for (DateTimeSlot dateTimeSlot : dateTimeSlots.getDateTimeSlots()) {
             String batchName = courseSchedule.getBatch().getName();
             String teacherName = courseSchedule.getTeacher().getName();
@@ -128,11 +191,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
     }
 
     private void populateCourseDateTimeSlot(Map<DateTimeSlot, Map<String, Set<String>>> courseDateTimeSlotMap, CourseSchedule courseSchedule) {
-        DateTimeSlots dateTimeSlots = courseSchedule.getDateTimeSlots();
-        if (dateTimeSlots == null) {
-            dateTimeSlots = new DateTimeSlots();
-            dateTimeSlots.setDateTimeSlots(new ArrayList<>());
-        }
+        DateTimeSlots dateTimeSlots = getDateTimeSlots(courseSchedule);
         for (DateTimeSlot dateTimeSlot : dateTimeSlots.getDateTimeSlots()) {
             String courseName = courseSchedule.getName();
             String batchName = courseSchedule.getBatch().getName();

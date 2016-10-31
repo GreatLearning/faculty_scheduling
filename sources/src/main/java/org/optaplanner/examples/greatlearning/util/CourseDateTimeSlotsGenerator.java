@@ -70,9 +70,9 @@ public class CourseDateTimeSlotsGenerator {
             for (int bit = 0; bit < subDates.size(); bit++) {
                 DateTimeSlot dateTimeSlot;
                 if ((i & (1 << bit)) == 0) {
-                    dateTimeSlot = new DateTimeSlot(subDates.get(bit), TimeSlot.AFTERNOON);
-                } else {
                     dateTimeSlot = new DateTimeSlot(subDates.get(bit), TimeSlot.MORNING);
+                } else {
+                    dateTimeSlot = new DateTimeSlot(subDates.get(bit), TimeSlot.AFTERNOON);
                 }
                 slots.add(dateTimeSlot);
             }

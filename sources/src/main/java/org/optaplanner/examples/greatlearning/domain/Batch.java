@@ -94,7 +94,10 @@ public class Batch {
 
     private void populateResidencyDates(LocalDate endDate, List<LocalDate> residencyDates, int numOfDays) {
         for (int i = 0; i < numOfDays; i++) {
-            residencyDates.add(0, endDate.minusDays(i));
+            LocalDate date = endDate.minusDays(i);
+            if (!location.getHolidays().contains(date)) {
+                residencyDates.add(0, endDate.minusDays(i));
+            }
         }
     }
 
@@ -152,5 +155,37 @@ public class Batch {
 
     public void setMaxGapBetweenResidenciesInDays(int maxGapBetweenResidenciesInDays) {
         this.maxGapBetweenResidenciesInDays = maxGapBetweenResidenciesInDays;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Batch batch = (Batch) o;
+
+        if (minGapBetweenResidenciesInDays != batch.minGapBetweenResidenciesInDays) return false;
+        if (maxGapBetweenResidenciesInDays != batch.maxGapBetweenResidenciesInDays) return false;
+        if (name != null ? !name.equals(batch.name) : batch.name != null) return false;
+        if (location != null ? !location.equals(batch.location) : batch.location != null) return false;
+        if (program != null ? !program.equals(batch.program) : batch.program != null) return false;
+        if (startDate != null ? !startDate.equals(batch.startDate) : batch.startDate != null) return false;
+        if (monthlyResidencyDays != null ? !monthlyResidencyDays.equals(batch.monthlyResidencyDays) : batch.monthlyResidencyDays != null)
+            return false;
+        return possibleResidencyDates != null ? possibleResidencyDates.equals(batch.possibleResidencyDates) : batch.possibleResidencyDates == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (program != null ? program.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (monthlyResidencyDays != null ? monthlyResidencyDays.hashCode() : 0);
+        result = 31 * result + minGapBetweenResidenciesInDays;
+        result = 31 * result + maxGapBetweenResidenciesInDays;
+        result = 31 * result + (possibleResidencyDates != null ? possibleResidencyDates.hashCode() : 0);
+        return result;
     }
 }

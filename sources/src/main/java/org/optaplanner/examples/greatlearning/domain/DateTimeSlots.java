@@ -1,5 +1,6 @@
 package org.optaplanner.examples.greatlearning.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DateTimeSlots {
@@ -11,6 +12,20 @@ public class DateTimeSlots {
 
     public void setDateTimeSlots(List<DateTimeSlot> dateTimeSlots) {
         this.dateTimeSlots = dateTimeSlots;
+    }
+
+    public void addDateTimeSlot(DateTimeSlot dateTimeSlot) {
+        if (dateTimeSlots == null) {
+            dateTimeSlots = new ArrayList<>();
+        }
+        dateTimeSlots.add(dateTimeSlot);
+    }
+
+    public void addAllDateTimeSlot(DateTimeSlots dateTimeSlot) {
+        if (dateTimeSlots == null) {
+            dateTimeSlots = new ArrayList<>();
+        }
+        dateTimeSlots.addAll(dateTimeSlot.getDateTimeSlots());
     }
 
     @Override

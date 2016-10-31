@@ -9,7 +9,7 @@
     </scoreDirectorFactory>
 
     <termination>
-        <secondsSpentLimit>20</secondsSpentLimit>
+        <secondsSpentLimit>600</secondsSpentLimit>
     </termination>
     <constructionHeuristic>
         <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
@@ -25,7 +25,8 @@
             <lateAcceptanceSize>100</lateAcceptanceSize>
         </acceptor>
         <forager>
-            <acceptedCountLimit>4</acceptedCountLimit>
+            <acceptedCountLimit>5</acceptedCountLimit>
+            <!--<pickEarlyType>FIRST_BEST_SCORE_IMPROVING</pickEarlyType>-->
         </forager>
     </localSearch>
 </solver>

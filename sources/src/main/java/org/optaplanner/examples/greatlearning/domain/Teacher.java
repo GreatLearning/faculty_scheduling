@@ -1,23 +1,21 @@
 package org.optaplanner.examples.greatlearning.domain;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 public class Teacher {
     private String name;
     private Set<String> canTeachCourses;
-    private Set<String> restrictedLocations;
+    private Set<String> availableLocations;
+    private Set<LocalDate> holidays;
 
-    public List<LocalDate> getHolidays() {
+    public Set<LocalDate> getHolidays() {
         return holidays;
     }
 
-    public void setHolidays(List<LocalDate> holidays) {
+    public void setHolidays(Set<LocalDate> holidays) {
         this.holidays = holidays;
     }
-
-    private List<LocalDate> holidays;
 
     public String getName() {
         return name;
@@ -35,12 +33,12 @@ public class Teacher {
         this.canTeachCourses = canTeachCourses;
     }
 
-    public Set<String> getRestrictedLocations() {
-        return restrictedLocations;
+    public Set<String> getAvailableLocations() {
+        return availableLocations;
     }
 
-    public void setRestrictedLocations(Set<String> restrictedLocations) {
-        this.restrictedLocations = restrictedLocations;
+    public void setAvailableLocations(Set<String> availableLocations) {
+        this.availableLocations = availableLocations;
     }
 
     @Override
@@ -48,8 +46,33 @@ public class Teacher {
         return "Teacher{" +
                 "name='" + name + '\'' +
                 ", canTeachCourses=" + canTeachCourses +
-                ", restrictedLocations=" + restrictedLocations +
+                ", availableLocations=" + availableLocations +
                 ", holidays=" + holidays +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Teacher teacher = (Teacher) o;
+
+        if (name != null ? !name.equals(teacher.name) : teacher.name != null) return false;
+        if (canTeachCourses != null ? !canTeachCourses.equals(teacher.canTeachCourses) : teacher.canTeachCourses != null)
+            return false;
+        if (availableLocations != null ? !availableLocations.equals(teacher.availableLocations) : teacher.availableLocations != null)
+            return false;
+        return holidays != null ? holidays.equals(teacher.holidays) : teacher.holidays == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (canTeachCourses != null ? canTeachCourses.hashCode() : 0);
+        result = 31 * result + (availableLocations != null ? availableLocations.hashCode() : 0);
+        result = 31 * result + (holidays != null ? holidays.hashCode() : 0);
+        return result;
     }
 }
