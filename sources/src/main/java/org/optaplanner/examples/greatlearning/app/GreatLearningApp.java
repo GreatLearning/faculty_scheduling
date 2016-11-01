@@ -28,7 +28,10 @@ public class GreatLearningApp {
 //        display(plannedSolution);
         GLCalendar unplannedSolution = loadFromFile();
         GLCalendar plannedSolution = solver.solve(unplannedSolution);
-        displayCalendar(plannedSolution);
+
+        System.out.println(plannedSolution.getConstraintsBroken());
+
+        display(plannedSolution);
     }
 
     private static GLCalendar loadFromFile() throws IOException {
@@ -112,7 +115,7 @@ public class GreatLearningApp {
             LocalDate startDate = LocalDate.parse(batchNode.get("start_date").asText());
             int minGapBetweenResidency = batchNode.get("min_gap_bw_residencies").asInt();
             int maxGapBetweenResidency = batchNode.get("max_gap_bw_residencies").asInt();
-            //int maxCourseInFlight = batchNode.get("max_courses_in_flight").asInt(); //TODO
+            int maxCourseInFlight = batchNode.get("max_courses_in_flight").asInt(); //TODO
 
             ArrayNode residencyDaysCounts = (ArrayNode) batchNode.get("residency_days_count");
             List<Integer> monthlyResidencyDays = new ArrayList<>();
@@ -129,6 +132,7 @@ public class GreatLearningApp {
             batch.setProgram(null); //set program_name
             batch.setMaxGapBetweenResidenciesInDays(maxGapBetweenResidency);
             batch.setMinGapBetweenResidenciesInDays(minGapBetweenResidency);
+            batch.setMaxCoursesInFLight(maxCourseInFlight);
             //max_courses_in_flight
             batch.setStartDate(startDate);
             Program program = programMap.get(programName);
@@ -219,7 +223,19 @@ public class GreatLearningApp {
                 CourseSchedule courseSchedule = new CourseSchedule();
                 courseSchedule.setBatch(batch);
                 courseSchedule.setName(course.getName());
-                courseSchedule.setTeacherList(course.getTeachers());
+
+                List<Teacher> availableTeachers = new ArrayList<>();
+                for (Teacher teacher : course.getTeachers()) {
+                    if (teacher.getAvailableLocations().contains(batch.getLocation().getName())) {
+                        availableTeachers.add(teacher);
+                    }
+                }
+                if (availableTeachers.size() == 0) {
+                    System.out.println("Error => " + batch.getName() + " : " + batch.getLocation().getName() + " : " + course.getName() + " -- has no faculty");
+                    System.exit(1);
+                }
+                courseSchedule.setTeacherList(availableTeachers);
+
                 courseSchedule.setDateTimeSlotsList(CourseDateTimeSlotsGenerator.generate(course, batch));
                 courseSchedule.setSlotsNum(course.getSlotsNum());
                 courseScheduleList.add(courseSchedule);
@@ -237,7 +253,7 @@ public class GreatLearningApp {
                 System.out.print(entry.getKey());
                 System.out.print("==>>");
                 System.out.println(schedule.getBatch().getLocation().getName());
-                System.out.print(schedule.getBatch().getName() + "|" + schedule.getName() + "|" + schedule.getTeacher());
+                System.out.print(schedule.getBatch().getName() + " ; " + schedule.getName() + " ; " + schedule.getTeacher());
                 System.out.println("");
             }
             System.out.println("------------------------------------");

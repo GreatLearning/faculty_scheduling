@@ -17,16 +17,13 @@
     <localSearch>
         <unionMoveSelector>
             <changeMoveSelector/>
-            <!--<swapMoveSelector>-->
-            <!--<filterClass>org.optaplanner.examples.gl.solver.move.ResidencySwapMoveFilter</filterClass>-->
-            <!--</swapMoveSelector>-->
         </unionMoveSelector>
         <acceptor>
-            <lateAcceptanceSize>100</lateAcceptanceSize>
+            <lateAcceptanceSize>400</lateAcceptanceSize>
+            <!--<entityTabuSize>5</entityTabuSize>-->
         </acceptor>
         <forager>
-            <acceptedCountLimit>5</acceptedCountLimit>
-            <!--<pickEarlyType>FIRST_BEST_SCORE_IMPROVING</pickEarlyType>-->
+            <acceptedCountLimit>1</acceptedCountLimit>
         </forager>
     </localSearch>
 </solver>

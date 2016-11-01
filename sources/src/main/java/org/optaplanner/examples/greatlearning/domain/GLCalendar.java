@@ -11,6 +11,8 @@ import java.util.List;
 @PlanningSolution
 public class GLCalendar implements Solution<HardMediumSoftScore> {
 
+    private List<String> constraintsBroken;
+
     private HardMediumSoftScore score;
 
     @PlanningEntityCollectionProperty
@@ -37,5 +39,13 @@ public class GLCalendar implements Solution<HardMediumSoftScore> {
 
     public void setCourseScheduleList(List<CourseSchedule> courseScheduleList) {
         this.courseScheduleList = courseScheduleList;
+    }
+
+    public List<String> getConstraintsBroken() {
+        return constraintsBroken;
+    }
+
+    public void setConstraintsBroken(List<String> constraintsBroken) {
+        this.constraintsBroken = constraintsBroken;
     }
 }

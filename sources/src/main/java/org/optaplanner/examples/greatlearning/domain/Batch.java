@@ -22,6 +22,7 @@ public class Batch {
 
     private int minGapBetweenResidenciesInDays;
     private int maxGapBetweenResidenciesInDays;
+    private int maxCoursesInFLight;
 
     private List<List<LocalDate>> possibleResidencyDates;
 
@@ -187,5 +188,13 @@ public class Batch {
         result = 31 * result + maxGapBetweenResidenciesInDays;
         result = 31 * result + (possibleResidencyDates != null ? possibleResidencyDates.hashCode() : 0);
         return result;
+    }
+
+    public int getMaxCoursesInFLight() {
+        return maxCoursesInFLight;
+    }
+
+    public void setMaxCoursesInFLight(int maxCoursesInFLight) {
+        this.maxCoursesInFLight = maxCoursesInFLight;
     }
 }

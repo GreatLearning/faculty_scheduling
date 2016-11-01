@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
-public class BatchTest {
+public class GLCalendarInputGeneratorTest {
     @Test
     public void testGenerateResidencyDates() {
         Batch batch = new Batch();

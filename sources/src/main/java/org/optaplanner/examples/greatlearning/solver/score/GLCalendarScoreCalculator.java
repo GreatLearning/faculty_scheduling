@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.optaplanner.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore;
 import org.optaplanner.core.impl.score.director.easy.EasyScoreCalculator;
 import org.optaplanner.examples.greatlearning.domain.*;
+import org.optaplanner.examples.greatlearning.util.Util;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -14,8 +15,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
         int hardScore = 0;
         int mediumScore = 0;
         int softScore = 0;
-
-        Map<Batch, Map<DateTimeSlot, List<CourseSchedule>>> calendar = new HashMap<>();
+        List<String> constraintsBoken = new ArrayList<>();
 
         Map<DateTimeSlot, Map<String, Set<String>>> courseDateTimeSlotMap = new HashMap<>(); //DateTimeSlot vs batchName vs Courses
         Map<DateTimeSlot, Map<String, Set<String>>> teacherDateTimeSlotMap = new HashMap<>(); //DateTimeSlot vs teacher vs batchName
@@ -28,8 +28,6 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             populateTeacherDateTimeSlot(teacherDateTimeSlotMap, courseSchedule);
             populateTeacherLocationDates(teacherLocationDateMap, courseSchedule);
             populateLocationBatchDateTimeSlot(locationDateMap, courseSchedule);
-
-            buildCalendar(calendar, courseSchedule);
         }
 
         /**
@@ -40,6 +38,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             for (Map.Entry<String, Set<String>> setEntry : entry.getValue().entrySet()) {
                 if (setEntry.getValue().size() > 1) {
                     hardScore -= setEntry.getValue().size();
+                    constraintsBoken.add("#3. #conflicting courses for batch");
                 }
             }
         }
@@ -51,6 +50,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             for (Map.Entry<String, Set<String>> setEntry : entry.getValue().entrySet()) {
                 if (setEntry.getValue().size() > 1) {
                     hardScore -= setEntry.getValue().size();
+                    constraintsBoken.add("#4. #conflicting batches for faculty");
                 }
             }
         }
@@ -65,10 +65,12 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             for (Map.Entry<Teacher, Set<String>> setEntry : entry.getValue().entrySet()) {
                 if (setEntry.getValue().size() > 1) {
                     hardScore -= setEntry.getValue().size();
+                    constraintsBoken.add("#5. A faculty should not be teaching more than 1 location on same day");
                 }
                 Set<LocalDate> holidays = setEntry.getKey().getHolidays();
                 if (holidays != null && setEntry.getKey().getHolidays().contains(entry.getKey())) {
                     hardScore--;
+                    constraintsBoken.add("#8. Faculty unavailable days (on leave )");
                 }
                 Set<String> locations = setEntry.getValue();
                 if (locations == null) {
@@ -79,7 +81,10 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                     availableLocations = new HashSet<>();
                 }
                 Collection allLocations = CollectionUtils.union(locations, availableLocations);
-                hardScore -= allLocations.size() - availableLocations.size();
+                if(allLocations.size() > availableLocations.size()){
+                    hardScore -= allLocations.size() - availableLocations.size();
+                    constraintsBoken.add("#10. Faculty restricted location");
+                }
             }
         }
 
@@ -90,6 +95,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             for (Map.Entry<Location, Set<String>> setEntry : entry.getValue().entrySet()) {
                 if (setEntry.getValue().size() > setEntry.getKey().getRooms()) {
                     hardScore -= (setEntry.getValue().size() - setEntry.getKey().getRooms());
+                    constraintsBoken.add("#6. No. of residency for a location on same day should not exceed number of rooms.");
                 }
             }
         }
@@ -100,26 +106,61 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
          * Above should be handled by input generator
          */
 
+        Map<Batch, Map<String, Map.Entry<Integer, Integer>>> inflightCoursesTracker = new HashMap<>();
+
+        Map<DateTimeSlot, List<CourseSchedule>> calendar = Util.convertToCalendar(solution);
+        Map<Batch, Integer> batchInflightMap = new HashMap<>();
+
+        /**
+         * #1. Max inflight course violations
+         */
+        for (Map.Entry<DateTimeSlot, List<CourseSchedule>> entry : calendar.entrySet()) {
+            List<CourseSchedule> scheduleList = entry.getValue();
+            for (CourseSchedule schedule : scheduleList) {
+                Batch batch = schedule.getBatch();
+                String courseName = schedule.getName();
+                Map<String, Map.Entry<Integer, Integer>> item = inflightCoursesTracker.get(batch);
+                if (item == null) {
+                    item = new HashMap<>();
+                }
+                Map.Entry<Integer, Integer> integerEntry = item.get(courseName);
+                if (integerEntry == null) {
+                    integerEntry = new AbstractMap.SimpleEntry<>(schedule.getSlotsNum(), 0);
+                }
+                int currInflight = integerEntry.getValue();
+                currInflight++;
+                integerEntry.setValue(currInflight);
+
+                item.put(courseName, integerEntry);
+                inflightCoursesTracker.put(batch, item);
+
+                //Check for inflight violation
+                int counter = 0;
+                for (Map.Entry<String, Map.Entry<Integer, Integer>> entryEntry : item.entrySet()) {
+                    int inflight = entryEntry.getValue().getValue();
+                    int threshold = entryEntry.getValue().getKey();
+
+                    if (inflight < threshold) {
+                        counter++;
+                    }
+                }
+                int inflightViolation = 0;
+                if (counter > batch.getMaxCoursesInFLight()) {
+                    inflightViolation = counter;
+                }
+                batchInflightMap.put(batch, inflightViolation);
+            }
+        }
+        for (Map.Entry<Batch, Integer> entry : batchInflightMap.entrySet()) {
+            if (entry.getValue() > 0) {
+                hardScore--;
+                constraintsBoken.add("#1. Max inflight course violations");
+            }
+        }
+
+        solution.setConstraintsBroken(constraintsBoken);
 
         return HardMediumSoftScore.valueOf(hardScore, mediumScore, softScore);
-    }
-
-    private void buildCalendar(Map<Batch, Map<DateTimeSlot, List<CourseSchedule>>> calendar, CourseSchedule courseSchedule) {
-        Batch batch = courseSchedule.getBatch();
-        DateTimeSlots dateTimeSlots = getDateTimeSlots(courseSchedule);
-        Map<DateTimeSlot, List<CourseSchedule>> slotsCourseScheduleMap = calendar.get(batch);
-        if (slotsCourseScheduleMap == null) {
-            slotsCourseScheduleMap = new HashMap<>();
-        }
-        for (DateTimeSlot dateTimeSlot : dateTimeSlots.getDateTimeSlots()) {
-            List<CourseSchedule> courseScheduleList = slotsCourseScheduleMap.get(dateTimeSlot);
-            if (courseScheduleList == null) {
-                courseScheduleList = new ArrayList<>();
-            }
-            courseScheduleList.add(courseSchedule);
-            slotsCourseScheduleMap.put(dateTimeSlot, courseScheduleList);
-        }
-        calendar.put(batch, slotsCourseScheduleMap);
     }
 
     private void populateLocationBatchDateTimeSlot(Map<DateTimeSlot, Map<Location, Set<String>>> locationDateMap, CourseSchedule courseSchedule) {

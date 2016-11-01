@@ -136,7 +136,8 @@
         3,2,3,2,3,2,3,2,3,2,3,2
       ],
       "min_gap_bw_residencies": 27,
-      "max_gap_bw_residencies": 33
+      "max_gap_bw_residencies": 33,
+      "max_courses_in_flight": 3
     },
     {
       "name": "PGPBABI Bangalore Feb17_B",
@@ -147,7 +148,8 @@
         3,2,3,2,3,2,3,2,3,2,3,2
       ],
       "min_gap_bw_residencies": 27,
-      "max_gap_bw_residencies": 33
+      "max_gap_bw_residencies": 33,
+      "max_courses_in_flight": 3
     },
     {
       "name": "PGPBABI Chennai Jan17",
@@ -179,7 +181,8 @@
         3,2,3,2,3,2,3,2,3,2,3,2
       ],
       "min_gap_bw_residencies": 27,
-      "max_gap_bw_residencies": 33
+      "max_gap_bw_residencies": 33,
+      "max_courses_in_flight": 3
     },
     {
       "name": "PGPBABI Gurgaon Feb17",
@@ -190,7 +193,8 @@
         3,2,3,2,3,2,3,2,3,2,3,2
       ],
       "min_gap_bw_residencies": 27,
-      "max_gap_bw_residencies": 33
+      "max_gap_bw_residencies": 33,
+      "max_courses_in_flight": 3
     },
     {
       "name": "PGPBABI Pune Mar17",
@@ -201,7 +205,8 @@
         3,2,3,2,3,2,3,2,3,2,3,2
       ],
       "min_gap_bw_residencies": 27,
-      "max_gap_bw_residencies": 33
+      "max_gap_bw_residencies": 33,
+      "max_courses_in_flight": 3
     },
     {
       "name": "PGPBABI Hyderabad Mar17",
@@ -212,7 +217,8 @@
         3,2,3,2,3,2,3,2,3,2,3,2
       ],
       "min_gap_bw_residencies": 27,
-      "max_gap_bw_residencies": 33
+      "max_gap_bw_residencies": 33,
+      "max_courses_in_flight": 3
     },
     {
       "name": "PGPBABI Mumbai Mar17",
@@ -223,7 +229,8 @@
         3,2,3,2,3,2,3,2,3,2,3,2
       ],
       "min_gap_bw_residencies": 27,
-      "max_gap_bw_residencies": 33
+      "max_gap_bw_residencies": 33,
+      "max_courses_in_flight": 3
     }
   ],
   "courses": {
@@ -634,7 +641,8 @@
         "Gurgaon",
         "Pune",
         "Hyderabad",
-        "Mumbai"
+        "Mumbai",
+        "Chennai"
       ],
       "not_available_days": [],
       "courses_in_batches": {}

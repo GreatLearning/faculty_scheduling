@@ -91,4 +91,15 @@ public class CourseSchedule {
     public void setSlotsNum(int slotsNum) {
         this.slotsNum = slotsNum;
     }
+
+    @Override
+    public String toString() {
+        return "CourseSchedule{" +
+                "name='" + name + '\'' +
+                ", slotsNum=" + slotsNum +
+                ", batch=" + batch +
+                ", teacher=" + teacher +
+                ", dateTimeSlots=" + dateTimeSlots +
+                '}';
+    }
 }

@@ -10,8 +10,8 @@ public class CourseDifficultyComparator implements Comparator<CourseSchedule>, S
     @Override
     public int compare(CourseSchedule o1, CourseSchedule o2) {
         return new CompareToBuilder()
-                .append(o1.getSlotsNum(), o2.getSlotsNum())
-//                .append(o2.getTeacherList().size(), o1.getTeacherList().size())
+                .append(o2.getSlotsNum(), o1.getSlotsNum())
+                .append(o1.getTeacherList().size(), o2.getTeacherList().size())
                 .toComparison();
     }
 }

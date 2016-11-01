@@ -2,7 +2,7 @@ package org.optaplanner.examples.greatlearning.domain;
 
 import java.time.LocalDate;
 
-public class DateTimeSlot {
+public class DateTimeSlot implements Comparable<DateTimeSlot> {
     private LocalDate date;
     private TimeSlot timeSlot;
 
@@ -55,5 +55,18 @@ public class DateTimeSlot {
         int result = date != null ? date.hashCode() : 0;
         result = 31 * result + (timeSlot != null ? timeSlot.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int compareTo(DateTimeSlot o) {
+        int value = this.getDate().compareTo(o.getDate());
+        if (value == 0) {
+            if (this.getTimeSlot().equals(TimeSlot.MORNING)) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+        return value;
     }
 }
