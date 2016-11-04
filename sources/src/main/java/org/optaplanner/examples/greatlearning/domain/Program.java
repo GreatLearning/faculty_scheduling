@@ -2,10 +2,12 @@ package org.optaplanner.examples.greatlearning.domain;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class Program {
     private String name;
     private List<Course> courseList;
+    private Map<String, Integer> courseIndices;
     private LocalDate startDate;
     private List<Integer> monthlyResidencyDays;
 
@@ -95,5 +97,13 @@ public class Program {
         result = 31 * result + minGapBetweenResidenciesInDays;
         result = 31 * result + maxGapBetweenResidenciesInDays;
         return result;
+    }
+
+    public Map<String, Integer> getCourseIndices() {
+        return courseIndices;
+    }
+
+    public void setCourseIndices(Map<String, Integer> courseIndices) {
+        this.courseIndices = courseIndices;
     }
 }

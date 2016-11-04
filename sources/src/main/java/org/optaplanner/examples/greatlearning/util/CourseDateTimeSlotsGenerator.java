@@ -3,7 +3,11 @@ package org.optaplanner.examples.greatlearning.util;
 import org.optaplanner.examples.greatlearning.domain.*;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class CourseDateTimeSlotsGenerator {
@@ -18,25 +22,145 @@ public class CourseDateTimeSlotsGenerator {
         flattenedResidencyDates = new ArrayList<>(new LinkedHashSet<>(flattenedResidencyDates));
         flattenedResidencyDates.sort(LocalDate::compareTo);
 
+        List<List<LocalDate>> residencies = new ArrayList<>();
+        LocalDate prevDate = null;
+        List<LocalDate> residency = new ArrayList<>();
+        for (LocalDate localDate : flattenedResidencyDates) {
+            if (prevDate == null) {
+                residency.add(localDate);
+                prevDate = localDate;
+            } else {
+                long daysBetween = ChronoUnit.DAYS.between(prevDate, localDate);
+                if (daysBetween > 1) {
+                    residencies.add(new ArrayList<>(residency));
+                    residency.clear();
+                    residency.add(localDate);
+                } else {
+                    residency.add(localDate);
+                }
+                prevDate = localDate;
+            }
+        }
+
         /**
          * Generate slots with gap of {0,1,2}
          */
-        List<Integer> gaps = Arrays.asList(0, 1, 2);
+        List<Integer> gaps = Arrays.asList(0);
         for (Integer gap : gaps) {
             List<DateTimeSlots> dateTimeSlots = new ArrayList<>();
             int stringLength = course.getSlotsNum() + gap;
             for (int startIdx = 0; startIdx < flattenedResidencyDates.size() - stringLength; startIdx++) {
-                List<LocalDate> subDates = flattenedResidencyDates.subList(startIdx, startIdx + stringLength);
-                if (gap == 0) {
-                    appendDateTimeSlots(dateTimeSlots, subDates);
-                } else {
-                    pickSlots(course, dateTimeSlots, subDates);
+//                List<LocalDate> subDates = flattenedResidencyDates.subList(startIdx, startIdx + stringLength);
+
+                List<LocalDate> workingDates = flattenedResidencyDates.subList(startIdx, flattenedResidencyDates.size());
+                List<List<LocalDate>> eligibleResidencies = getEligibleDates(workingDates, residencies, stringLength, batch);
+
+                for (List<LocalDate> residencyDates : eligibleResidencies) {
+                    if (gap == 0) {
+                        appendDateTimeSlots(dateTimeSlots, residencyDates);
+                    } else {
+                        pickSlots(course, dateTimeSlots, residencyDates);
+                    }
                 }
             }
             dateTimeSlotsList.addAll(dateTimeSlots);
         }
         dateTimeSlotsList = new ArrayList<>(new LinkedHashSet<>(dateTimeSlotsList));
         return dateTimeSlotsList;
+    }
+
+    private static List<List<LocalDate>> getEligibleDates(List<LocalDate> allDates, List<List<LocalDate>> residencies, int limit, Batch batch) {
+        List<List<LocalDate>> allEligibleDates = new ArrayList<>();
+        LocalDate startDate = allDates.get(0);
+        int i = 0;
+        boolean found = false;
+        for (List<LocalDate> residency : residencies) {
+            for (LocalDate localDate : residency) {
+                if (localDate.equals(startDate)) {
+                    found = true;
+                    break;
+                }
+            }
+            i++;
+            if (found) {
+                break;
+            }
+        }
+
+        LocalDate prevDate = null;
+        List<LocalDate> eligibleDates = new ArrayList<>();
+        for (LocalDate localDate : allDates) {
+            if (prevDate == null) {
+                eligibleDates.add(localDate);
+                prevDate = localDate;
+            } else {
+                long daysBetween = ChronoUnit.DAYS.between(prevDate, localDate);
+                if (daysBetween <= 1) {
+                    eligibleDates.add(localDate);
+                    prevDate = localDate;
+                } else {
+                    break;
+                }
+            }
+            if (eligibleDates.size() == limit) {
+                break;
+            }
+        }
+        if (eligibleDates.size() == limit) {
+            allEligibleDates.add(eligibleDates);
+            return allEligibleDates;
+        }
+
+        for (int idx = i; idx < residencies.size(); idx++) {
+            prevDate = eligibleDates.get(eligibleDates.size() - 1);
+            List<LocalDate> workingDates = new ArrayList<>();
+
+            List<LocalDate> residency = residencies.get(idx);
+
+            long daysBetween = ChronoUnit.DAYS.between(prevDate, residency.get(0));
+
+            if (daysBetween > batch.getMaxGapBetweenResidenciesInDays()) {
+                break;
+            } else if (daysBetween < batch.getMinGapBetweenResidenciesInDays()) {
+                continue;
+            }
+
+            prevDate = getPossibleResidencyDates(limit, batch, prevDate, eligibleDates, workingDates, residency);
+
+            if (workingDates.size() >= limit - eligibleDates.size()) {
+                List<LocalDate> toPut = new ArrayList<>();
+                toPut.addAll(eligibleDates);
+                toPut.addAll(workingDates);
+                allEligibleDates.add(toPut);
+            } else {
+                for (int idxNested = idx + 1; idxNested < residencies.size(); idxNested++) {
+                    List<LocalDate> residencyNested = residencies.get(idxNested);
+                    prevDate = getPossibleResidencyDates(limit, batch, prevDate, eligibleDates, workingDates, residencyNested);
+                    if (workingDates.size() >= limit - eligibleDates.size()) {
+                        List<LocalDate> toPut = new ArrayList<>();
+                        toPut.addAll(eligibleDates);
+                        toPut.addAll(workingDates);
+                        allEligibleDates.add(toPut);
+                        break;
+                    }
+                }
+            }
+        }
+        return allEligibleDates;
+    }
+
+    private static LocalDate getPossibleResidencyDates(int limit, Batch batch, LocalDate prevDate, List<LocalDate> eligibleDates, List<LocalDate> workingDates, List<LocalDate> residency) {
+        for (LocalDate localDate : residency) {
+            long daysBetween = ChronoUnit.DAYS.between(prevDate, localDate);
+            if (daysBetween <= 1 || (daysBetween >= batch.getMinGapBetweenResidenciesInDays() && daysBetween <= batch.getMaxGapBetweenResidenciesInDays())) {
+                workingDates.add(localDate);
+            }
+            prevDate = localDate;
+            if (workingDates.size() >= limit - eligibleDates.size()) {
+                break;
+            }
+        }
+        return prevDate;
     }
 
     private static void pickSlots(Course course, List<DateTimeSlots> dateTimeSlots, List<LocalDate> subDates) {

@@ -31,6 +31,8 @@ public class GreatLearningApp {
 
         System.out.println(plannedSolution.getConstraintsBroken());
 
+        displayCalendar(plannedSolution);
+        System.out.println("********************");
         display(plannedSolution);
     }
 
@@ -38,15 +40,16 @@ public class GreatLearningApp {
         GLCalendar glCalendar = new GLCalendar();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        InputStream resourceAsStream = GreatLearningApp.class.getResourceAsStream("/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v1.json");
+        InputStream resourceAsStream = GreatLearningApp.class.getResourceAsStream("/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v6.json");
         String testData = IOUtils.toString(resourceAsStream, "UTF-8");
         JsonNode jsonNode = objectMapper.readTree(testData);
         JsonNode programs = jsonNode.get("programs");
 
         Iterator<Map.Entry<String, JsonNode>> programIterator = programs.fields();
 
-        Map<String, Program> programMap = new HashMap<>();
-        Map<String, Teacher> teacherMap = new HashMap<>();
+        Map<String, Program> programMap = new LinkedHashMap<>();
+        Map<String, Teacher> teacherMap = new LinkedHashMap<>();
+        Map<String, Map<String, Integer>> programCourseIndices = new HashMap<>();
 
         while (programIterator.hasNext()) {
             Map.Entry<String, JsonNode> entry = programIterator.next();
@@ -56,13 +59,17 @@ public class GreatLearningApp {
 
             ArrayNode coursesNode = (ArrayNode) entry.getValue().get("courses");
             List<Course> courseList = new ArrayList<>();
+            Map<String, Integer> courseIdxs = new HashMap<>();
             for (int i = 0; i < coursesNode.size(); i++) {
                 String courseName = coursesNode.get(i).asText();
                 Course course = new Course();
                 course.setName(courseName);
                 courseList.add(course);
+                courseIdxs.put(courseName, i);
             }
+            programCourseIndices.put(programName, courseIdxs);
             program.setCourseList(courseList);
+
 
             ArrayNode residencyDaysCounts = (ArrayNode) entry.getValue().get("residency_days_count");
             List<Integer> monthlyResidencyDays = new ArrayList<>();
@@ -71,13 +78,6 @@ public class GreatLearningApp {
                 monthlyResidencyDays.add(count);
             }
             program.setMonthlyResidencyDays(monthlyResidencyDays);
-
-//            int minGapBetweenResidency = entry.getValue().get("min_gap_bw_residencies").asInt();
-//            int maxGapBetweenResidency = entry.getValue().get("max_gap_bw_residencies").asInt();
-//            int maxCourseInFlight = entry.getValue().get("max_courses_in_flight").asInt(); //TODO
-//
-//            program.setMaxGapBetweenResidenciesInDays(maxGapBetweenResidency);
-//            program.setMinGapBetweenResidenciesInDays(minGapBetweenResidency);
 
             programMap.put(programName, program);
         }
@@ -91,8 +91,12 @@ public class GreatLearningApp {
             int rooms = nodeEntry.getValue().get("simultaneous_batches").asInt();
             ArrayNode exceptionDays = (ArrayNode) nodeEntry.getValue().get("exception_days");
             List<LocalDate> exceptionDates = new ArrayList<>();
+
             for (int i = 0; i < exceptionDays.size(); i++) {
-                exceptionDates.add(LocalDate.parse(exceptionDays.get(i).asText()));
+                String dateString = exceptionDays.get(i).asText();
+                String split[] = dateString.split("/");
+
+                exceptionDates.add(LocalDate.of(Integer.parseInt(split[2]), Integer.parseInt(split[1]), Integer.parseInt(split[0])));
             }
             Location location = new Location();
             location.setName(locationName);
@@ -103,7 +107,7 @@ public class GreatLearningApp {
         }
 
         ArrayNode batchesNode = (ArrayNode) jsonNode.get("batches");
-        List<Batch> batchList = new ArrayList<>();
+        Map<String, List<Batch>> programBatchMap = new HashMap<>();
         for (int i = 0; i < batchesNode.size(); i++) {
             JsonNode batchNode = batchesNode.get(i);
             String batchName = batchNode.get("name").asText();
@@ -112,7 +116,10 @@ public class GreatLearningApp {
 
             Location location = locationMap.get(locationName);
 
-            LocalDate startDate = LocalDate.parse(batchNode.get("start_date").asText());
+            String start_date = batchNode.get("start_date").asText();
+            String split[] = start_date.split("/");
+
+            LocalDate startDate = LocalDate.of(Integer.parseInt(split[2]), Integer.parseInt(split[1]), Integer.parseInt(split[0]));
             int minGapBetweenResidency = batchNode.get("min_gap_bw_residencies").asInt();
             int maxGapBetweenResidency = batchNode.get("max_gap_bw_residencies").asInt();
             int maxCourseInFlight = batchNode.get("max_courses_in_flight").asInt(); //TODO
@@ -137,12 +144,19 @@ public class GreatLearningApp {
             batch.setStartDate(startDate);
             Program program = programMap.get(programName);
             batch.setProgram(program);
-            batchList.add(batch);
+
+            List<Batch> batches = programBatchMap.get(programName);
+            if (batches == null) {
+                batches = new ArrayList<>();
+            }
+            batches.add(batch);
+            programBatchMap.put(programName, batches);
         }
 
         JsonNode coursesNode = jsonNode.get("courses");
         Iterator<Map.Entry<String, JsonNode>> courseIterator = coursesNode.fields();
-        List<Course> courseList = new ArrayList<>();
+        Map<String, Course> courseMap = new LinkedHashMap<>();
+
         while (courseIterator.hasNext()) {
             Map.Entry<String, JsonNode> entry = courseIterator.next();
             String courseName = entry.getKey();
@@ -150,7 +164,8 @@ public class GreatLearningApp {
             Course course = new Course();
             course.setName(courseName);
             course.setSlotsNum(duration / 4);
-            courseList.add(course);
+
+            courseMap.put(courseName, course);
         }
 
         JsonNode facultiesNode = jsonNode.get("faculties");
@@ -173,7 +188,9 @@ public class GreatLearningApp {
             ArrayNode restrictedDays = (ArrayNode) entry.getValue().get("not_available_days");
             Set<LocalDate> holidays = new HashSet<>();
             for (int i = 0; i < restrictedDays.size(); i++) {
-                LocalDate date = LocalDate.parse(restrictedDays.get(i).asText());
+                String dateText = restrictedDays.get(i).asText();
+                String split[] = dateText.split("/");
+                LocalDate date = LocalDate.of(Integer.parseInt(split[2]), Integer.parseInt(split[1]), Integer.parseInt(split[0]));
                 holidays.add(date);
             }
             teacher.setHolidays(holidays);
@@ -209,7 +226,7 @@ public class GreatLearningApp {
             }
         }
 
-        for (Course course : courseList) {
+        for (Course course : courseMap.values()) {
             List<Teacher> teacherList = courseTeacherMap.get(course.getName());
             if (teacherList == null) {
                 teacherList = new ArrayList<>();
@@ -218,45 +235,130 @@ public class GreatLearningApp {
         }
 
         List<CourseSchedule> courseScheduleList = new ArrayList<>();
-        for (Course course : courseList) {
-            for (Batch batch : batchList) {
-                CourseSchedule courseSchedule = new CourseSchedule();
-                courseSchedule.setBatch(batch);
-                courseSchedule.setName(course.getName());
+        //Map<String, Integer> courseIndices = new HashMap<>();
 
-                List<Teacher> availableTeachers = new ArrayList<>();
-                for (Teacher teacher : course.getTeachers()) {
-                    if (teacher.getAvailableLocations().contains(batch.getLocation().getName())) {
-                        availableTeachers.add(teacher);
+        List<Course> courseList = new ArrayList<>(courseMap.values());
+//        for (int i = 0; i < courseList.size(); i++) {
+//            courseIndices.put(courseList.get(i).getName(), i);
+//        }
+
+        Random random = new Random(System.currentTimeMillis());
+
+        Set<String> al = new HashSet<>(Arrays.asList("Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"));
+
+
+        for (Map.Entry<String, Program> entry : programMap.entrySet()) {
+            Program program = entry.getValue();
+            List<Course> courses = program.getCourseList();
+            List<Batch> batches = programBatchMap.get(program.getName());
+            Map<String, Integer> courseIndices = programCourseIndices.get(program.getName());
+
+            for (Course course : courses) {
+                course = courseMap.get(course.getName());
+                for (Batch batch : batches) {
+                    program.setCourseList(new ArrayList<>(courseMap.values()));
+                    program.setCourseIndices(courseIndices);
+
+                    CourseSchedule courseSchedule = new CourseSchedule();
+                    courseSchedule.setBatch(batch);
+                    courseSchedule.setName(course.getName());
+
+                    List<Teacher> availableTeachers = new ArrayList<>();
+                    for (Teacher teacher : course.getTeachers()) {
+                        if (teacher.getAvailableLocations().contains(batch.getLocation().getName())) {
+                            availableTeachers.add(teacher);
+                        }
                     }
-                }
-                if (availableTeachers.size() == 0) {
-                    System.out.println("Error => " + batch.getName() + " : " + batch.getLocation().getName() + " : " + course.getName() + " -- has no faculty");
-                    System.exit(1);
-                }
-                courseSchedule.setTeacherList(availableTeachers);
+                    if (availableTeachers.size() == 0) {
+                        System.out.println("Error => " + batch.getName() + " : " + batch.getLocation().getName() + " : " + course.getName() + " -- has no faculty");
+                        System.exit(1);
+                    }
 
-                courseSchedule.setDateTimeSlotsList(CourseDateTimeSlotsGenerator.generate(course, batch));
-                courseSchedule.setSlotsNum(course.getSlotsNum());
-                courseScheduleList.add(courseSchedule);
+//                    Teacher teacher1 = new Teacher();
+//                    teacher1.setName("Gopi-"+course.getName());
+//                    teacher1.setAvailableLocations(al);
+//                    teacher1.setHolidays(new HashSet<>());
+//                    teacher1.setCanTeachCourses(new HashSet<>());
+//
+//                    Teacher teacher2 = new Teacher();
+//                    teacher2.setName("vinod-"+course.getName());
+//                    teacher2.setAvailableLocations(al);
+//                    teacher2.setHolidays(new HashSet<>());
+//                    teacher2.setCanTeachCourses(new HashSet<>());
+//
+//                    availableTeachers.add(teacher1);
+//                    availableTeachers.add(teacher2);
+
+                    Collections.shuffle(availableTeachers, random);
+
+                    courseSchedule.setTeacherList(availableTeachers);
+
+                    List<DateTimeSlots> dateTimeSlotsList = CourseDateTimeSlotsGenerator.generate(course, batch);
+
+                    //dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.size() - 1 - courseIndices.get(course.getName()), courseIndices.size() - 1);
+
+                    courseSchedule.setDateTimeSlotsList(dateTimeSlotsList);
+                    courseSchedule.setSlotsNum(course.getSlotsNum());
+                    courseScheduleList.add(courseSchedule);
+                }
             }
         }
-
         glCalendar.setCourseScheduleList(courseScheduleList);
         return glCalendar;
+    }
+
+    private static List<DateTimeSlots> filter(List<DateTimeSlots> dateTimeSlotsList, int courseIdx, int limit) {
+        List<DateTimeSlot> startSlots = dateTimeSlotsList.get(0).getDateTimeSlots();
+        List<DateTimeSlot> endSlots = dateTimeSlotsList.get(dateTimeSlotsList.size() - 1).getDateTimeSlots();
+        LocalDate startDate = startSlots.get(0).getDate();
+        LocalDate endDate = endSlots.get(endSlots.size() - 1).getDate();
+
+        LocalDate firstDateOfMonthEnd = null;
+        LocalDate firstDateOfMonthStart = null;
+        if (courseIdx + 3 >= 12) {
+            LocalDate date = startDate.plusMonths(limit - courseIdx + 3);
+            firstDateOfMonthEnd = LocalDate.of(date.getYear(), date.getMonth(), 1);
+        } else {
+            LocalDate date = endDate.minusMonths(courseIdx + 3);
+            firstDateOfMonthStart = LocalDate.of(date.getYear(), date.getMonth(), 1);
+        }
+
+        int idx = 0;
+        for (int i = 0; i < dateTimeSlotsList.size(); i++) {
+            DateTimeSlots dateTimeSlots = dateTimeSlotsList.get(i);
+            List<DateTimeSlot> dateTimeSlotList = dateTimeSlots.getDateTimeSlots();
+            if (firstDateOfMonthStart != null && firstDateOfMonthStart.compareTo(dateTimeSlotList.get(0).getDate()) <= 0) {
+                idx = i;
+                break;
+            }
+            if (firstDateOfMonthEnd != null && firstDateOfMonthEnd.compareTo(dateTimeSlotList.get(dateTimeSlotList.size() - 1).getDate()) <= 0) {
+                idx = i;
+                break;
+            }
+
+        }
+        if (firstDateOfMonthEnd != null) {
+            return dateTimeSlotsList.subList(0, idx + 1);
+        } else {
+            return dateTimeSlotsList.subList(idx, dateTimeSlotsList.size());
+        }
     }
 
     private static void displayCalendar(GLCalendar glCalendar) {
         Map<DateTimeSlot, List<CourseSchedule>> calendar = Util.convertToCalendar(glCalendar);
         for (Map.Entry<DateTimeSlot, List<CourseSchedule>> entry : calendar.entrySet()) {
             for (CourseSchedule schedule : entry.getValue()) {
-                System.out.print(entry.getKey());
-                System.out.print("==>>");
-                System.out.println(schedule.getBatch().getLocation().getName());
-                System.out.print(schedule.getBatch().getName() + " ; " + schedule.getName() + " ; " + schedule.getTeacher());
+                System.out.print(entry.getKey().getDate());
+                System.out.print("\t");
+                System.out.print(entry.getKey().getTimeSlot());
+                System.out.print("\t");
+                System.out.print(schedule.getBatch().getName());
+                System.out.print("\t");
+                System.out.print(schedule.getName());
+                System.out.print("\t");
+                System.out.print(schedule.getTeacher().getName());
                 System.out.println("");
             }
-            System.out.println("------------------------------------");
         }
     }
 
@@ -264,13 +366,13 @@ public class GreatLearningApp {
         int nullCounters = 0;
         List<CourseSchedule> courseScheduleList = glCalendar.getCourseScheduleList();
         for (CourseSchedule courseSchedule : courseScheduleList) {
-            System.out.println(courseSchedule.getName());
-            System.out.println(courseSchedule.getBatch().getName());
-            System.out.println(courseSchedule.getSlotsNum());
-            System.out.println(courseSchedule.getTeacher());
-            System.out.println(courseSchedule.getDateTimeSlots());
-
-            System.out.println("-----------------------------------");
+//            System.out.println(courseSchedule.getName());
+//            System.out.println(courseSchedule.getBatch().getName());
+//            System.out.println(courseSchedule.getSlotsNum());
+//            System.out.println(courseSchedule.getTeacher());
+//            System.out.println(courseSchedule.getDateTimeSlots());
+//
+//            System.out.println("-----------------------------------");
 
             if (courseSchedule.getTeacher() == null) {
                 nullCounters++;

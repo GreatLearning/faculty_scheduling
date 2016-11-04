@@ -8,6 +8,7 @@ import org.optaplanner.examples.greatlearning.solver.CourseDifficultyComparator;
 import java.util.List;
 
 @PlanningEntity(difficultyComparatorClass = CourseDifficultyComparator.class)
+//@PlanningEntity
 public class CourseSchedule {
     /**
      * Course name

@@ -1,13 +1,11 @@
 package org.optaplanner.examples.greatlearning;
 
 import org.junit.Test;
-import org.optaplanner.examples.greatlearning.domain.Batch;
-import org.optaplanner.examples.greatlearning.domain.Course;
-import org.optaplanner.examples.greatlearning.domain.DateTimeSlot;
-import org.optaplanner.examples.greatlearning.domain.DateTimeSlots;
+import org.optaplanner.examples.greatlearning.domain.*;
 import org.optaplanner.examples.greatlearning.util.CourseDateTimeSlotsGenerator;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,17 +17,33 @@ public class GLCalendarInputGeneratorTest {
         Batch batch = new Batch();
         batch.setName("B1");
         batch.setProgram(null);
-        batch.setLocation(null);
+        Location location = new Location();
+        List<String> exceptionDays = Arrays.asList(
+                "01/01/2017", "14/04/2017", "26/06/2017", "25/08/2017", "30/09/2017", "18/10/2017", "25/12/2017",
+                "31/12/2017", "13/03/2017", "17/12/2016", "18/12/2016", "13/01/2017", "14/01/2017", "15/01/2017",
+                "11/02/2017", "12/02/2017", "10/03/2017", "11/03/2017", "12/03/2017", "15/04/2017", "16/04/2017",
+                "12/05/2017", "13/05/2017", "14/05/2017", "15/05/2017", "17/05/2017", "18/05/2017");
 
-        LocalDate startDate = LocalDate.of(2016, 1, 1);
+        List<LocalDate> holidays = new ArrayList<>();
+        for (String exDay : exceptionDays) {
+            String split[] = exDay.split("/");
+            LocalDate date = LocalDate.of(Integer.parseInt(split[2]), Integer.parseInt(split[1]), Integer.parseInt(split[0]));
+            holidays.add(date);
+        }
+
+        location.setHolidays(holidays);
+        location.setRooms(1);
+        batch.setLocation(location);
+
+        LocalDate startDate = LocalDate.of(2017, 1, 18);
         batch.setStartDate(startDate);
 
-        batch.setMaxGapBetweenResidenciesInDays(45);
-        batch.setMinGapBetweenResidenciesInDays(30);
+        batch.setMinGapBetweenResidenciesInDays(55);
+        batch.setMaxGapBetweenResidenciesInDays(65);
 
-        batch.setMonthlyResidencyDays(Arrays.asList(2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3));
+        //batch.setMonthlyResidencyDays(Arrays.asList(3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2));
 
-        //batch.setMonthlyResidencyDays(Arrays.asList(5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0));
+        batch.setMonthlyResidencyDays(Arrays.asList(5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0));
 
         List<List<LocalDate>> dates = batch.getPossibleResidencyDates();
 
@@ -43,14 +57,16 @@ public class GLCalendarInputGeneratorTest {
         Batch batch = new Batch();
         batch.setName("B1");
         batch.setProgram(null);
-        batch.setLocation(null);
+        Location location = new Location();
+        location.setHolidays(new ArrayList<>());
+        location.setRooms(1);
+        batch.setLocation(location);
 
         LocalDate startDate = LocalDate.of(2016, 1, 1);
         batch.setStartDate(startDate);
 
-        batch.setMaxGapBetweenResidenciesInDays(45);
-        batch.setMinGapBetweenResidenciesInDays(30);
-
+        batch.setMaxGapBetweenResidenciesInDays(15);
+        batch.setMinGapBetweenResidenciesInDays(34);
         batch.setMonthlyResidencyDays(Arrays.asList(2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3));
 
         //batch.setMonthlyResidencyDays(Arrays.asList(5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0));

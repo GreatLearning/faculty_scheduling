@@ -44,7 +44,7 @@ public class Batch {
     private List<List<LocalDate>> generatePossibleResidencyDates() {
         List<List<LocalDate>> possibleResidencyDates = new ArrayList<>();
 
-        LocalDate nextYearEndDate = startDate.plusYears(1);
+        LocalDate nextYearEndDate = startDate.plusYears(1).plusMonths(1);
 
         LocalDate newEndDate = getNexClosestSundayDate(startDate);
 
@@ -61,23 +61,28 @@ public class Batch {
                 LocalDate currentEndDate = workingDates.get(workingDates.size() - 1).plusDays(minGapBetweenResidenciesInDays);
                 newEndDate = getNexClosestSundayDate(currentEndDate);
 
-                boolean stop;
+                boolean stop = false;
                 int weekCount = 0;
+                boolean lastWeekHolidays = false;
                 do {
                     newEndDate = newEndDate.plusWeeks(weekCount);
                     List<LocalDate> currentDates = new ArrayList<>();
                     populateResidencyDates(newEndDate, currentDates, monthlyResidencyDays.get(i));
                     long daysBetween = 0;
                     if (currentDates.size() > 0) {
-                        daysBetween = ChronoUnit.DAYS.between(workingDates.get(workingDates.size() - 1), currentDates.get(currentDates.size() - 1));
+                        daysBetween = ChronoUnit.DAYS.between(workingDates.get(workingDates.size() - 1), currentDates.get(0));
                         stop = (daysBetween > maxGapBetweenResidenciesInDays || nextYearEndDate.compareTo(currentDates.get(currentDates.size() - 1)) < 0);
-                    } else {
-                        stop = true;
                     }
-
+                    if(nextYearEndDate.compareTo(newEndDate) < 0){
+                       break;
+                    }
                     if (!stop && currentDates.size() > 0) {
                         workingResidencyDates.add(currentDates);
+                    }else if(lastWeekHolidays && currentDates.size() > 0){
+                        workingResidencyDates.add(currentDates);
                     }
+
+                    lastWeekHolidays = currentDates.size() == 0;
                     weekCount++;
                 } while (!stop);
             }
@@ -94,11 +99,16 @@ public class Batch {
     }
 
     private void populateResidencyDates(LocalDate endDate, List<LocalDate> residencyDates, int numOfDays) {
+        List<LocalDate> dates = new ArrayList<>();
+
         for (int i = 0; i < numOfDays; i++) {
             LocalDate date = endDate.minusDays(i);
             if (!location.getHolidays().contains(date)) {
-                residencyDates.add(0, endDate.minusDays(i));
+                dates.add(0, date);
             }
+        }
+        if (dates.size() == numOfDays) {
+            residencyDates.addAll(dates);
         }
     }
 
@@ -158,6 +168,23 @@ public class Batch {
         this.maxGapBetweenResidenciesInDays = maxGapBetweenResidenciesInDays;
     }
 
+    public int getMaxCoursesInFLight() {
+        return maxCoursesInFLight;
+    }
+
+    public void setMaxCoursesInFLight(int maxCoursesInFLight) {
+        this.maxCoursesInFLight = maxCoursesInFLight;
+    }
+
+    @Override
+    public String toString() {
+        return "Batch{" +
+                "name='" + name + '\'' +
+                ", location=" + location +
+                ", startDate=" + startDate +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -167,34 +194,19 @@ public class Batch {
 
         if (minGapBetweenResidenciesInDays != batch.minGapBetweenResidenciesInDays) return false;
         if (maxGapBetweenResidenciesInDays != batch.maxGapBetweenResidenciesInDays) return false;
+        if (maxCoursesInFLight != batch.maxCoursesInFLight) return false;
         if (name != null ? !name.equals(batch.name) : batch.name != null) return false;
-        if (location != null ? !location.equals(batch.location) : batch.location != null) return false;
-        if (program != null ? !program.equals(batch.program) : batch.program != null) return false;
-        if (startDate != null ? !startDate.equals(batch.startDate) : batch.startDate != null) return false;
-        if (monthlyResidencyDays != null ? !monthlyResidencyDays.equals(batch.monthlyResidencyDays) : batch.monthlyResidencyDays != null)
-            return false;
-        return possibleResidencyDates != null ? possibleResidencyDates.equals(batch.possibleResidencyDates) : batch.possibleResidencyDates == null;
+        return startDate != null ? startDate.equals(batch.startDate) : batch.startDate == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (program != null ? program.hashCode() : 0);
         result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
-        result = 31 * result + (monthlyResidencyDays != null ? monthlyResidencyDays.hashCode() : 0);
         result = 31 * result + minGapBetweenResidenciesInDays;
         result = 31 * result + maxGapBetweenResidenciesInDays;
-        result = 31 * result + (possibleResidencyDates != null ? possibleResidencyDates.hashCode() : 0);
+        result = 31 * result + maxCoursesInFLight;
         return result;
-    }
-
-    public int getMaxCoursesInFLight() {
-        return maxCoursesInFLight;
-    }
-
-    public void setMaxCoursesInFLight(int maxCoursesInFLight) {
-        this.maxCoursesInFLight = maxCoursesInFLight;
     }
 }
