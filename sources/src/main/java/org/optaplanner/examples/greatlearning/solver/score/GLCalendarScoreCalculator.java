@@ -30,7 +30,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
         Map<LocalDate, Map<Teacher, Set<Batch>>> teacherLocationDateMap = new HashMap<>(); //Date vs teacher vs location
         Map<DateTimeSlot, Map<Location, Set<String>>> locationDateMap = new HashMap<>(); //DateTimeSlot vs location vs batches
         Map<Batch, Map<DateTimeSlot, Set<String>>> courseOrderingMap = new HashMap<>();
-        Map<Teacher, Map<DateTimeSlot, Location>> teacherLocationMap = new HashMap<>();
+        Map<Teacher, Map<DateTimeSlot, Batch>> teacherLocationMap = new HashMap<>();
 
         List<CourseSchedule> courseScheduleList = solution.getCourseScheduleList();
         for (CourseSchedule courseSchedule : courseScheduleList) {
@@ -59,8 +59,8 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
 
             for (int i = 1; i < actualCourseList.size(); i++) {
                 if (courseIndices.get(actualCourseList.get(i)) < courseIndices.get(actualCourseList.get(i - 1))) {
-                    mediumScore--;
-                    constraintsBroken.add("Meduim #1.  Order of courses " + actualCourseList + " >> " + entry.getKey().getName());
+                    hardScore--; //TODO : make it medium back ???
+                    constraintsBroken.add("Hard #1.  Order of courses " + actualCourseList + " >> " + entry.getKey().getName());
                 }
             }
 
@@ -73,6 +73,9 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             List<DateTimeSlot> keySets = new ArrayList<>(dateTimeSlotSetMap.keySet());
             Collections.sort(keySets);
 
+            /**
+             * #14. Check min/max gap between residencies
+             */
             for (DateTimeSlot dateTimeSlot : keySets) {
                 if (prevResidencyDate == null) {
                     prevResidencyDate = dateTimeSlot.getDate();
@@ -87,8 +90,8 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                         if (batch.getMaxGapBetweenResidenciesInDays() < daysBetween) {
                             List<LocalDate> batchHolidays = batch.getLocation().getHolidays();
                             List<Long> epochDays = new ArrayList<>();
-                            for(LocalDate localDate : batchHolidays){
-                                if(prevResidencyDate.compareTo(localDate) < 0 && localDate.compareTo(dateTimeSlot.getDate()) < 0){
+                            for (LocalDate localDate : batchHolidays) {
+                                if (prevResidencyDate.compareTo(localDate) < 0 && localDate.compareTo(dateTimeSlot.getDate()) < 0) {
                                     epochDays.add(localDate.getLong(EPOCH_DAY));
                                 }
                             }
@@ -97,11 +100,11 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                             Collections.sort(epochDays);
 
                             for (int i = 1; i < epochDays.size(); i++) {
-                                if(epochDays.get(i) - epochDays.get(i-1) > 1){
+                                if (epochDays.get(i) - epochDays.get(i - 1) > 1) {
                                     diff += 7;
                                 }
                             }
-                            if(batch.getMaxGapBetweenResidenciesInDays() < (daysBetween-diff)){
+                            if (batch.getMaxGapBetweenResidenciesInDays() < (daysBetween - diff)) {
                                 hardScore -= (daysBetween - batch.getMaxGapBetweenResidenciesInDays());
                                 constraintsBroken.add("#14. Check max gap between 2 residencies " +
                                         entry.getKey().getName() + " - " + prevResidencyDate + "  > " + dateTimeSlot.getDate() + " : " + daysBetween);
@@ -149,11 +152,11 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             for (Map.Entry<Teacher, Set<Batch>> setEntry : entry.getValue().entrySet()) {
 
                 Set<String> locations = new HashSet<>();
-                for(Batch batch : setEntry.getValue()){
+                for (Batch batch : setEntry.getValue()) {
                     locations.add(batch.getLocation().getName());
                 }
 
-                if(setEntry.getValue().size() > 1){
+                if (setEntry.getValue().size() > 1) {
                     hardScore -= setEntry.getValue().size();
                     constraintsBroken.add("#15. A faculty should not be teaching more than 1 batch on same day " + setEntry.getKey().getName());
                 }
@@ -276,26 +279,30 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
         /**
          * Medium :: 3. A faculty should not be teaching more than 1 location on consecutive day
          */
-        for (Map.Entry<Teacher, Map<DateTimeSlot, Location>> entry : teacherLocationMap.entrySet()) {
-            Map<DateTimeSlot, Location> dateTimeSlotLocationMap = entry.getValue();
-            List<Map.Entry<DateTimeSlot, Location>> entrySet = new ArrayList<>(dateTimeSlotLocationMap.entrySet());
-            Collections.sort(entrySet, new Comparator<Map.Entry<DateTimeSlot, Location>>() {
-                @Override
-                public int compare(Map.Entry<DateTimeSlot, Location> o1, Map.Entry<DateTimeSlot, Location> o2) {
-                    return o1.getKey().compareTo(o2.getKey());
-                }
-            });
+        for (Map.Entry<Teacher, Map<DateTimeSlot, Batch>> entry : teacherLocationMap.entrySet()) {
+            Map<DateTimeSlot, Batch> dateTimeSlotLocationMap = entry.getValue();
+            List<Map.Entry<DateTimeSlot, Batch>> entrySet = new ArrayList<>(dateTimeSlotLocationMap.entrySet());
+            Collections.sort(entrySet, (o1, o2) -> o1.getKey().compareTo(o2.getKey()));
 
             for (int i = 1; i < entrySet.size(); i++) {
                 DateTimeSlot preDateTimeSlot = entrySet.get(i - 1).getKey();
                 DateTimeSlot currDateTimeSlot = entrySet.get(i).getKey();
                 if (ChronoUnit.DAYS.between(preDateTimeSlot.getDate(), currDateTimeSlot.getDate()) <= 1) {
-                    Location preLocation = entrySet.get(i - 1).getValue();
-                    Location currLocation = entrySet.get(i).getValue();
+                    Location preLocation = entrySet.get(i - 1).getValue().getLocation();
+                    Location currLocation = entrySet.get(i).getValue().getLocation();
 
                     if (!preLocation.equals(currLocation)) {
                         mediumScore--;
-                        constraintsBroken.add("Medium :: 3. A faculty should not be teaching more than 1 location on consecutive day " + entrySet);
+                        constraintsBroken.add("Medium :: 3. A faculty should not be teaching more than 1 location on consecutive day " + entry.getKey() + ">>" + entrySet);
+                    }
+                }
+                /**
+                 * #16.A faculty should not be teaching both slots in a day for same batch
+                 */
+                if (preDateTimeSlot.getDate().equals(currDateTimeSlot.getDate())) {
+                    if (entrySet.get(i).getValue().getName().equals(entrySet.get(i - 1).getValue().getName())) {
+                        hardScore--;
+                        constraintsBroken.add("#16.A faculty should not be teaching both slots in a day for same batch " + entry.getKey()+">>"+entrySet);
                     }
                 }
             }
@@ -313,20 +320,19 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
         return HardMediumSoftScore.valueOf(hardScore, mediumScore, softScore);
     }
 
-    private void populateTeacherLocationMap(Map<Teacher, Map<DateTimeSlot, Location>> teacherLocationMap, CourseSchedule courseSchedule) {
+    private void populateTeacherLocationMap(Map<Teacher, Map<DateTimeSlot, Batch>> teacherLocationMap, CourseSchedule courseSchedule) {
         DateTimeSlots dateTimeSlots = getDateTimeSlots(courseSchedule);
         Batch batch = courseSchedule.getBatch();
-        Location location = batch.getLocation();
         Teacher teacher = courseSchedule.getTeacher();
-        Map<DateTimeSlot, Location> locationMap = teacherLocationMap.get(teacher);
-        if (locationMap == null) {
-            locationMap = new HashMap<>();
+        Map<DateTimeSlot, Batch> batchMap = teacherLocationMap.get(teacher);
+        if (batchMap == null) {
+            batchMap = new HashMap<>();
         }
         for (DateTimeSlot dateTimeSlot : dateTimeSlots.getDateTimeSlots()) {
-            locationMap.put(dateTimeSlot, location);
+            batchMap.put(dateTimeSlot, batch);
         }
-        if(teacher != null) {
-            teacherLocationMap.put(teacher, locationMap);
+        if (teacher != null) {
+            teacherLocationMap.put(teacher, batchMap);
         }
     }
 

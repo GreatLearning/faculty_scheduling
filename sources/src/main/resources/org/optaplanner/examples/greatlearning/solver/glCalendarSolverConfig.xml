@@ -11,7 +11,7 @@
 
     <termination>
         <terminationCompositionStyle>OR</terminationCompositionStyle>
-        <secondsSpentLimit>600</secondsSpentLimit>
+        <secondsSpentLimit>300</secondsSpentLimit>
         <bestScoreLimit>0hard/0medium/0soft</bestScoreLimit>
     </termination>
     <constructionHeuristic>

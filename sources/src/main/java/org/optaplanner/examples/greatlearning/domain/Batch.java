@@ -49,7 +49,7 @@ public class Batch {
         LocalDate newEndDate = getNexClosestSundayDate(startDate);
 
         List<LocalDate> currentResidencyDates = new ArrayList<>();
-        populateResidencyDates(newEndDate, currentResidencyDates, monthlyResidencyDays.get(0));
+        populateResidencyDates(newEndDate, currentResidencyDates, monthlyResidencyDays.get(0), true);
         possibleResidencyDates.add(currentResidencyDates);
 
         int startIdx = 0;
@@ -67,7 +67,7 @@ public class Batch {
                 do {
                     newEndDate = newEndDate.plusWeeks(weekCount);
                     List<LocalDate> currentDates = new ArrayList<>();
-                    populateResidencyDates(newEndDate, currentDates, monthlyResidencyDays.get(i));
+                    populateResidencyDates(newEndDate, currentDates, monthlyResidencyDays.get(i), false);
                     long daysBetween = 0;
                     if (currentDates.size() > 0) {
                         daysBetween = ChronoUnit.DAYS.between(workingDates.get(workingDates.size() - 1), currentDates.get(0));
@@ -98,13 +98,17 @@ public class Batch {
         return possibleResidencyDates;
     }
 
-    private void populateResidencyDates(LocalDate endDate, List<LocalDate> residencyDates, int numOfDays) {
+    private void populateResidencyDates(LocalDate endDate, List<LocalDate> residencyDates, int numOfDays, boolean ignoreHolidays) {
         List<LocalDate> dates = new ArrayList<>();
 
         for (int i = 0; i < numOfDays; i++) {
             LocalDate date = endDate.minusDays(i);
-            if (!location.getHolidays().contains(date)) {
+            if(ignoreHolidays){
                 dates.add(0, date);
+            }else{
+                if (!location.getHolidays().contains(date)) {
+                    dates.add(0, date);
+                }
             }
         }
         if (dates.size() == numOfDays) {

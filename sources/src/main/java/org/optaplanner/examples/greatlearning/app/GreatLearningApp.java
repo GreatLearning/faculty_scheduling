@@ -235,16 +235,8 @@ public class GreatLearningApp {
         }
 
         List<CourseSchedule> courseScheduleList = new ArrayList<>();
-        //Map<String, Integer> courseIndices = new HashMap<>();
-
-        List<Course> courseList = new ArrayList<>(courseMap.values());
-//        for (int i = 0; i < courseList.size(); i++) {
-//            courseIndices.put(courseList.get(i).getName(), i);
-//        }
 
         Random random = new Random(System.currentTimeMillis());
-
-        Set<String> al = new HashSet<>(Arrays.asList("Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"));
 
 
         for (Map.Entry<String, Program> entry : programMap.entrySet()) {
@@ -273,21 +265,6 @@ public class GreatLearningApp {
                         System.out.println("Error => " + batch.getName() + " : " + batch.getLocation().getName() + " : " + course.getName() + " -- has no faculty");
                         System.exit(1);
                     }
-
-//                    Teacher teacher1 = new Teacher();
-//                    teacher1.setName("Gopi-"+course.getName());
-//                    teacher1.setAvailableLocations(al);
-//                    teacher1.setHolidays(new HashSet<>());
-//                    teacher1.setCanTeachCourses(new HashSet<>());
-//
-//                    Teacher teacher2 = new Teacher();
-//                    teacher2.setName("vinod-"+course.getName());
-//                    teacher2.setAvailableLocations(al);
-//                    teacher2.setHolidays(new HashSet<>());
-//                    teacher2.setCanTeachCourses(new HashSet<>());
-//
-//                    availableTeachers.add(teacher1);
-//                    availableTeachers.add(teacher2);
 
                     Collections.shuffle(availableTeachers, random);
 
