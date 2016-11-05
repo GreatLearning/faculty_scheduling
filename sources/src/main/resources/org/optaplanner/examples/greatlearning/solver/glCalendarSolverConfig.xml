@@ -11,7 +11,7 @@
 
     <termination>
         <terminationCompositionStyle>OR</terminationCompositionStyle>
-        <secondsSpentLimit>300</secondsSpentLimit>
+        <secondsSpentLimit>1800</secondsSpentLimit>
         <bestScoreLimit>0hard/0medium/0soft</bestScoreLimit>
     </termination>
     <constructionHeuristic>
@@ -25,7 +25,7 @@
             <changeMoveSelector/>
         </unionMoveSelector>
         <acceptor>
-            <lateAcceptanceSize>400</lateAcceptanceSize>
+            <lateAcceptanceSize>100</lateAcceptanceSize>
             <entityTabuSize>5</entityTabuSize>
         </acceptor>
         <forager>

@@ -29,7 +29,12 @@ public class GreatLearningApp {
         GLCalendar unplannedSolution = loadFromFile();
         GLCalendar plannedSolution = solver.solve(unplannedSolution);
 
-        System.out.println(plannedSolution.getConstraintsBroken());
+        Collections.sort(plannedSolution.getConstraintsBroken());
+
+        for(String constraint : plannedSolution.getConstraintsBroken()){
+            System.out.println(constraint);
+        }
+        //System.out.println(plannedSolution.getConstraintsBroken());
 
         displayCalendar(plannedSolution);
         System.out.println("********************");
@@ -40,7 +45,7 @@ public class GreatLearningApp {
         GLCalendar glCalendar = new GLCalendar();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        InputStream resourceAsStream = GreatLearningApp.class.getResourceAsStream("/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v6.json");
+        InputStream resourceAsStream = GreatLearningApp.class.getResourceAsStream("/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v12.json");
         String testData = IOUtils.toString(resourceAsStream, "UTF-8");
         JsonNode jsonNode = objectMapper.readTree(testData);
         JsonNode programs = jsonNode.get("programs");
@@ -266,13 +271,15 @@ public class GreatLearningApp {
                         System.exit(1);
                     }
 
-                    Collections.shuffle(availableTeachers, random);
+                    //Collections.shuffle(availableTeachers, random);
 
                     courseSchedule.setTeacherList(availableTeachers);
 
                     List<DateTimeSlots> dateTimeSlotsList = CourseDateTimeSlotsGenerator.generate(course, batch);
 
                     //dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.size() - 1 - courseIndices.get(course.getName()), courseIndices.size() - 1);
+
+                    dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.get(course.getName()), courseIndices.size());
 
                     courseSchedule.setDateTimeSlotsList(dateTimeSlotsList);
                     courseSchedule.setSlotsNum(course.getSlotsNum());
@@ -284,40 +291,56 @@ public class GreatLearningApp {
         return glCalendar;
     }
 
-    private static List<DateTimeSlots> filter(List<DateTimeSlots> dateTimeSlotsList, int courseIdx, int limit) {
+    private static List<DateTimeSlots> filter(List<DateTimeSlots> dateTimeSlotsList, int courseIdx, int maxCourses) {
+
+        int delayInMonths = 0;
+        boolean add = true;
+        if (courseIdx + 2 > 12) {
+            delayInMonths = (maxCourses - 1 - courseIdx + 2);
+            add = false;
+        } else {
+            delayInMonths = courseIdx + 2;
+        }
+
         List<DateTimeSlot> startSlots = dateTimeSlotsList.get(0).getDateTimeSlots();
         List<DateTimeSlot> endSlots = dateTimeSlotsList.get(dateTimeSlotsList.size() - 1).getDateTimeSlots();
         LocalDate startDate = startSlots.get(0).getDate();
         LocalDate endDate = endSlots.get(endSlots.size() - 1).getDate();
 
-        LocalDate firstDateOfMonthEnd = null;
-        LocalDate firstDateOfMonthStart = null;
-        if (courseIdx + 3 >= 12) {
-            LocalDate date = startDate.plusMonths(limit - courseIdx + 3);
-            firstDateOfMonthEnd = LocalDate.of(date.getYear(), date.getMonth(), 1);
+        LocalDate tillDate = null;
+
+        if (add) {
+            tillDate = startDate.plusMonths(delayInMonths);
+            if (tillDate.compareTo(endDate) > 0) {
+                tillDate = endDate;
+            }
         } else {
-            LocalDate date = endDate.minusMonths(courseIdx + 3);
-            firstDateOfMonthStart = LocalDate.of(date.getYear(), date.getMonth(), 1);
+            tillDate = endDate.minusMonths(delayInMonths);
+            if (tillDate.compareTo(startDate) < 0) {
+                tillDate = startDate;
+            }
         }
 
         int idx = 0;
+
         for (int i = 0; i < dateTimeSlotsList.size(); i++) {
             DateTimeSlots dateTimeSlots = dateTimeSlotsList.get(i);
             List<DateTimeSlot> dateTimeSlotList = dateTimeSlots.getDateTimeSlots();
-            if (firstDateOfMonthStart != null && firstDateOfMonthStart.compareTo(dateTimeSlotList.get(0).getDate()) <= 0) {
-                idx = i;
-                break;
-            }
-            if (firstDateOfMonthEnd != null && firstDateOfMonthEnd.compareTo(dateTimeSlotList.get(dateTimeSlotList.size() - 1).getDate()) <= 0) {
-                idx = i;
-                break;
-            }
 
+            if (add && dateTimeSlotList.get(0).getDate().compareTo(tillDate) > 0) {
+                idx = i;
+                break;
+            }
+            if (!add && dateTimeSlotList.get(0).getDate().compareTo(tillDate) > 0) {
+                idx = i;
+                break;
+            }
         }
-        if (firstDateOfMonthEnd != null) {
-            return dateTimeSlotsList.subList(0, idx + 1);
+
+        if (add) {
+            return dateTimeSlotsList.subList(0, idx > 0 ? idx + 1 : dateTimeSlotsList.size());
         } else {
-            return dateTimeSlotsList.subList(idx, dateTimeSlotsList.size());
+            return dateTimeSlotsList.subList(idx > 0 ? idx - 1 : 0, dateTimeSlotsList.size());
         }
     }
 

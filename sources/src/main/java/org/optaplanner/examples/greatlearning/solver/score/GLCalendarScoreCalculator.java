@@ -43,6 +43,33 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
 
         }
 
+        /**
+         * 19. batch should follow [ 3,2,3,2]
+         */
+        for (Map.Entry<Batch, Map<DateTimeSlot, Set<String>>> entry : courseOrderingMap.entrySet()) {
+            Map<DateTimeSlot, Set<String>> dateTimeSlotSetMap = entry.getValue();
+            Batch batch = entry.getKey();
+
+            List<Integer> monthlyResidencyDays = batch.getMonthlyResidencyDays();
+            List<List<LocalDate>> residencies = new ArrayList<>();
+
+            Set<LocalDate> localDateHashSet = new HashSet<>();
+            List<DateTimeSlot> dateTimeSlotList = new ArrayList<>();
+
+            for (DateTimeSlot dateTimeSlot : dateTimeSlotSetMap.keySet()) {
+                localDateHashSet.add(dateTimeSlot.getDate());
+                dateTimeSlotList.add(dateTimeSlot);
+            }
+            List<LocalDate> localDateList = new ArrayList<>(localDateHashSet);
+
+            Collections.sort(localDateList);
+            Collections.sort(dateTimeSlotList);
+
+            softScore = checkContinousSlots(softScore, constraintsBroken, entry, dateTimeSlotList);
+
+            hardScore = checkMonthlyResidencyDays(hardScore, constraintsBroken, entry, monthlyResidencyDays, residencies, localDateList);
+        }
+
 //        System.out.println("#1 GLCalendarScoreCalculator Time Taken " + (System.currentTimeMillis() - startTime) + " ms");
         /**
          * Medium. 1. Order of courses  ( deviation from original course order )
@@ -57,11 +84,18 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             entry.getValue().values().forEach(actualCourseList::addAll);
             actualCourseList = new ArrayList<>(new LinkedHashSet<>(actualCourseList));
 
+            boolean error = false;
             for (int i = 1; i < actualCourseList.size(); i++) {
                 if (courseIndices.get(actualCourseList.get(i)) < courseIndices.get(actualCourseList.get(i - 1))) {
                     hardScore--; //TODO : make it medium back ???
-                    constraintsBroken.add("Hard #1.  Order of courses " + actualCourseList + " >> " + entry.getKey().getName());
+                    error = true;
+                    constraintsBroken.add(entry.getKey().getName() + " >>> Hard #1.  Order of courses " + actualCourseList + " >> ");
                 }
+            }
+
+            if (error) {
+                constraintsBroken.add(entry.getKey().getName() + System.lineSeparator() + "expected order : " + entry.getKey().getProgram().getCourseList()
+                        + System.lineSeparator() + "Actual order : " + actualCourseList);
             }
 
             /**
@@ -84,8 +118,8 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                     if (daysBetween > 1) {
                         if (batch.getMinGapBetweenResidenciesInDays() > daysBetween) {
                             hardScore -= (batch.getMinGapBetweenResidenciesInDays() - daysBetween);
-                            constraintsBroken.add("#14. Check min  gap between 2 residencies " +
-                                    entry.getKey().getName() + " - " + prevResidencyDate + "  > " + dateTimeSlot.getDate() + " : " + daysBetween);
+                            constraintsBroken.add(entry.getKey().getName() +" >>> #14. Check min  gap between 2 residencies " +
+                                    " - " + prevResidencyDate + "  > " + dateTimeSlot.getDate() + " : " + daysBetween);
                         }
                         if (batch.getMaxGapBetweenResidenciesInDays() < daysBetween) {
                             List<LocalDate> batchHolidays = batch.getLocation().getHolidays();
@@ -106,8 +140,8 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                             }
                             if (batch.getMaxGapBetweenResidenciesInDays() < (daysBetween - diff)) {
                                 hardScore -= (daysBetween - batch.getMaxGapBetweenResidenciesInDays());
-                                constraintsBroken.add("#14. Check max gap between 2 residencies " +
-                                        entry.getKey().getName() + " - " + prevResidencyDate + "  > " + dateTimeSlot.getDate() + " : " + daysBetween);
+                                constraintsBroken.add(entry.getKey().getName() + " >>> #14. Check max gap between 2 residencies " +
+                                         " - " + prevResidencyDate + "  > " + dateTimeSlot.getDate() + " : " + daysBetween);
                             }
                         }
                     }
@@ -190,7 +224,8 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             for (Map.Entry<Location, Set<String>> setEntry : entry.getValue().entrySet()) {
                 if (setEntry.getValue().size() > setEntry.getKey().getRooms()) {
                     hardScore -= (setEntry.getValue().size() - setEntry.getKey().getRooms());
-                    constraintsBroken.add("#6. No. of residency for a location on same day should not exceed number of rooms.");
+                    constraintsBroken.add("#6. No. of residencies in a location on same day should not exceed number of rooms. " + entry.getKey()
+                            + ">>" + setEntry.getKey() + ">>>"+ setEntry.getValue());
                 }
             }
         }
@@ -302,7 +337,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                 if (preDateTimeSlot.getDate().equals(currDateTimeSlot.getDate())) {
                     if (entrySet.get(i).getValue().getName().equals(entrySet.get(i - 1).getValue().getName())) {
                         hardScore--;
-                        constraintsBroken.add("#16.A faculty should not be teaching both slots in a day for same batch " + entry.getKey()+">>"+entrySet);
+                        constraintsBroken.add("#16.A faculty should not be teaching both slots in a day for same batch " + entry.getKey() + ">>" + entrySet);
                     }
                 }
             }
@@ -318,6 +353,78 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             System.out.println("GLCalendarScoreCalculator " + counter.get());
         }
         return HardMediumSoftScore.valueOf(hardScore, mediumScore, softScore);
+    }
+
+    private int checkMonthlyResidencyDays(int hardScore, List<String> constraintsBroken, Map.Entry<Batch, Map<DateTimeSlot, Set<String>>> entry, List<Integer> monthlyResidencyDays, List<List<LocalDate>> residencies, List<LocalDate> localDateList) {
+        List<LocalDate> residency = new ArrayList<>();
+        LocalDate prevLocalDate = null;
+        for (LocalDate localDate : localDateList) {
+            if (prevLocalDate == null) {
+                prevLocalDate = localDate;
+                residency.add(localDate);
+            } else {
+                long days = ChronoUnit.DAYS.between(prevLocalDate, localDate);
+                if (days > 1) {
+                    residencies.add(new ArrayList<>(residency));
+                    residency.clear();
+                }
+                prevLocalDate = localDate;
+                residency.add(localDate);
+            }
+        }
+
+        if (residency.size() > 0) {
+            residencies.add(residency);
+        }
+
+        for (int i = 0; i < residencies.size()-1; i++) {
+            int idx = i;
+            int actualDays = residencies.get(idx).size();
+            if (idx >= monthlyResidencyDays.size()) {
+                idx = idx % monthlyResidencyDays.size();
+            }
+            int expectedDays = monthlyResidencyDays.get(idx);
+            if (expectedDays == 0) {
+                expectedDays = monthlyResidencyDays.get(idx + 1);
+            }
+            if (expectedDays != actualDays) {
+                hardScore--;
+                constraintsBroken.add((entry.getKey().getName()) +" >>>  should follow monthly residency dates  >>> " +
+                         " expected :" + expectedDays + " - actual : " + actualDays +" >>>> scheduled dates - " + residencies.get(i));
+            }
+        }
+        return hardScore;
+    }
+
+    private int checkContinousSlots(int softScore, List<String> constraintsBroken, Map.Entry<Batch, Map<DateTimeSlot, Set<String>>> entry, List<DateTimeSlot> dateTimeSlotList) {
+        DateTimeSlot prevDateTimeSlot = null;
+        int violations = 0;
+        /**
+         * 20. Both slot should be filled per day.
+         */
+        List<LocalDate> brokenDays = new ArrayList<>();
+        for (DateTimeSlot dateTimeSlot : dateTimeSlotList) {
+            if (prevDateTimeSlot == null) {
+                prevDateTimeSlot = dateTimeSlot;
+                if (!prevDateTimeSlot.getTimeSlot().equals(TimeSlot.MORNING)) {
+                    violations++;
+                    brokenDays.add(dateTimeSlot.getDate());
+                }
+            } else {
+                if (!prevDateTimeSlot.equals(dateTimeSlot)) {
+                    if (!(prevDateTimeSlot.getTimeSlot().equals(TimeSlot.AFTERNOON) && dateTimeSlot.getTimeSlot().equals(TimeSlot.MORNING))) {
+                        violations++;
+                        brokenDays.add(dateTimeSlot.getDate());
+                    }
+                }
+                prevDateTimeSlot = dateTimeSlot;
+            }
+        }
+        if (violations > 1) {
+            --softScore;
+            constraintsBroken.add(entry.getKey().getName() + " >>> #20. Both slot should be filled per day. >>> " + brokenDays);
+        }
+        return softScore;
     }
 
     private void populateTeacherLocationMap(Map<Teacher, Map<DateTimeSlot, Batch>> teacherLocationMap, CourseSchedule courseSchedule) {

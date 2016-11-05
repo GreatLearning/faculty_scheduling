@@ -1,4 +1,5 @@
+sources/.idea/workspace.xml
 sources/*log
-sources/.idea/
+sources/.idea/*
 sources/.idea
 sources/target/

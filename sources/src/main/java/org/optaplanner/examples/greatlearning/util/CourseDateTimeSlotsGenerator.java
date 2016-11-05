@@ -4,11 +4,10 @@ import org.optaplanner.examples.greatlearning.domain.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.time.temporal.ChronoField.EPOCH_DAY;
 
 public class CourseDateTimeSlotsGenerator {
     public static List<DateTimeSlots> generate(Course course, Batch batch) {
@@ -118,8 +117,9 @@ public class CourseDateTimeSlotsGenerator {
             List<LocalDate> residency = residencies.get(idx);
 
             long daysBetween = ChronoUnit.DAYS.between(prevDate, residency.get(0));
+            long diff = getDiff(batch, prevDate, residency.get(0));
 
-            if (daysBetween > batch.getMaxGapBetweenResidenciesInDays()) {
+            if (daysBetween - diff > batch.getMaxGapBetweenResidenciesInDays()) {
                 break;
             } else if (daysBetween < batch.getMinGapBetweenResidenciesInDays()) {
                 continue;
@@ -135,6 +135,16 @@ public class CourseDateTimeSlotsGenerator {
             } else {
                 for (int idxNested = idx + 1; idxNested < residencies.size(); idxNested++) {
                     List<LocalDate> residencyNested = residencies.get(idxNested);
+
+                    daysBetween = ChronoUnit.DAYS.between(prevDate, residencyNested.get(0));
+                    diff = getDiff(batch, prevDate, residencyNested.get(0));
+
+                    if (daysBetween - diff > batch.getMaxGapBetweenResidenciesInDays()) {
+                        break;
+                    } else if (daysBetween < batch.getMinGapBetweenResidenciesInDays()) {
+                        continue;
+                    }
+
                     prevDate = getPossibleResidencyDates(limit, batch, prevDate, eligibleDates, workingDates, residencyNested);
                     if (workingDates.size() >= limit - eligibleDates.size()) {
                         List<LocalDate> toPut = new ArrayList<>();
@@ -149,12 +159,36 @@ public class CourseDateTimeSlotsGenerator {
         return allEligibleDates;
     }
 
-    private static LocalDate getPossibleResidencyDates(int limit, Batch batch, LocalDate prevDate, List<LocalDate> eligibleDates, List<LocalDate> workingDates, List<LocalDate> residency) {
-        for (LocalDate localDate : residency) {
-            long daysBetween = ChronoUnit.DAYS.between(prevDate, localDate);
-            if (daysBetween <= 1 || (daysBetween >= batch.getMinGapBetweenResidenciesInDays() && daysBetween <= batch.getMaxGapBetweenResidenciesInDays())) {
-                workingDates.add(localDate);
+    private static long getDiff(Batch batch, LocalDate prevResidencyDate, LocalDate currResidencyDate) {
+        List<LocalDate> batchHolidays = batch.getLocation().getHolidays();
+        List<Long> epochDays = new ArrayList<>();
+        for (LocalDate localDate : batchHolidays) {
+            if (prevResidencyDate.compareTo(localDate) < 0 && localDate.compareTo(currResidencyDate) < 0) {
+                epochDays.add(localDate.getLong(EPOCH_DAY));
             }
+        }
+        long diff = 7;
+
+        Collections.sort(epochDays);
+
+        for (int i = 1; i < epochDays.size(); i++) {
+            if (epochDays.get(i) - epochDays.get(i - 1) > 1) {
+                diff += 7;
+            }
+        }
+        return diff;
+    }
+
+    private static LocalDate getPossibleResidencyDates(int limit, Batch batch, LocalDate prevDate, List<LocalDate> eligibleDates, List<LocalDate> workingDates, List<LocalDate> residency) {
+        List<LocalDate> reversedResidency = new ArrayList<>(residency);
+        Collections.reverse(reversedResidency);
+        for (LocalDate localDate : reversedResidency) {
+//            long daysBetween = ChronoUnit.DAYS.between(prevDate, localDate);
+//            long diff = getDiff(batch, prevDate, localDate);
+//            if (daysBetween <= 1 || (daysBetween >= batch.getMinGapBetweenResidenciesInDays() && (daysBetween - diff <= batch.getMaxGapBetweenResidenciesInDays()))) {
+//                workingDates.add(localDate);
+//            }
+            workingDates.add(localDate);
             prevDate = localDate;
             if (workingDates.size() >= limit - eligibleDates.size()) {
                 break;
