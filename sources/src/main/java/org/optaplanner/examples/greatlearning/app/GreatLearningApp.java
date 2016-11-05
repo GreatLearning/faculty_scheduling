@@ -31,7 +31,7 @@ public class GreatLearningApp {
 
         Collections.sort(plannedSolution.getConstraintsBroken());
 
-        for(String constraint : plannedSolution.getConstraintsBroken()){
+        for (String constraint : plannedSolution.getConstraintsBroken()) {
             System.out.println(constraint);
         }
         //System.out.println(plannedSolution.getConstraintsBroken());
@@ -279,7 +279,42 @@ public class GreatLearningApp {
 
                     //dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.size() - 1 - courseIndices.get(course.getName()), courseIndices.size() - 1);
 
-                    dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.get(course.getName()), courseIndices.size());
+                    if ("Batch Inauguration".equals(course.getName())) {
+                        int idx = 0;
+                        List<DateTimeSlot> startSlots = dateTimeSlotsList.get(0).getDateTimeSlots();
+                        LocalDate startDate = startSlots.get(0).getDate();
+                        LocalDate newStartDate = startDate.plusMonths(1);
+
+                        for (int i = 0; i < dateTimeSlotsList.size(); i++) {
+                            DateTimeSlots dateTimeSlots = dateTimeSlotsList.get(i);
+                            List<DateTimeSlot> dateTimeSlotList = dateTimeSlots.getDateTimeSlots();
+
+                            if (dateTimeSlotList.get(0).getDate().compareTo(newStartDate) > 0) {
+                                idx = i;
+                                break;
+                            }
+                        }
+                        dateTimeSlotsList = dateTimeSlotsList.subList(0, idx > 0 ? idx : dateTimeSlotsList.size());
+
+//                    } else if ("Capstone".equals(course.getName())) {
+//                        int idx = 0;
+//                        List<DateTimeSlot> endSlots = dateTimeSlotsList.get(dateTimeSlotsList.size() - 1).getDateTimeSlots();
+//                        LocalDate endDate = endSlots.get(endSlots.size() - 1).getDate();
+//                        LocalDate newEndDate = endDate.minusMonths(1);
+//
+//                        for (int i = 0; i < dateTimeSlotsList.size(); i++) {
+//                            DateTimeSlots dateTimeSlots = dateTimeSlotsList.get(i);
+//                            List<DateTimeSlot> dateTimeSlotList = dateTimeSlots.getDateTimeSlots();
+//
+//                            if (dateTimeSlotList.get(0).getDate().compareTo(newEndDate) > 0) {
+//                                idx = i;
+//                                break;
+//                            }
+//                        }
+//                        dateTimeSlotsList = dateTimeSlotsList.subList(idx > 0 ? idx - 1 : 0, dateTimeSlotsList.size());
+                    } else {
+                        dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.get(course.getName()), courseIndices.size());
+                    }
 
                     courseSchedule.setDateTimeSlotsList(dateTimeSlotsList);
                     courseSchedule.setSlotsNum(course.getSlotsNum());

@@ -78,6 +78,12 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
 
         for (Map.Entry<Batch, Map<DateTimeSlot, Set<String>>> entry : courseOrderingMap.entrySet()) {
 
+            List<String> actualCourseListString = new ArrayList<>();
+
+            for(Course course  :entry.getKey().getProgram().getCourseList()){
+                actualCourseListString.add(course.getName());
+            }
+
             Map<String, Integer> courseIndices = entry.getKey().getProgram().getCourseIndices();
 
             List<String> actualCourseList = new ArrayList<>();
@@ -89,12 +95,11 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                 if (courseIndices.get(actualCourseList.get(i)) < courseIndices.get(actualCourseList.get(i - 1))) {
                     hardScore--; //TODO : make it medium back ???
                     error = true;
-                    constraintsBroken.add(entry.getKey().getName() + " >>> Hard #1.  Order of courses " + actualCourseList + " >> ");
                 }
             }
 
             if (error) {
-                constraintsBroken.add(entry.getKey().getName() + System.lineSeparator() + "expected order : " + entry.getKey().getProgram().getCourseList()
+                constraintsBroken.add(entry.getKey().getName() + System.lineSeparator() + "expected order : " + actualCourseListString
                         + System.lineSeparator() + "Actual order : " + actualCourseList);
             }
 
@@ -414,6 +419,10 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                 if (!prevDateTimeSlot.equals(dateTimeSlot)) {
                     if (!(prevDateTimeSlot.getTimeSlot().equals(TimeSlot.AFTERNOON) && dateTimeSlot.getTimeSlot().equals(TimeSlot.MORNING))) {
                         violations++;
+                        brokenDays.add(dateTimeSlot.getDate());
+                    }
+                }else{
+                    if(!(prevDateTimeSlot.getTimeSlot().equals(TimeSlot.MORNING) && dateTimeSlot.getTimeSlot().equals(TimeSlot.AFTERNOON))){
                         brokenDays.add(dateTimeSlot.getDate());
                     }
                 }
