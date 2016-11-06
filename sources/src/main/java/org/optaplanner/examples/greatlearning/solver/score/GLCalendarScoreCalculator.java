@@ -162,7 +162,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
         for (Map.Entry<DateTimeSlot, Map<String, Set<String>>> entry : courseDateTimeSlotMap.entrySet()) {
             for (Map.Entry<String, Set<String>> setEntry : entry.getValue().entrySet()) {
                 if (setEntry.getValue().size() > 1) {
-                    hardScore -= setEntry.getValue().size();
+                    hardScore -= 2*setEntry.getValue().size();
                     constraintsBroken.add("#3. #conflicting courses for batch " + entry.getKey() + " ; " + setEntry);
                 }
             }
@@ -289,25 +289,25 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                 }
                 batchInflightMap.put(batch, inflightViolation);
             }
-            if (lastDateTimeSlot == null) {
-                lastDateTimeSlot = entry.getKey();
-            } else {
-                DateTimeSlot currDateTimeSlot = entry.getKey();
-                long days = ChronoUnit.DAYS.between(lastDateTimeSlot.getDate(), currDateTimeSlot.getDate());
-                if (days <= 1) {
-                    if (lastDateTimeSlot.getTimeSlot() == TimeSlot.AFTERNOON && currDateTimeSlot.getTimeSlot() == TimeSlot.AFTERNOON ||
-                            lastDateTimeSlot.getTimeSlot() == TimeSlot.MORNING && currDateTimeSlot.getTimeSlot() == TimeSlot.MORNING ||
-                            lastDateTimeSlot.getTimeSlot() == TimeSlot.MORNING && currDateTimeSlot.getTimeSlot() == TimeSlot.AFTERNOON) {
-                        violations++;
-                    }
-                    if (violations > 1) {
-                        hardScore--;
-                        constraintsBroken.add("#13.No more than 1 free slot in a residency");
-                    }
-                } else {
-                    violations = 0;
-                }
-            }
+//            if (lastDateTimeSlot == null) {
+//                lastDateTimeSlot = entry.getKey();
+//            } else {
+//                DateTimeSlot currDateTimeSlot = entry.getKey();
+//                long days = ChronoUnit.DAYS.between(lastDateTimeSlot.getDate(), currDateTimeSlot.getDate());
+//                if (days <= 1) {
+//                    if (lastDateTimeSlot.getTimeSlot() == TimeSlot.AFTERNOON && currDateTimeSlot.getTimeSlot() == TimeSlot.AFTERNOON ||
+//                            lastDateTimeSlot.getTimeSlot() == TimeSlot.MORNING && currDateTimeSlot.getTimeSlot() == TimeSlot.MORNING ||
+//                            lastDateTimeSlot.getTimeSlot() == TimeSlot.MORNING && currDateTimeSlot.getTimeSlot() == TimeSlot.AFTERNOON) {
+//                        violations++;
+//                    }
+//                    if (violations > 1) {
+//                        hardScore--;
+//                        constraintsBroken.add("#13.No more than 1 free slot in a residency");
+//                    }
+//                } else {
+//                    violations = 0;
+//                }
+//            }
         }
         for (Map.Entry<Batch, Integer> entry : batchInflightMap.entrySet()) {
             if (entry.getValue() > 0) {

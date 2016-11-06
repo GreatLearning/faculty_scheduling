@@ -11,7 +11,7 @@
 
     <termination>
         <terminationCompositionStyle>OR</terminationCompositionStyle>
-        <secondsSpentLimit>1800</secondsSpentLimit>
+        <secondsSpentLimit>3600</secondsSpentLimit>
         <bestScoreLimit>0hard/0medium/0soft</bestScoreLimit>
     </termination>
     <constructionHeuristic>
@@ -29,8 +29,8 @@
             <entityTabuSize>5</entityTabuSize>
         </acceptor>
         <forager>
-            <acceptedCountLimit>1</acceptedCountLimit>
-            <!--<pickEarlyType>FIRST_LAST_STEP_SCORE_IMPROVING</pickEarlyType>-->
+            <acceptedCountLimit>500</acceptedCountLimit>
+            <pickEarlyType>FIRST_LAST_STEP_SCORE_IMPROVING</pickEarlyType>
         </forager>
     </localSearch>
 </solver>

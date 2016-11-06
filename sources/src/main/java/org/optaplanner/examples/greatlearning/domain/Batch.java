@@ -2,10 +2,9 @@ package org.optaplanner.examples.greatlearning.domain;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * 3 -> F,Sat,Sun
@@ -46,6 +45,8 @@ public class Batch {
 
         LocalDate nextYearEndDate = startDate.plusYears(1).plusMonths(1);
 
+        Map<Integer, Map<Month, Integer>> yearMapMap = buildExpectedMonthlyDaysMap();
+
         LocalDate newEndDate = getNexClosestSundayDate(startDate);
 
         List<LocalDate> currentResidencyDates = new ArrayList<>();
@@ -73,13 +74,23 @@ public class Batch {
                         daysBetween = ChronoUnit.DAYS.between(workingDates.get(workingDates.size() - 1), currentDates.get(0));
                         stop = (daysBetween > maxGapBetweenResidenciesInDays || nextYearEndDate.compareTo(currentDates.get(currentDates.size() - 1)) < 0);
                     }
-                    if(nextYearEndDate.compareTo(newEndDate) < 0){
-                       break;
+                    if (nextYearEndDate.compareTo(newEndDate) < 0) {
+                        break;
                     }
                     if (!stop && currentDates.size() > 0) {
-                        workingResidencyDates.add(currentDates);
-                    }else if(lastWeekHolidays && currentDates.size() > 0){
-                        workingResidencyDates.add(currentDates);
+                        int year = currentDates.get(0).getYear();
+                        Month month = currentDates.get(0).getMonth();
+
+                        if(yearMapMap.get(year).get(month) == currentDates.size()){
+                            workingResidencyDates.add(currentDates);
+                        }
+                    } else if (lastWeekHolidays && currentDates.size() > 0) {
+                        int year = currentDates.get(0).getYear();
+                        Month month = currentDates.get(0).getMonth();
+
+                        if(yearMapMap.get(year).get(month) == currentDates.size()){
+                            workingResidencyDates.add(currentDates);
+                        }
                     }
 
                     lastWeekHolidays = currentDates.size() == 0;
@@ -95,7 +106,78 @@ public class Batch {
                 startIdx = prevSize;
             }
         }
+
+//        possibleResidencyDates = filter(possibleResidencyDates);
+
         return possibleResidencyDates;
+    }
+
+    private List<List<LocalDate>> filter(List<List<LocalDate>> possibleResidencyDates) {
+        List<List<LocalDate>> toReturn = new ArrayList<>();
+        Map<Integer, Map<Month, List<List<LocalDate>>>> grouped = new LinkedHashMap<>();
+
+        for (List<LocalDate> localDateList : possibleResidencyDates) {
+            Month currMonth = localDateList.get(0).getMonth();
+            Integer year = localDateList.get(0).getYear();
+
+            Map<Month, List<List<LocalDate>>> monthListMap = grouped.get(year);
+
+            if (monthListMap == null) {
+                monthListMap = new LinkedHashMap<>();
+            }
+
+            List<List<LocalDate>> lists = monthListMap.get(currMonth);
+            if (lists == null) {
+                lists = new ArrayList<>();
+            }
+            lists.add(localDateList);
+            monthListMap.put(currMonth, lists);
+
+            grouped.put(year, monthListMap);
+        }
+
+        Map<Integer, Map<Month, Integer>> yearMapMap = buildExpectedMonthlyDaysMap();
+
+        for (Map.Entry<Integer, Map<Month, List<List<LocalDate>>>> entry : grouped.entrySet()) {
+            int year = entry.getKey();
+            Map<Month, List<List<LocalDate>>> monthListMap = entry.getValue();
+            for (Map.Entry<Month, List<List<LocalDate>>> monthListEntry : monthListMap.entrySet()) {
+
+                int expected = yearMapMap.get(year).get(monthListEntry.getKey());
+                for (List<LocalDate> localDates : monthListEntry.getValue()) {
+                    if (expected == localDates.size()) {
+                        toReturn.add(localDates);
+                    }
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    private Map<Integer, Map<Month, Integer>> buildExpectedMonthlyDaysMap() {
+        LocalDate yearTracker = LocalDate.of(startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth());
+        Map<Integer, Map<Month, Integer>> yearMapMap = new HashMap<>();
+
+        yearTracker = yearTracker.minusMonths(1);
+
+        for (int i = 0; i < monthlyResidencyDays.size() + 3; i++) {
+            int count = monthlyResidencyDays.get(i % monthlyResidencyDays.size());
+            if (count == 0) {
+                count = monthlyResidencyDays.get((i + 1) % monthlyResidencyDays.size());
+            }
+            yearTracker = yearTracker.plusMonths(1);
+
+            Map<Month, Integer> monthIntegerMap = yearMapMap.get(yearTracker.getYear());
+
+            if (monthIntegerMap == null) {
+                monthIntegerMap = new LinkedHashMap<>();
+            }
+            monthIntegerMap.put(yearTracker.getMonth(), count);
+
+            yearMapMap.put(yearTracker.getYear(), monthIntegerMap);
+        }
+        return yearMapMap;
     }
 
     private void populateResidencyDates(LocalDate endDate, List<LocalDate> residencyDates, int numOfDays, boolean ignoreHolidays) {
@@ -103,9 +185,9 @@ public class Batch {
 
         for (int i = 0; i < numOfDays; i++) {
             LocalDate date = endDate.minusDays(i);
-            if(ignoreHolidays){
+            if (ignoreHolidays) {
                 dates.add(0, date);
-            }else{
+            } else {
                 if (!location.getHolidays().contains(date)) {
                     dates.add(0, date);
                 }

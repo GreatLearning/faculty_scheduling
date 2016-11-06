@@ -125,13 +125,30 @@ public class CourseDateTimeSlotsGenerator {
                 continue;
             }
 
+
             prevDate = getPossibleResidencyDates(limit, batch, prevDate, eligibleDates, workingDates, residency);
+            prevDate = residency.get(residency.size() - 1);
 
             if (workingDates.size() >= limit - eligibleDates.size()) {
                 List<LocalDate> toPut = new ArrayList<>();
                 toPut.addAll(eligibleDates);
                 toPut.addAll(workingDates);
                 allEligibleDates.add(toPut);
+                /**
+                 * Lets see HACK #1
+                 */
+                List<LocalDate> secWorkingDates = new ArrayList<>();
+                for (LocalDate localDate : residency) {
+                    secWorkingDates.add(localDate);
+                    if (secWorkingDates.size() >= limit - eligibleDates.size()) {
+                        List<LocalDate> toPut1 = new ArrayList<>();
+                        toPut1.addAll(eligibleDates);
+                        toPut1.addAll(secWorkingDates);
+                        allEligibleDates.add(toPut1);
+                        break;
+                    }
+                }
+
             } else {
                 for (int idxNested = idx + 1; idxNested < residencies.size(); idxNested++) {
                     List<LocalDate> residencyNested = residencies.get(idxNested);
@@ -145,12 +162,33 @@ public class CourseDateTimeSlotsGenerator {
                         continue;
                     }
 
+                    List<LocalDate> workingDatesCopy = new ArrayList<>(workingDates);
+
                     prevDate = getPossibleResidencyDates(limit, batch, prevDate, eligibleDates, workingDates, residencyNested);
+                    prevDate = residencyNested.get(residencyNested.size() - 1);
+
                     if (workingDates.size() >= limit - eligibleDates.size()) {
                         List<LocalDate> toPut = new ArrayList<>();
                         toPut.addAll(eligibleDates);
                         toPut.addAll(workingDates);
                         allEligibleDates.add(toPut);
+
+                        /**
+                         * Lets see HACK #1
+                         */
+                        List<LocalDate> secWorkingDates = new ArrayList<>();
+                        for (LocalDate localDate : residency) {
+                            secWorkingDates.add(localDate);
+                            if (secWorkingDates.size() + workingDatesCopy.size() >= limit - eligibleDates.size()) {
+                                List<LocalDate> toPut1 = new ArrayList<>();
+                                toPut1.addAll(eligibleDates);
+                                toPut1.addAll(workingDatesCopy);
+                                toPut1.addAll(secWorkingDates);
+                                allEligibleDates.add(toPut1);
+                                break;
+                            }
+                        }
+
                         break;
                     }
                 }

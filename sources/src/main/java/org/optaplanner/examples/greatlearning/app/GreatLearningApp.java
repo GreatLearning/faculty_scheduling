@@ -13,6 +13,7 @@ import org.optaplanner.examples.greatlearning.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class GreatLearningApp {
@@ -313,7 +314,7 @@ public class GreatLearningApp {
 //                        }
 //                        dateTimeSlotsList = dateTimeSlotsList.subList(idx > 0 ? idx - 1 : 0, dateTimeSlotsList.size());
                     } else {
-                        dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.get(course.getName()), courseIndices.size());
+                        dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.get(course.getName()), courseIndices.size(), batch);
                     }
 
                     courseSchedule.setDateTimeSlotsList(dateTimeSlotsList);
@@ -326,21 +327,44 @@ public class GreatLearningApp {
         return glCalendar;
     }
 
-    private static List<DateTimeSlots> filter(List<DateTimeSlots> dateTimeSlotsList, int courseIdx, int maxCourses) {
-
+    private static List<DateTimeSlots> filter(List<DateTimeSlots> dateTimeSlotsList, int courseIdx, int maxCourses, Batch batch) {
         int delayInMonths = 0;
         boolean add = true;
-        if (courseIdx + 2 > 12) {
+        if (courseIdx + 2 > 10) {
             delayInMonths = (maxCourses - 1 - courseIdx + 2);
+            if(delayInMonths > 8){
+                delayInMonths -= 3;
+            }
             add = false;
         } else {
             delayInMonths = courseIdx + 2;
+            if(delayInMonths > 8){
+                delayInMonths -= 2;
+            }
         }
 
         List<DateTimeSlot> startSlots = dateTimeSlotsList.get(0).getDateTimeSlots();
         List<DateTimeSlot> endSlots = dateTimeSlotsList.get(dateTimeSlotsList.size() - 1).getDateTimeSlots();
         LocalDate startDate = startSlots.get(0).getDate();
         LocalDate endDate = endSlots.get(endSlots.size() - 1).getDate();
+
+//        if (!batch.getName().equals("PGPBABI Chennai Jan17")) {
+//            int startIdx = 0;
+//            int endIdx = dateTimeSlotsList.size();
+//            LocalDate possibleStartMonth = startDate.plusMonths((courseIdx == 0 ? courseIdx : courseIdx - 1) / 2);
+//            LocalDate possibleEndMonth = possibleStartMonth.plusMonths(4);
+//            for (int i = 0; i < dateTimeSlotsList.size(); i++) {
+//                DateTimeSlots dateTimeSlots = dateTimeSlotsList.get(i);
+//                List<DateTimeSlot> dateTimeSlotList = dateTimeSlots.getDateTimeSlots();
+//                if (startIdx == 0 && dateTimeSlotList.get(0).getDate().compareTo(possibleStartMonth) > 0) {
+//                    startIdx = i;
+//                }
+//                if (endIdx == dateTimeSlotsList.size() && dateTimeSlotList.get(0).getDate().compareTo(possibleEndMonth) > 0) {
+//                    endIdx = i;
+//                }
+//            }
+//            return dateTimeSlotsList.subList(startIdx == 0 ? startIdx : startIdx - 1, endIdx != dateTimeSlotsList.size() ? endIdx : dateTimeSlotsList.size());
+//        }
 
         LocalDate tillDate = null;
 
@@ -380,6 +404,7 @@ public class GreatLearningApp {
     }
 
     private static void displayCalendar(GLCalendar glCalendar) {
+        Map<Batch, Map.Entry<LocalDate, Integer>> residencyCounterTracker = new HashMap<>();
         Map<DateTimeSlot, List<CourseSchedule>> calendar = Util.convertToCalendar(glCalendar);
         for (Map.Entry<DateTimeSlot, List<CourseSchedule>> entry : calendar.entrySet()) {
             for (CourseSchedule schedule : entry.getValue()) {
@@ -392,6 +417,24 @@ public class GreatLearningApp {
                 System.out.print(schedule.getName());
                 System.out.print("\t");
                 System.out.print(schedule.getTeacher().getName());
+                System.out.print("\t");
+
+                Map.Entry<LocalDate, Integer> localDateIntegerEntry = residencyCounterTracker.get(schedule.getBatch());
+                if (localDateIntegerEntry == null) {
+                    localDateIntegerEntry = new AbstractMap.SimpleEntry<>(entry.getKey().getDate(), 0);
+                }
+                LocalDate prevDate = localDateIntegerEntry.getKey();
+                int preCount = localDateIntegerEntry.getValue();
+                long daysBetween = ChronoUnit.DAYS.between(prevDate, entry.getKey().getDate());
+                if (daysBetween > 1) {
+                    preCount++;
+                }
+                localDateIntegerEntry = new AbstractMap.SimpleEntry<>(entry.getKey().getDate(), preCount);
+
+                System.out.print("R-" + (preCount + 1));
+
+                residencyCounterTracker.put(schedule.getBatch(), localDateIntegerEntry);
+
                 System.out.println("");
             }
         }
