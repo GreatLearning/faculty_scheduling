@@ -24,10 +24,9 @@
             <changeMoveSelector/>
         <acceptor>
             <lateAcceptanceSize>50</lateAcceptanceSize>
-            <!--<entityTabuSize>7</entityTabuSize>-->
         </acceptor>
         <forager>
-            <acceptedCountLimit>2500</acceptedCountLimit>
+            <acceptedCountLimit>3500</acceptedCountLimit>
             <pickEarlyType>FIRST_LAST_STEP_SCORE_IMPROVING</pickEarlyType>
         </forager>
     </localSearch>

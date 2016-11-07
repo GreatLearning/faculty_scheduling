@@ -44,7 +44,7 @@ public class CourseDateTimeSlotsGenerator {
         /**
          * Generate slots with gap of {0,1,2}
          */
-        List<Integer> gaps = Arrays.asList(0, 1, 2);
+        List<Integer> gaps = Arrays.asList(0, 1, 2); //the more gaps, the possibilities of calendar
         for (Integer gap : gaps) {
             List<DateTimeSlots> dateTimeSlots = new ArrayList<>();
             int stringLength = course.getSlots().size() + gap;
@@ -90,6 +90,15 @@ public class CourseDateTimeSlotsGenerator {
             dateTimeSlotsList.addAll(dateTimeSlots);
         }
         dateTimeSlotsList = new ArrayList<>(new LinkedHashSet<>(dateTimeSlotsList));
+        Collections.sort(dateTimeSlotsList, new Comparator<DateTimeSlots>() {
+            @Override
+            public int compare(DateTimeSlots o1, DateTimeSlots o2) {
+                List<DateTimeSlot> dateTimeSlots1 = o1.getDateTimeSlots();
+                List<DateTimeSlot> dateTimeSlots2 = o2.getDateTimeSlots();
+
+                return dateTimeSlots1.get(0).compareTo(dateTimeSlots2.get(0));
+            }
+        });
         return dateTimeSlotsList;
     }
 

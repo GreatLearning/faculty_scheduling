@@ -98,18 +98,18 @@ public class GLCalendarInputGeneratorTest {
         LocalDate localDate = LocalDate.now();
         DateTimeSlot dateTimeSlot = new DateTimeSlot();
         dateTimeSlot.setDate(localDate);
-        dateTimeSlot.setTimeSlot(TimeSlot.AFTERNOON);
+        dateTimeSlot.setTimeSlot(TimeSlot.MORNING);
 
 
         DateTimeSlot dateTimeSlot1 = new DateTimeSlot();
         dateTimeSlot1.setDate(localDate);
-        dateTimeSlot1.setTimeSlot(TimeSlot.AFTERNOON);
+        dateTimeSlot1.setTimeSlot(TimeSlot.MORNING);
 
         Map<DateTimeSlot, Integer> map = new TreeMap<>();
         map.put(dateTimeSlot, 1);
         map.put(dateTimeSlot1, 2);
 
         System.out.println(map.size());
-        System.out.println(dateTimeSlot.equals(dateTimeSlot1));
+        System.out.println(map);
     }
 }
