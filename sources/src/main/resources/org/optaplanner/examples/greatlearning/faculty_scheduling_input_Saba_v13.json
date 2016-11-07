@@ -1,0 +1,1211 @@
+{
+	"programs": {
+		"PGPBA-BI": {
+			"courses": ["Batch Inauguration","IA","SMDM","BF","MCRM","PM","SCMO","AS","DM","Analytics Career Workshop","OT","DVT","BDH","MRA","FRA","WSMA","SCLA","ODA","Capstone"],
+            "residency_days_count": [3, 2],
+            "residency_days": {
+                "2": ["Saturday", "Sunday"],
+                "3": ["Friday", "Saturday", "Sunday"]
+            },
+            "min_gap_bw_residencies": 23,
+            "max_gap_bw_residencies": 34,
+            "min_hours_in_day": 6,
+            "max_hours_in_day": 9,
+            "max_courses_in_flight": 3
+		},
+		"PGPM-Ex": {
+			"courses": ["MicroEconomics","Marketing-1","Financial Statement Analysis","Data Analysis for Decision Making 1","Organizational Behavior","Business Finance-1","Operations","Managing People & Teams","Strategy Management in Technology","Legal aspects of business","Macroeconomics","Marketing-2","Managerial Accounting","Data Analysis for Decision Making 2","Leadership and Negotiation","Business Finance 2","Supply Chain Management","Strategic Thinking and Problem Solving","Introduction to Entrepreneurship","Services Management","Elective-1","Elective-2","Elective-3","Elective-4"],
+            "residency_days_count": [2],
+            "residency_days": {
+                "2": ["Saturday", "Sunday"]
+			},
+            "min_gap_bw_residencies": 23,
+            "max_gap_bw_residencies": 34,
+            "min_hours_in_day": 6,
+            "max_hours_in_day": 9,
+            "max_courses_in_flight": 2
+		}
+	},
+    "locations": {
+        "Bangalore": {
+            "simultaneous_batches": 2,
+            "exception_days": ["01/01/2017","14/04/2017","26/06/2017","25/08/2017","30/09/2017","18/10/2017","25/12/2017","31/12/2017","14/01/2017","28/03/2017","01/11/2017","09/12/2016","10/12/2016","11/12/2016","17/12/2016","18/12/2016","07/01/2017","08/01/2017","21/01/2017","22/01/2017","03/02/2017","04/02/2017","05/02/2017","18/02/2017","19/02/2017","04/03/2017","05/03/2017","18/03/2017","19/03/2017","31/03/2017","01/04/2017","02/04/2017","22/04/2017","23/04/2017","06/05/2017","07/05/2017","20/05/2017","21/05/2017","02/06/2017","03/06/2017","17/06/2017","18/06/2017","01/07/2017","02/07/2017","15/07/2017"] 
+        },
+        "Chennai": {
+            "simultaneous_batches": 1,
+            "exception_days": ["01/01/2017","14/04/2017","26/06/2017","25/08/2017","30/09/2017","18/10/2017","25/12/2017","31/12/2017","14/01/2017","14/12/2016","15/12/2016","16/12/2016","17/12/2016","18/12/2016"]
+        },
+        "Gurgaon": {
+            "simultaneous_batches": 2,
+            "exception_days": ["01/01/2017","14/04/2017","26/06/2017","25/08/2017","30/09/2017","18/10/2017","25/12/2017","31/12/2017","13/03/2017","10/12/2016","11/12/2016","17/12/2016","18/12/2016","13/01/2017","14/01/2017","15/01/2017","11/02/2017","12/02/2017","10/03/2017","11/03/2017","12/03/2017","15/04/2017","16/04/2017","12/05/2017","13/05/2017","14/05/2017","15/05/2017","17/05/2017","18/05/2017"]
+        },
+        "Pune": {
+            "simultaneous_batches": 2,
+            "exception_days": ["01/01/2017","14/04/2017","26/06/2017","25/08/2017","30/09/2017","18/10/2017","25/12/2017","31/12/2017","13/03/2017","01/05/2017","09/12/2016","10/12/2016","11/12/2016","07/01/2017","08/01/2017","10/02/2017","11/02/2017","12/02/2017","11/03/2017","12/03/2017","14/04/2017","15/04/2017","16/04/2017"]
+        },
+        "Hyderabad": {
+            "simultaneous_batches": 1,
+            "exception_days": ["01/01/2017","14/04/2017","26/06/2017","25/08/2017","30/09/2017","18/10/2017","25/12/2017","31/12/2017","13/03/2017","10/12/2016","11/12/2016","06/01/2017","07/01/2017","08/01/2017","04/02/2017","05/02/2017","03/03/2017","04/03/2017","05/03/2017","08/04/2017","09/04/2017","05/05/2017","06/05/2017","07/05/2017","03/06/2017","04/06/2017","30/06/2017","01/07/2017","02/07/2017","05/08/2017","06/08/2017"]
+        },
+        "Mumbai": {
+            "simultaneous_batches": 1,
+            "exception_days": ["01/01/2017","14/04/2017","26/06/2017","25/08/2017","30/09/2017","18/10/2017","25/12/2017","31/12/2017","13/03/2017","01/05/2017"]
+        }
+    },
+    "batches": [
+        {
+            "name": "PGPBABI Bangalore Feb17_A",
+            "program": "PGPBA-BI",
+        	"location": "Bangalore",
+        	"start_date": "10/02/2017",
+          "residency_days_count": [3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2],
+          "min_gap_bw_residencies": 23,
+          "max_gap_bw_residencies": 34,
+          "min_hours_in_day": 6,
+          "max_hours_in_day": 9,
+          "max_courses_in_flight": 3
+        },
+        {
+            "name": "PGPBABI Bangalore Feb17_B",
+            "program": "PGPBA-BI",
+            "location": "Bangalore",
+            "start_date": "10/02/2017",
+          "residency_days_count": [3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2],
+          "min_gap_bw_residencies": 23,
+          "max_gap_bw_residencies": 34,
+          "min_hours_in_day": 6,
+          "max_hours_in_day": 9,
+          "max_courses_in_flight": 3
+        },
+        {
+        	"name": "PGPBABI Chennai Jan17",
+        	"program": "PGPBA-BI",
+        	"location": "Chennai",
+        	"start_date": "18/01/2017",
+          "residency_days_count": [5,0,5,0,5,0,5,0,5,0,5,0,5],
+            "residency_days": {
+                "5": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            },
+            "min_gap_bw_residencies": 55,
+            "max_gap_bw_residencies": 65,
+            "max_courses_in_flight": 5
+        },
+        {
+            "name": "PGPBABI Gurgaon Jan17",
+            "program": "PGPBA-BI",
+            "location": "Gurgaon",
+            "start_date": "27/01/2017",
+          "residency_days_count": [3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2],
+          "min_gap_bw_residencies": 23,
+          "max_gap_bw_residencies": 34,
+          "min_hours_in_day": 6,
+          "max_hours_in_day": 9,
+          "max_courses_in_flight": 3
+        },
+        {
+            "name": "PGPBABI Gurgaon Feb17",
+            "program": "PGPBA-BI",
+            "location": "Gurgaon",
+            "start_date": "03/02/2017",
+          "residency_days_count": [3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2],
+          "min_gap_bw_residencies": 23,
+          "max_gap_bw_residencies": 34,
+          "min_hours_in_day": 6,
+          "max_hours_in_day": 9,
+          "max_courses_in_flight": 3
+        },
+        {
+            "name": "PGPBABI Pune Mar17",
+            "program": "PGPBA-BI",
+            "location": "Pune",
+            "start_date": "03/03/2017",
+          "residency_days_count": [3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2],
+          "min_gap_bw_residencies": 23,
+          "max_gap_bw_residencies": 34,
+          "min_hours_in_day": 6,
+          "max_hours_in_day": 9,
+          "max_courses_in_flight": 3
+        },
+        {
+            "name": "PGPBABI Hyderabad Mar17",
+            "program": "PGPBA-BI",
+            "location": "Hyderabad",
+            "start_date": "17/03/2017",
+          "residency_days_count": [3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2],
+          "min_gap_bw_residencies": 23,
+          "max_gap_bw_residencies": 34,
+          "min_hours_in_day": 6,
+          "max_hours_in_day": 9,
+          "max_courses_in_flight": 3
+        },
+		{
+            "name": "PGPM-Ex Bangalore Jan17",
+            "program": "PGPM-Ex",
+            "location": "Bangalore",
+            "start_date": "21/01/2017",
+          "residency_days_count": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+          "min_gap_bw_residencies": 23,
+          "max_gap_bw_residencies": 34,
+          "min_hours_in_day": 6,
+          "max_hours_in_day": 9,
+          "max_courses_in_flight": 2
+        },
+		{
+            "name": "PGPM-Ex Gurgaon Jan17",
+            "program": "PGPM-Ex",
+            "location": "Gurgaon",
+            "start_date": "07/01/2017",
+          "residency_days_count": [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+          "min_gap_bw_residencies": 23,
+          "max_gap_bw_residencies": 34,
+          "min_hours_in_day": 6,
+          "max_hours_in_day": 9,
+          "max_courses_in_flight": 2
+        }	
+    ],
+    "courses": {
+    	"Batch Inauguration": {
+			"duration": 4,
+    		"slots": [
+                {
+                    "name": "Batch Inauguration",
+                    "duration": 4
+				}
+			]
+		},
+		"IA": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "IA-1",
+                    "duration": 4
+				},
+                {
+                    "name": "IA-2",
+                    "duration": 4
+				}
+    		]
+    	},
+    	"SMDM": {
+    		"duration": 16,
+    		"slots": [
+                {
+                    "name": "SMDM-1",
+                    "duration": 4
+				},
+                {
+                    "name": "SMDM-2",
+                    "duration": 4
+				},
+				{
+                    "name": "SMDM-3",
+                    "duration": 4
+				},
+				{
+                    "name": "SMDM-4",
+                    "duration": 4
+				}
+    		]
+    	},
+		"BF": {
+    		"duration": 12,
+    		"slots": [
+                {
+                    "name": "BF-1",
+                    "duration": 4
+				},
+                {
+                    "name": "BF-2",
+                    "duration": 4
+				},
+				{
+                    "name": "BF-3",
+                    "duration": 4
+				}
+    		]
+    	},
+		"MCRM": {
+    		"duration": 12,
+    		"slots": [
+                {
+                    "name": "MCRM-1",
+                    "duration": 4
+				},
+                {
+                    "name": "MCRM-2",
+                    "duration": 4
+				},
+				{
+                    "name": "MCRM-3",
+                    "duration": 4
+				}
+    		]
+    	},
+		"PM": {
+    		"duration": 16,
+    		"slots": [
+                {
+                    "name": "PM-1",
+                    "duration": 4
+				},
+                {
+                    "name": "PM-2",
+                    "duration": 4
+				},
+				{
+                    "name": "PM-3",
+                    "duration": 4
+				},
+				{
+                    "name": "PM-4",
+                    "duration": 4
+				}
+    		]
+    	},
+		"SCMO": {
+    		"duration": 12,
+    		"slots": [
+                {
+                    "name": "SCMO-1",
+                    "duration": 4
+				},
+                {
+                    "name": "SCMO-2",
+                    "duration": 4
+				},
+				{
+                    "name": "SCMO-3",
+                    "duration": 4
+				}
+    		]
+    	},
+		"AS": {
+    		"duration": 16,
+    		"slots": [
+                {
+                    "name": "AS-1",
+                    "duration": 4
+				},
+                {
+                    "name": "AS-2",
+                    "duration": 4
+				},
+				{
+                    "name": "AS-3",
+                    "duration": 4
+				},
+				{
+                    "name": "AS-4",
+                    "duration": 4
+				}
+    		]
+    	},
+		"DM": {
+    		"duration": 16,
+    		"slots": [
+                {
+                    "name": "DM-1",
+                    "duration": 4
+				},
+                {
+                    "name": "DM-2",
+                    "duration": 4
+				},
+				{
+                    "name": "DM-3",
+                    "duration": 4
+				},
+				{
+                    "name": "DM-4",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Analytics Career Workshop": {
+			"duration": 4,
+    		"slots": [
+                {
+                    "name": "Analytics Career Workshop-1",
+                    "duration": 4
+				}
+			]
+		},		
+		"OT": {
+    		"duration": 16,
+    		"slots": [
+                {
+                    "name": "OT-1",
+                    "duration": 4
+				},
+                {
+                    "name": "OT-2",
+                    "duration": 4
+				},
+				{
+                    "name": "OT-3",
+                    "duration": 4
+				},
+				{
+                    "name": "OT-4",
+                    "duration": 4
+				}
+    		]
+    	},
+		"DVT": {
+    		"duration": 12,
+    		"slots": [
+                {
+                    "name": "DVT-1",
+                    "duration": 4
+				},
+                {
+                    "name": "DVT-2",
+                    "duration": 8
+				}
+    		]
+    	},
+		"BDH": {
+    		"duration": 12,
+    		"slots": [
+                {
+                    "name": "BDH-1",
+                    "duration": 4
+				},
+                {
+                    "name": "BDH-2",
+                    "duration": 4
+				},
+				{
+                    "name": "BDH-3",
+                    "duration": 4
+				}
+    		]
+    	},
+		"MRA": {
+    		"duration": 12,
+    		"slots": [
+                {
+                    "name": "MRA-1",
+                    "duration": 4
+				},
+                {
+                    "name": "MRA-2",
+                    "duration": 4
+				},
+				{
+                    "name": "MRA-3",
+                    "duration": 4
+				}
+    		]
+    	},
+		"FRA": {
+    		"duration": 12,
+    		"slots": [
+                {
+                    "name": "FRA-1",
+                    "duration": 4
+				},
+                {
+                    "name": "FRA-2",
+                    "duration": 4
+				},
+				{
+                    "name": "FRA-3",
+                    "duration": 4
+				}
+    		]
+    	},
+		"WSMA": {
+    		"duration": 12,
+    		"slots": [
+                {
+                    "name": "WSMA-1",
+                    "duration": 4
+				},
+                {
+                    "name": "WSMA-2",
+                    "duration": 4
+				},
+				{
+                    "name": "WSMA-3",
+                    "duration": 4
+				}
+    		]
+    	},
+		"SCLA": {
+    		"duration": 12,
+    		"slots": [
+                {
+                    "name": "SCLA-1",
+                    "duration": 4
+				},
+                {
+                    "name": "SCLA-2",
+                    "duration": 4
+				},
+				{
+                    "name": "SCLA-3",
+                    "duration": 4
+				}
+    		]
+    	},
+		"ODA": {
+    		"duration": 12,
+    		"slots": [
+                {
+                    "name": "ODA-1",
+                    "duration": 4
+				},
+                {
+                    "name": "ODA-2",
+                    "duration": 4
+				},
+				{
+                    "name": "ODA-3",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Capstone": {
+    		"duration": 12,
+    		"slots": [
+                {
+                    "name": "Capstone-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Capstone-2",
+                    "duration": 8
+				}
+    		]
+    	},
+		"PGPM-Ex Batch Inauguration": {
+			"duration": 4,
+    		"slots": [
+                {
+                    "name": "PGPM-Ex Batch Inauguration",
+                    "duration": 4
+				}
+			]
+		},
+		"MicroEconomics": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "MicroEconomics-1",
+                    "duration": 4
+				},
+                {
+                    "name": "MicroEconomics-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Marketing-1": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Marketing-1-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Marketing-1-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Financial Statement Analysis": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Financial Statement Analysis-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Financial Statement Analysis-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Data Analysis for Decision Making 1": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Data Analysis for Decision Making 1-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Data Analysis for Decision Making 1-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Organizational Behavior": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Organizational Behavior-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Organizational Behavior-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Business Finance-1": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Business Finance-1-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Business Finance-1-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Operations": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Operations-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Operations-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Managing People & Teams": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Managing People & Teams-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Managing People & Teams-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Strategy Management in Technology": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Strategy Management in Technology-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Strategy Management in Technology-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Legal aspects of business": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Legal aspects of business-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Legal aspects of business-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Macroeconomics": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Macroeconomics-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Macroeconomics-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Marketing-2": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Marketing-2-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Marketing-2-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Managerial Accounting": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Managerial Accounting-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Managerial Accounting-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Data Analysis for Decision Making 2": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Data Analysis for Decision Making 2-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Data Analysis for Decision Making 2-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Leadership and Negotiation": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Leadership and Negotiation-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Leadership and Negotiation-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Business Finance 2": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Business Finance 2-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Business Finance 2-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Supply Chain Management": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Supply Chain Management-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Supply Chain Management-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Strategic Thinking and Problem Solving": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Strategic Thinking and Problem Solving -1",
+                    "duration": 4
+				},
+                {
+                    "name": "Strategic Thinking and Problem Solving -2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Introduction to Entrepreneurship": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Introduction to Entrepreneurship-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Introduction to Entrepreneurship-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Services Management": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Services Management-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Services Management-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Elective-1": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Elective-1-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Elective-1-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Elective-2": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Elective-2-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Elective-2-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Elective-3": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Elective-3-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Elective-3-2",
+                    "duration": 4
+				}
+    		]
+    	},
+		"Elective-4": {
+    		"duration": 8,
+    		"slots": [
+                {
+                    "name": "Elective-4-1",
+                    "duration": 4
+				},
+                {
+                    "name": "Elective-4-2",
+                    "duration": 4
+				}
+    		]
+    	}
+    },
+    "faculties": {
+    	"Dr.PKV": {
+    		"locations_available": ["Chennai","Bangalore"],
+    		"not_available_days": ["09/12/2016","10/12/2016","11/12/2016","17/12/2016","18/12/2016"],
+    		"courses_in_batches": {
+    			"C1": ["B1"]
+    		}
+		},
+    	"Dr.Bappa": {
+    		"locations_available": ["Gurgaon","Pune","Mumbai"],
+    		"not_available_days": ["10/12/2016","11/12/2016","17/12/2016","18/12/2016","07/01/2017","08/01/2017","11/03/2017","12/03/2017"],
+    		"courses_in_batches": {
+    			"C1": ["B3"]
+    		}
+		},
+    	"Srabashi": {
+    		"locations_available": ["Hyderabad","Pune","Bangalore","Gurgaon","Mumbai"],
+    		"not_available_days": ["09/12/2016","10/12/2016","11/12/2016","13/01/2017","15/01/2017"],
+    		"courses_in_batches": {}	
+		},
+    	"Sridhar": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["07/01/2017","08/01/2017","03/02/2017","04/02/2017","05/02/2017"],
+    		"courses_in_batches": {}
+		},
+    	"Jatinder": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["05/03/2017"],
+    		"courses_in_batches": {}
+		},
+    	"Tushar": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["10/02/2017","11/02/2017","12/02/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Umashankar": {
+    		"locations_available": ["Gurgaon","Bangalore","Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["09/12/2016","10/12/2016","11/12/2016","17/12/2016","18/12/2016"],
+    		"courses_in_batches": {}
+    	},
+    	"Easwar": {
+    		"locations_available": ["Gurgaon","Bangalore","Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["09/12/2016","10/12/2016","11/12/2016","06/01/2017","07/01/2017"],
+    		"courses_in_batches": {}
+    	},
+		"Sriram": {
+    		"locations_available": ["Chennai","Bangalore", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["14/12/2016","15/12/2016","16/12/2016"],
+    		"courses_in_batches": {}
+    	},
+    	"Ahindra": {
+    		"locations_available": ["Gurgaon","Bangalore","Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Shanti": {
+    		"locations_available": ["Bangalore", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["21/01/2017","22/01/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Sanjoy": {
+    		"locations_available": ["Chennai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Vaidy": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["14/12/2016","15/12/2016","16/12/2016"],
+    		"courses_in_batches": {}
+    	},
+    	"Rohit": {
+    		"locations_available": ["Bangalore", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["10/12/2016","11/12/2016","08/01/2017","03/02/2017","04/02/2017","05/02/2017","10/02/2017","11/02/2017","04/03/2017","05/03/2017","11/03/2017","12/03/2017","18/03/2017","19/03/2017","08/04/2017","09/04/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Narain": {
+    		"locations_available": ["Bangalore", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["13/01/2017","14/01/2017","15/01/2017","11/02/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Rajesh": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["09/12/2016","10/12/2016","11/12/2016","06/01/2017","07/01/2017","08/01/2017","04/02/2017","05/02/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Anshuman": {
+    		"locations_available": ["Bangalore", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["17/12/2016","18/12/2016","03/03/2017","04/03/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Raghavshyam & Vivek": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["09/12/2016","10/12/2016","11/12/2016","08/01/2017","04/03/2017","05/03/2017","11/03/2017","12/03/2017","08/04/2017","09/04/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Pradeepta": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["03/03/2017","04/03/2017","05/03/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Arun": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["03/02/2017","04/02/2017","05/02/2017","11/03/2017","12/03/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Snehamoy": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["10/12/2016","11/12/2016","07/01/2017","10/03/2017","11/03/2017","16/04/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Yugandar": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Vidya shankar": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["14/04/2017","15/04/2017","16/04/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Ashish": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["10/12/2016","11/12/2016","07/01/2017","15/04/2017","16/04/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Jaytu": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["31/03/2017","01/04/2017","02/04/2017","14/04/2017","15/04/2017","16/04/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"RL Shankar": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["31/03/2017","01/04/2017","02/04/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Pooja": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"VP Singh": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["17/12/2016","18/12/2016","21/01/2017","22/01/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Poornima": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Suresh Srinivasan": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["18/02/2017","19/02/2017","18/03/2017","19/03/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Raghavan": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Mohan": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["22/04/2017","23/04/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty1": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty2": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty3": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty4": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty5": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty6": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty7": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty8": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty9": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty10": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty11": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty12": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty13": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty14": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty15": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty16": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["18/02/2017","19/02/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty17": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty18": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["09/12/2016","11/02/2017","12/02/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty19": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty20": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty21": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty22": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["22/04/2017","23/04/2017"],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty23": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty24": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+    	"Faculty25": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty26": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Kunal Jain": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Subhash": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["13/01/2017","14/01/2017","11/02/2017","12/02/2017"],
+    		"courses_in_batches": {}
+    	},
+		"Faculty27": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["10/02/2017","11/02/2017","12/02/2017"],
+    		"courses_in_batches": {}
+    	},
+		"Faculty28": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["10/02/2017","11/02/2017"],
+    		"courses_in_batches": {}
+    	},
+		"Faculty29": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Swapnajit": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["10/03/2017","12/03/2017","15/04/2017"],
+    		"courses_in_batches": {}
+    	},
+		"Anurag": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["17/12/2016"],
+    		"courses_in_batches": {}
+    	},
+		"Jones": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["10/12/2016","11/12/2016","07/01/2017","08/01/2017"],
+    		"courses_in_batches": {}
+    	},
+		"Ujjani": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": ["17/12/2016","18/12/2016"],
+    		"courses_in_batches": {}
+    	},
+		"Faculty30": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty31": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty32": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	},
+		"Faculty33": {
+    		"locations_available": ["Bangalore", "Chennai", "Gurgaon", "Pune","Hyderabad","Mumbai"],
+    		"not_available_days": [],
+    		"courses_in_batches": {}
+    	}
+	},
+    "courses_faculties": {
+		"Batch Inauguration": ["Dr.PKV","Dr.Bappa","Srabashi"],
+		"PGPM-Ex Batch Inauguration": ["Mohan"],
+		"IA": ["Jatinder","Tushar","Dr.PKV","Dr.Bappa","Srabashi","Sridhar"],
+		"SMDM": ["Dr.PKV","Dr.Bappa","Srabashi","Sridhar"],
+		"MCRM": ["Umashankar","Jones","Easwar","Sriram"],
+		"BF": ["Suresh Srinivasan","Shanti","Sanjoy","Ahindra"],
+		"SCMO": ["Vaidy","Narain","Rohit"],
+		"AS": ["Srabashi","Dr.PKV","Dr.Bappa","Sridhar"],
+		"PM": ["Sridhar","Dr.PKV","Dr.Bappa","Srabashi"],
+		"DM": ["Rajesh","Faculty18","Srabashi"],
+		"Analytics Career Workshop": ["Kunal Jain", "Faculty24"],
+		"OT": ["Anshuman","Narain","Vaidy","Rohit","Subhash"],
+		"DVT": ["Raghavshyam & Vivek"],
+		"BDH": ["Pradeepta","Arun","Faculty27"],
+		"MRA": ["Snehamoy","Yugandar","Vidya shankar"],
+		"FRA": ["Ashish","Jaytu","RL Shankar"],
+		"WSMA": ["Pooja","Tushar","Swapnajit"],
+		"SCLA": ["Anshuman","Narain","Vaidy","Rohit","Faculty28"],
+		"ODA": ["Anurag","Ujjani","Faculty1"],
+		"Capstone": ["Dr.PKV","Dr.Bappa","Srabashi","Sridhar"],
+		"MicroEconomics": ["VP Singh","Faculty4"],
+		"Marketing-1": ["Umashankar","Jones","Sriram","Easwar"],
+		"Financial Statement Analysis": ["Ahindra","Shanti","Suresh Srinivasan"],
+		"Data Analysis for Decision Making 1": ["VP Singh","Faculty4"],
+		"Organizational Behavior": ["Poornima","Faculty5"],
+		"Business Finance-1": ["Suresh Srinivasan","Ahindra","Shanti"],
+		"Operations": ["Rohit","Vaidy","Narain","Anshuman"],
+		"Managing People & Teams": ["Poornima","Faculty9"],
+		"Strategy Management in Technology": ["Suresh Srinivasan","Faculty10"],
+		"Legal aspects of business": ["Raghavan","Faculty11"],
+		"Macroeconomics": ["VP Singh","Faculty12"],
+		"Marketing-2": ["Jones","Umashankar","Sriram","Easwar"],
+		"Managerial Accounting": ["Shanti","Ahindra","Suresh Srinivasan"],
+		"Data Analysis for Decision Making 2": ["VP Singh","Faculty4"],
+		"Leadership and Negotiation": ["Faculty16","Faculty17"],
+		"Business Finance 2": ["Suresh Srinivasan","Shanti","Ahindra"],
+		"Supply Chain Management": ["Rohit","Vaidy","Narain","Anshuman"],
+		"Strategic Thinking and Problem Solving": ["Suresh Srinivasan","Faculty20"],
+		"Introduction to Entrepreneurship": ["Mohan","Faculty21"],
+		"Services Management": ["Faculty22","Faculty23"],
+		"Elective-1": ["Faculty30"],
+		"Elective-2": ["Faculty31"],
+		"Elective-3": ["Faculty32"],
+		"Elective-4": ["Faculty33"]
+    }
+}

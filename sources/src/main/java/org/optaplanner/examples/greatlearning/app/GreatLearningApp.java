@@ -46,7 +46,7 @@ public class GreatLearningApp {
         GLCalendar glCalendar = new GLCalendar();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        InputStream resourceAsStream = GreatLearningApp.class.getResourceAsStream("/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v12.json");
+        InputStream resourceAsStream = GreatLearningApp.class.getResourceAsStream("/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v13.json");
         String testData = IOUtils.toString(resourceAsStream, "UTF-8");
         JsonNode jsonNode = objectMapper.readTree(testData);
         JsonNode programs = jsonNode.get("programs");
@@ -169,7 +169,7 @@ public class GreatLearningApp {
             int duration = entry.getValue().get("duration").asInt(); //slotNum = duration/4
             ArrayNode slotsNode = (ArrayNode) entry.getValue().get("slots");
             List<Map.Entry<String, Integer>> slots = new ArrayList<>();
-            for(int i = 0;i<slotsNode.size();i++){
+            for (int i = 0; i < slotsNode.size(); i++) {
                 slots.add(new AbstractMap.SimpleEntry<>(slotsNode.get(i).get("name").asText(), slotsNode.get(i).get("duration").asInt()));
             }
             Course course = new Course();
@@ -303,24 +303,12 @@ public class GreatLearningApp {
                         }
                         dateTimeSlotsList = dateTimeSlotsList.subList(0, idx > 0 ? idx : dateTimeSlotsList.size());
 
-//                    } else if ("Capstone".equals(course.getName())) {
-//                        int idx = 0;
-//                        List<DateTimeSlot> endSlots = dateTimeSlotsList.get(dateTimeSlotsList.size() - 1).getDateTimeSlots();
-//                        LocalDate endDate = endSlots.get(endSlots.size() - 1).getDate();
-//                        LocalDate newEndDate = endDate.minusMonths(1);
-//
-//                        for (int i = 0; i < dateTimeSlotsList.size(); i++) {
-//                            DateTimeSlots dateTimeSlots = dateTimeSlotsList.get(i);
-//                            List<DateTimeSlot> dateTimeSlotList = dateTimeSlots.getDateTimeSlots();
-//
-//                            if (dateTimeSlotList.get(0).getDate().compareTo(newEndDate) > 0) {
-//                                idx = i;
-//                                break;
-//                            }
-//                        }
-//                        dateTimeSlotsList = dateTimeSlotsList.subList(idx > 0 ? idx - 1 : 0, dateTimeSlotsList.size());
                     } else {
-                        dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.get(course.getName()), courseIndices.size(), batch);
+                        if (Arrays.asList("PGPBABI Chennai Jan17").contains(batch.getName()) || "Capstone".equals(course.getName())) {
+                            dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.get(course.getName()), courseIndices.size(), batch);
+                        } else {
+                            dateTimeSlotsList = trimDateSlots(dateTimeSlotsList, course, batch, courses, courseMap);
+                        }
                     }
 
                     courseSchedule.setDateTimeSlotsList(dateTimeSlotsList);
@@ -333,23 +321,72 @@ public class GreatLearningApp {
         return glCalendar;
     }
 
+    private static List<DateTimeSlots> trimDateSlots(List<DateTimeSlots> dateTimeSlotsList, Course course, Batch batch, List<Course> courses, Map<String, Course> courseMap) {
+        LocalDate startDateBatch = batch.getStartDate();
+        LocalDate yearTracker = LocalDate.of(startDateBatch.getYear(), startDateBatch.getMonth(), startDateBatch.getDayOfMonth());
+        Map<Integer, LocalDate> startLocalDateIndices = new HashMap<>();
+        yearTracker = yearTracker.minusMonths(1);
+        List<Integer> monthlyResidencyDays = batch.getMonthlyResidencyDays();
+        for (int i = 0; i < monthlyResidencyDays.size() + 3; i++) {
+            yearTracker = yearTracker.plusMonths(1);
+            LocalDate possibleStartDate = LocalDate.of(yearTracker.getYear(), yearTracker.getMonth(), 1);
+            startLocalDateIndices.put(i, possibleStartDate);
+        }
+
+        int myCount = 0;
+        for (Course course1 : courses) {
+            Course course2 = courseMap.get(course1.getName());
+            myCount += course2.getSlots().size();
+            if (course2.getName().equals(course.getName())) {
+                break;
+            }
+        }
+
+        int divider = 5;
+        if("PGPM-Ex Gurgaon Jan17".equals(batch.getName()) || "PGPM-Ex Bangalore Jan17".equals(batch.getName())){
+            divider = 4;
+        }
+        int idx = myCount / divider;
+
+        LocalDate pLocalDate = startLocalDateIndices.get(idx);
+        LocalDate ppLocalDate = pLocalDate.minusMonths(1);
+        ppLocalDate = LocalDate.of(ppLocalDate.getYear(), ppLocalDate.getMonth(), 1);
+        LocalDate apLocalDate = pLocalDate.plusMonths(2);
+        apLocalDate = LocalDate.of(apLocalDate.getYear(), apLocalDate.getMonth(), 28);
+
+        int startIdx = 0;
+        int endIdx = dateTimeSlotsList.size();
+        for (int i = 0; i < dateTimeSlotsList.size(); i++) {
+            DateTimeSlots dateTimeSlots = dateTimeSlotsList.get(i);
+            List<DateTimeSlot> dateTimeSlotList = dateTimeSlots.getDateTimeSlots();
+
+            if (startIdx == 0 && dateTimeSlotList.get(0).getDate().compareTo(ppLocalDate) > 0) {
+                startIdx = i;
+            }
+            if (endIdx == dateTimeSlotsList.size() && dateTimeSlotList.get(0).getDate().compareTo(apLocalDate) > 0) {
+                endIdx = i;
+            }
+        }
+        return dateTimeSlotsList.subList(startIdx == 0 ? startIdx : startIdx, endIdx == dateTimeSlotsList.size() ? endIdx : endIdx+1);
+    }
+
     private static List<DateTimeSlots> filter(List<DateTimeSlots> dateTimeSlotsList, int courseIdx, int maxCourses, Batch batch) {
         int delayInMonths = 0;
         boolean add = true;
-        if (courseIdx + 2 > 10) {
+        if (courseIdx + 2 > 12) {
             delayInMonths = (maxCourses - 1 - courseIdx + 2);
-            if(delayInMonths > 8){
-                delayInMonths -= 3;
+            if (delayInMonths > 10) {
+                delayInMonths -= 4;
             }
             add = false;
         } else {
             delayInMonths = courseIdx + 2;
-            if(delayInMonths > 8){
+            if (delayInMonths > 8) {
                 delayInMonths -= 2;
             }
         }
 
-        if(courseIdx == (maxCourses -1)){
+        if (courseIdx == (maxCourses - 1)) {
             delayInMonths = 1;
         }
 

@@ -44,7 +44,7 @@ public class CourseDateTimeSlotsGenerator {
         /**
          * Generate slots with gap of {0,1,2}
          */
-        List<Integer> gaps = Arrays.asList(0);
+        List<Integer> gaps = Arrays.asList(0, 1, 2);
         for (Integer gap : gaps) {
             List<DateTimeSlots> dateTimeSlots = new ArrayList<>();
             int stringLength = course.getSlots().size() + gap;

@@ -20,10 +20,5 @@ public class CourseDifficultyComparator implements Comparator<CourseSchedule>, S
 //                .append(t2, t1)
                 .toComparison();
 
-        //  return 0;
-//        return new CompareToBuilder()
-//                .append(o1.getSlotsNum(), o2.getSlotsNum())
-//                .append(o2.getTeacherList().size(), o1.getTeacherList().size())
-//                .toComparison();
     }
 }
