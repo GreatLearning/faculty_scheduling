@@ -5,9 +5,7 @@ import org.optaplanner.examples.greatlearning.domain.*;
 import org.optaplanner.examples.greatlearning.util.CourseDateTimeSlotsGenerator;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -93,5 +91,25 @@ public class GLCalendarInputGeneratorTest {
 
         assertNotNull(slotsList);
 
+    }
+
+    @Test
+    public void  testGopi(){
+        LocalDate localDate = LocalDate.now();
+        DateTimeSlot dateTimeSlot = new DateTimeSlot();
+        dateTimeSlot.setDate(localDate);
+        dateTimeSlot.setTimeSlot(TimeSlot.AFTERNOON);
+
+
+        DateTimeSlot dateTimeSlot1 = new DateTimeSlot();
+        dateTimeSlot1.setDate(localDate);
+        dateTimeSlot1.setTimeSlot(TimeSlot.AFTERNOON);
+
+        Map<DateTimeSlot, Integer> map = new TreeMap<>();
+        map.put(dateTimeSlot, 1);
+        map.put(dateTimeSlot1, 2);
+
+        System.out.println(map.size());
+        System.out.println(dateTimeSlot.equals(dateTimeSlot1));
     }
 }

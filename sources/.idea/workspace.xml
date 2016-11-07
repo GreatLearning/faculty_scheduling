@@ -4,10 +4,12 @@
     <list default="true" id="e4fc4df4-591d-424d-aaac-9b1c1c478d54" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/app/GreatLearningApp.java" afterPath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/app/GreatLearningApp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Batch.java" afterPath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Batch.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Course.java" afterPath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Course.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/DateTimeSlot.java" afterPath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/DateTimeSlot.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/solver/score/GLCalendarScoreCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/solver/score/GLCalendarScoreCalculator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/CourseDateTimeSlotsGenerator.java" afterPath="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/CourseDateTimeSlotsGenerator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/solver/glCalendarSolverConfig.xml" afterPath="$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/solver/glCalendarSolverConfig.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/org/optaplanner/examples/greatlearning/GLCalendarInputGeneratorTest.java" afterPath="$PROJECT_DIR$/src/test/java/org/optaplanner/examples/greatlearning/GLCalendarInputGeneratorTest.java" />
     </list>
     <ignored path="optaplanner-examples.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,23 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CourseDateTimeSlotsGenerator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/CourseDateTimeSlotsGenerator.java">
+      <file leaf-file-name="DateTimeSlot.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/DateTimeSlot.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="174" column="0" selection-start-line="174" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
-              <folding>
-                <marker date="1478431693000" expanded="true" signature="11293:12041" placeholder="//..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Batch.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Batch.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="83" column="83" selection-start-line="83" selection-start-column="83" selection-end-line="83" selection-end-column="83" />
+              <caret line="41" column="39" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -55,8 +45,8 @@
       <file leaf-file-name="glCalendarSolverConfig.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/solver/glCalendarSolverConfig.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.48039216">
-              <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.51428574">
+              <caret line="21" column="28" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -65,8 +55,8 @@
       <file leaf-file-name="faculty_scheduling_input_Saba_v12.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v12.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.875">
-              <caret line="3" column="134" selection-start-line="3" selection-start-column="131" selection-end-line="3" selection-end-column="134" />
+            <state vertical-scroll-proportion="-8.75">
+              <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -76,7 +66,40 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/solver/score/GLCalendarScoreCalculator.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="86" column="92" selection-start-line="86" selection-start-column="92" selection-end-line="86" selection-end-column="92" />
+              <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CloudProcessSwapMove.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/cloudbalancing/solver/move/CloudProcessSwapMove.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GLCalendar.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/GLCalendar.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="35" column="31" selection-start-line="35" selection-start-column="11" selection-end-line="35" selection-end-column="31" />
+              <folding>
+                <element signature="e#994#995#0" expanded="true" />
+                <element signature="e#1035#1036#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CourseSchedule.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/CourseSchedule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -86,29 +109,8 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/app/GreatLearningApp.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="343" column="9" selection-start-line="343" selection-start-column="9" selection-end-line="343" selection-end-column="9" />
+              <caret line="391" column="0" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Course.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Course.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-              <folding>
-                <element signature="e#321#322#0" expanded="false" />
-                <element signature="e#353#354#0" expanded="false" />
-                <element signature="e#395#396#0" expanded="false" />
-                <element signature="e#426#427#0" expanded="false" />
-                <element signature="e#481#482#0" expanded="false" />
-                <element signature="e#521#522#0" expanded="false" />
-                <element signature="e#553#554#0" expanded="false" />
-                <element signature="e#584#585#0" expanded="false" />
-                <element signature="e#629#630#0" expanded="false" />
-                <element signature="e#669#670#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -156,12 +158,10 @@
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/CourseDateTimeSlotGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/app/GreatlearningApp.java" />
         <option value="$PROJECT_DIR$/data/greatlearning/faculty_scheduling_input_Saba_v1.json" />
-        <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Course.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/DateTimeSlots.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Location.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Teacher.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/Util.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/DateTimeSlot.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/Pair.java" />
         <option value="$PROJECT_DIR$/src/test/java/org/optaplanner/examples/greatlearning/BatchTest.java" />
         <option value="$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v4.json" />
@@ -173,17 +173,19 @@
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/HMSWithReason.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/GLCalendar.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/CourseSchedule.java" />
-        <option value="$PROJECT_DIR$/src/test/java/org/optaplanner/examples/greatlearning/GLCalendarInputGeneratorTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/solver/CourseDifficultyComparator.java" />
         <option value="$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v6.json" />
         <option value="$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v10.json" />
         <option value="$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v11.json" />
         <option value="$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v12.json" />
-        <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/CourseDateTimeSlotsGenerator.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Batch.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Course.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/CourseDateTimeSlotsGenerator.java" />
+        <option value="$PROJECT_DIR$/src/test/java/org/optaplanner/examples/greatlearning/GLCalendarInputGeneratorTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/DateTimeSlot.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/solver/score/GLCalendarScoreCalculator.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/solver/glCalendarSolverConfig.xml" />
         <option value="$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/app/GreatLearningApp.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/solver/glCalendarSolverConfig.xml" />
       </list>
     </option>
   </component>
@@ -230,8 +232,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -485,6 +485,104 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="examination" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="optaplanner-examples" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="examples" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="examination" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="solver" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="optaplanner-examples" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="examples" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="curriculumcourse" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="optaplanner-examples" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="examples" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="curriculumcourse" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="solver" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -932,6 +1030,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -968,58 +1068,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="optaplanner-examples" />
       <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="NQueensAppTest.createSolverByApi" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="org.optaplanner.examples.nqueens.app.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="optaplanner-examples" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="org.optaplanner.examples.nqueens.app" />
-      <option name="MAIN_CLASS_NAME" value="org.optaplanner.examples.nqueens.app.NQueensAppTest" />
-      <option name="METHOD_NAME" value="createSolverByApi" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="GLCalendarInputGeneratorTest.createSolverByApi" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="org.optaplanner.examples.greatlearning.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="optaplanner-examples" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="org.optaplanner.examples.greatlearning" />
-      <option name="MAIN_CLASS_NAME" value="org.optaplanner.examples.greatlearning.GLCalendarInputGeneratorTest" />
-      <option name="METHOD_NAME" value="createSolverByApi" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
       <method />
     </configuration>
     <configuration default="false" name="GLCalendarInputGeneratorTest.testGenerateResidencyDates" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
@@ -1061,6 +1109,58 @@
       <option name="PACKAGE_NAME" value="org.optaplanner.examples.greatlearning" />
       <option name="MAIN_CLASS_NAME" value="org.optaplanner.examples.greatlearning.GLCalendarInputGeneratorTest" />
       <option name="METHOD_NAME" value="testCourseDateTimeSlotsGenerator" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="GLCalendarInputGeneratorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="org.optaplanner.examples.greatlearning.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="optaplanner-examples" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.optaplanner.examples.greatlearning" />
+      <option name="MAIN_CLASS_NAME" value="org.optaplanner.examples.greatlearning.GLCalendarInputGeneratorTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="GLCalendarInputGeneratorTest.testGopi" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="org.optaplanner.examples.greatlearning.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="optaplanner-examples" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.optaplanner.examples.greatlearning" />
+      <option name="MAIN_CLASS_NAME" value="org.optaplanner.examples.greatlearning.GLCalendarInputGeneratorTest" />
+      <option name="METHOD_NAME" value="testGopi" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -1377,18 +1477,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.GreatLearningApp" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.NQueensAppTest.createSolverByApi" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.createSolverByApi" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.testGenerateResidencyDates" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.testCourseDateTimeSlotsGenerator" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.testGenerateResidencyDates" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.testCourseDateTimeSlotsGenerator" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.testGopi" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Application.GreatLearningApp" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.testCourseDateTimeSlotsGenerator" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.testGenerateResidencyDates" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.createSolverByApi" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.NQueensAppTest.createSolverByApi" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.testGopi" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.testCourseDateTimeSlotsGenerator" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.GLCalendarInputGeneratorTest.testGenerateResidencyDates" />
       </list>
     </recent_temporary>
   </component>
@@ -1411,35 +1511,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="GLCalendarInputGeneratorTest_testCourseDateTimeSlotsGenerator - 2016.11.03 at 18h 00m 10s.xml">
-      <configuration name="GLCalendarInputGeneratorTest.testCourseDateTimeSlotsGenerator" configurationId="JUnit" />
+    <history-entry file="GLCalendarInputGeneratorTest - 2016.11.07 at 02h 06m 23s.xml">
+      <configuration name="GLCalendarInputGeneratorTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="GLCalendarInputGeneratorTest_testCourseDateTimeSlotsGenerator - 2016.11.04 at 01h 06m 44s.xml">
-      <configuration name="GLCalendarInputGeneratorTest.testCourseDateTimeSlotsGenerator" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GLCalendarInputGeneratorTest_testGenerateResidencyDates - 2016.11.03 at 16h 21m 01s.xml">
-      <configuration name="GLCalendarInputGeneratorTest.testGenerateResidencyDates" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GLCalendarInputGeneratorTest_testGenerateResidencyDates - 2016.11.03 at 16h 24m 48s.xml">
-      <configuration name="GLCalendarInputGeneratorTest.testGenerateResidencyDates" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GLCalendarInputGeneratorTest_testGenerateResidencyDates - 2016.11.03 at 16h 25m 13s.xml">
-      <configuration name="GLCalendarInputGeneratorTest.testGenerateResidencyDates" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GLCalendarInputGeneratorTest_testGenerateResidencyDates - 2016.11.03 at 17h 58m 34s.xml">
-      <configuration name="GLCalendarInputGeneratorTest.testGenerateResidencyDates" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GLCalendarInputGeneratorTest_testGenerateResidencyDates - 2016.11.03 at 18h 00m 34s.xml">
-      <configuration name="GLCalendarInputGeneratorTest.testGenerateResidencyDates" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GLCalendarInputGeneratorTest_testGenerateResidencyDates - 2016.11.03 at 18h 01m 22s.xml">
-      <configuration name="GLCalendarInputGeneratorTest.testGenerateResidencyDates" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="GLCalendarInputGeneratorTest_testGenerateResidencyDates - 2016.11.03 at 18h 01m 33s.xml">
-      <configuration name="GLCalendarInputGeneratorTest.testGenerateResidencyDates" configurationId="JUnit" />
+    <history-entry file="GLCalendarInputGeneratorTest - 2016.11.07 at 02h 06m 30s.xml">
+      <configuration name="GLCalendarInputGeneratorTest" configurationId="JUnit" />
     </history-entry>
     <history-entry file="GLCalendarInputGeneratorTest_testGenerateResidencyDates - 2016.11.03 at 19h 11m 35s.xml">
       <configuration name="GLCalendarInputGeneratorTest.testGenerateResidencyDates" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GLCalendarInputGeneratorTest_testGopi - 2016.11.07 at 02h 06m 44s.xml">
+      <configuration name="GLCalendarInputGeneratorTest.testGopi" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GLCalendarInputGeneratorTest_testGopi - 2016.11.07 at 02h 07m 36s.xml">
+      <configuration name="GLCalendarInputGeneratorTest.testGopi" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GLCalendarInputGeneratorTest_testGopi - 2016.11.07 at 02h 07m 50s.xml">
+      <configuration name="GLCalendarInputGeneratorTest.testGopi" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GLCalendarInputGeneratorTest_testGopi - 2016.11.07 at 02h 08m 02s.xml">
+      <configuration name="GLCalendarInputGeneratorTest.testGopi" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GLCalendarInputGeneratorTest_testGopi - 2016.11.07 at 02h 08m 06s.xml">
+      <configuration name="GLCalendarInputGeneratorTest.testGopi" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GLCalendarInputGeneratorTest_testGopi - 2016.11.07 at 02h 08m 13s.xml">
+      <configuration name="GLCalendarInputGeneratorTest.testGopi" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="GLCalendarInputGeneratorTest_testGopi - 2016.11.07 at 02h 09m 08s.xml">
+      <configuration name="GLCalendarInputGeneratorTest.testGopi" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -1453,7 +1553,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298969" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1461,8 +1561,8 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.52430046" sideWeight="0.5028612" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38586158" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.47275406" sideWeight="0.49713877" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38586158" sideWeight="0.49713877" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40795287" sideWeight="0.5028612" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298969" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26967096" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1472,7 +1572,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6494845" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46833578" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1526,13 +1626,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/org/optaplanner/examples/greatlearning/GLCalendarInputGeneratorTest.java</url>
-          <line>47</line>
+          <line>45</line>
           <properties />
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/app/GreatLearningApp.java</url>
-          <line>325</line>
+          <line>331</line>
           <properties />
           <option name="timeStamp" value="102" />
         </line-breakpoint>
@@ -1543,11 +1643,16 @@
           <properties />
           <option name="timeStamp" value="110" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/solver/score/GLCalendarScoreCalculator.java</url>
+          <properties />
+          <option name="timeStamp" value="117" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="113" />
+      <option name="time" value="124" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1556,34 +1661,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/optaplanner/examples/cloudbalancing/app/CloudBalancingDaemonTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5081967">
-          <caret line="103" column="19" selection-start-line="103" selection-start-column="19" selection-end-line="103" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/common/swingui/SolverAndPersistenceFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="117" column="11" selection-start-line="117" selection-start-column="11" selection-end-line="117" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/optaplanner/optaplanner-core/6.4.0.Final/optaplanner-core-6.4.0.Final-sources.jar!/org/optaplanner/core/impl/solver/AbstractSolverFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/optaplanner/optaplanner-core/6.4.0.Final/optaplanner-core-6.4.0.Final-sources.jar!/org/optaplanner/core/api/solver/SolverFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="210" column="38" selection-start-line="210" selection-start-column="38" selection-end-line="210" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/optaplanner/optaplanner-core/6.4.0.Final/optaplanner-core-6.4.0.Final-sources.jar!/org/optaplanner/core/impl/solver/DefaultSolver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1605,13 +1682,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/Util.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="42" selection-start-line="20" selection-start-column="42" selection-end-line="20" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/nqueens/solver/nqueensSolverConfig.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1623,13 +1693,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.1643454">
           <caret line="33" column="8" selection-start-line="33" selection-start-column="8" selection-end-line="33" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/curriculumcourse/solver/curriculumCourseSolverConfig.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.375">
-          <caret line="7" column="34" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -1658,13 +1721,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6637168">
           <caret line="645" column="8" selection-start-line="645" selection-start-column="8" selection-end-line="645" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/DateTimeSlots.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -1767,28 +1823,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/optaplanner/examples/greatlearning/GLCalendarInputGeneratorTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Location.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/src.zip!/java/util/Map.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="324" column="11" selection-start-line="324" selection-start-column="11" selection-end-line="324" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -1804,14 +1843,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/DateTimeSlot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1851,84 +1882,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="4" column="43" selection-start-line="4" selection-start-column="43" selection-end-line="4" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/CourseSchedule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1039#1040#0" expanded="false" />
-            <element signature="e#1066#1067#0" expanded="false" />
-            <element signature="e#1106#1107#0" expanded="false" />
-            <element signature="e#1138#1139#0" expanded="false" />
-            <element signature="e#1169#1170#0" expanded="false" />
-            <element signature="e#1197#1198#0" expanded="false" />
-            <element signature="e#1238#1239#0" expanded="false" />
-            <element signature="e#1272#1273#0" expanded="false" />
-            <element signature="e#1362#1363#0" expanded="false" />
-            <element signature="e#1396#1397#0" expanded="false" />
-            <element signature="e#1457#1458#0" expanded="false" />
-            <element signature="e#1503#1504#0" expanded="false" />
-            <element signature="e#1607#1608#0" expanded="false" />
-            <element signature="e#1647#1648#0" expanded="false" />
-            <element signature="e#1819#1820#0" expanded="false" />
-            <element signature="e#1849#1850#0" expanded="false" />
-            <element signature="e#1896#1897#0" expanded="false" />
-            <element signature="e#1934#1935#0" expanded="false" />
-            <element signature="e#1981#1982#0" expanded="false" />
-            <element signature="e#2017#2018#0" expanded="false" />
-            <element signature="e#2082#2083#0" expanded="false" />
-            <element signature="e#2132#2133#0" expanded="false" />
-            <element signature="e#2164#2165#0" expanded="false" />
-            <element signature="e#2195#2196#0" expanded="false" />
-            <element signature="e#2240#2241#0" expanded="false" />
-            <element signature="e#2280#2281#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/GLCalendar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="43" column="24" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#717#718#0" expanded="false" />
-            <element signature="e#745#746#0" expanded="false" />
-            <element signature="e#814#815#0" expanded="false" />
-            <element signature="e#848#849#0" expanded="false" />
-            <element signature="e#908#909#0" expanded="false" />
-            <element signature="e#935#936#0" expanded="false" />
-            <element signature="e#994#995#0" expanded="false" />
-            <element signature="e#1035#1036#0" expanded="false" />
-            <element signature="e#1227#1228#0" expanded="false" />
-            <element signature="e#1267#1268#0" expanded="false" />
-            <element signature="e#1339#1340#0" expanded="false" />
-            <element signature="e#1397#1398#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Course.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="e#321#322#0" expanded="false" />
-            <element signature="e#353#354#0" expanded="false" />
-            <element signature="e#395#396#0" expanded="false" />
-            <element signature="e#426#427#0" expanded="false" />
-            <element signature="e#481#482#0" expanded="false" />
-            <element signature="e#521#522#0" expanded="false" />
-            <element signature="e#553#554#0" expanded="false" />
-            <element signature="e#584#585#0" expanded="false" />
-            <element signature="e#629#630#0" expanded="false" />
-            <element signature="e#669#670#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1936,7 +1889,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="134" column="19" selection-start-line="134" selection-start-column="19" selection-end-line="134" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1948,20 +1900,126 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/CourseDateTimeSlotsGenerator.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/DateTimeSlots.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="174" column="0" selection-start-line="174" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/Course.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="69" column="42" selection-start-line="69" selection-start-column="16" selection-end-line="69" selection-end-column="42" />
           <folding>
-            <marker date="1478431693000" expanded="true" signature="11293:12041" placeholder="//..." />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1716#1717#0" expanded="true" />
+            <element signature="e#1744#1745#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v12.json">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/src.zip!/java/util/List.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.875">
-          <caret line="3" column="134" selection-start-line="3" selection-start-column="131" selection-end-line="3" selection-end-column="134" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="584" column="9" selection-start-line="584" selection-start-column="9" selection-end-line="584" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/CourseDateTimeSlotsGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="84" column="59" selection-start-line="84" selection-start-column="59" selection-end-line="84" selection-end-column="59" />
+          <folding>
+            <marker date="1478457486000" expanded="true" signature="12417:13165" placeholder="//..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/curriculumcourse/solver/curriculumCourseSolverConfig.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="15.0">
+          <caret line="7" column="34" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/examination/solver/examinationSolverConfig.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.125">
+          <caret line="82" column="13" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/src.zip!/java/util/TreeMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0686275">
+          <caret line="534" column="16" selection-start-line="534" selection-start-column="13" selection-end-line="534" selection-end-column="16" />
+          <folding>
+            <element signature="e#5767#5768#0" expanded="false" />
+            <element signature="e#5800#5801#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/util/Util.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/optaplanner/examples/greatlearning/GLCalendarInputGeneratorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="98" column="16" selection-start-line="98" selection-start-column="16" selection-end-line="98" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/DateTimeSlot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="41" column="39" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_60.jdk/Contents/Home/src.zip!/java/util/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="211" column="6" selection-start-line="211" selection-start-column="6" selection-end-line="211" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/GLCalendar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="31" selection-start-line="35" selection-start-column="11" selection-end-line="35" selection-end-column="31" />
+          <folding>
+            <element signature="e#994#995#0" expanded="true" />
+            <element signature="e#1035#1036#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/domain/CourseSchedule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/cloudbalancing/solver/move/CloudProcessSwapMove.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -1969,7 +2027,15 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/solver/score/GLCalendarScoreCalculator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="86" column="92" selection-start-line="86" selection-start-column="92" selection-end-line="86" selection-end-column="92" />
+          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v12.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.75">
+          <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
           <folding />
         </state>
       </provider>
@@ -1977,15 +2043,15 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/org/optaplanner/examples/greatlearning/app/GreatLearningApp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="343" column="9" selection-start-line="343" selection-start-column="9" selection-end-line="343" selection-end-column="9" />
+          <caret line="391" column="0" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/org/optaplanner/examples/greatlearning/solver/glCalendarSolverConfig.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48039216">
-          <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.51428574">
+          <caret line="21" column="28" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="28" />
           <folding />
         </state>
       </provider>

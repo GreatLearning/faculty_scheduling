@@ -21,15 +21,13 @@
         </forager>
     </constructionHeuristic>
     <localSearch>
-        <unionMoveSelector>
             <changeMoveSelector/>
-        </unionMoveSelector>
         <acceptor>
-            <lateAcceptanceSize>100</lateAcceptanceSize>
-            <entityTabuSize>5</entityTabuSize>
+            <lateAcceptanceSize>50</lateAcceptanceSize>
+            <!--<entityTabuSize>7</entityTabuSize>-->
         </acceptor>
         <forager>
-            <acceptedCountLimit>500</acceptedCountLimit>
+            <acceptedCountLimit>999</acceptedCountLimit>
             <pickEarlyType>FIRST_LAST_STEP_SCORE_IMPROVING</pickEarlyType>
         </forager>
     </localSearch>

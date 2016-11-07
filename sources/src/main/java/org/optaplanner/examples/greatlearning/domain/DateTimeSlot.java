@@ -39,6 +39,22 @@ public class DateTimeSlot implements Comparable<DateTimeSlot> {
     }
 
     @Override
+    public int compareTo(DateTimeSlot o) {
+        int value = this.getDate().compareTo(o.getDate());
+        if (value == 0) {
+            if (this.getTimeSlot().equals(o.getTimeSlot())) {
+                return 0;
+            }
+            if (this.getTimeSlot().equals(TimeSlot.MORNING)) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+        return value;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -55,18 +71,5 @@ public class DateTimeSlot implements Comparable<DateTimeSlot> {
         int result = date != null ? date.hashCode() : 0;
         result = 31 * result + (timeSlot != null ? timeSlot.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public int compareTo(DateTimeSlot o) {
-        int value = this.getDate().compareTo(o.getDate());
-        if (value == 0) {
-            if (this.getTimeSlot().equals(TimeSlot.MORNING)) {
-                return -1;
-            } else {
-                return 1;
-            }
-        }
-        return value;
     }
 }

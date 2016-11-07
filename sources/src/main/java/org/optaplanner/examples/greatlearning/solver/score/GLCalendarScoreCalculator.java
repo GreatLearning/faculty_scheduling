@@ -18,7 +18,6 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
 
     @Override
     public HardMediumSoftScore calculateScore(GLCalendar solution) {
-//        long startTime = System.currentTimeMillis();
 
         int hardScore = 0;
         int mediumScore = 0;
@@ -80,7 +79,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
 
             List<String> actualCourseListString = new ArrayList<>();
 
-            for(Course course  :entry.getKey().getProgram().getCourseList()){
+            for (Course course : entry.getKey().getProgram().getCourseList()) {
                 actualCourseListString.add(course.getName());
             }
 
@@ -123,7 +122,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                     if (daysBetween > 1) {
                         if (batch.getMinGapBetweenResidenciesInDays() > daysBetween) {
                             hardScore -= (batch.getMinGapBetweenResidenciesInDays() - daysBetween);
-                            constraintsBroken.add(entry.getKey().getName() +" >>> #14. Check min  gap between 2 residencies " +
+                            constraintsBroken.add(entry.getKey().getName() + " >>> #14. Check min  gap between 2 residencies " +
                                     " - " + prevResidencyDate + "  > " + dateTimeSlot.getDate() + " : " + daysBetween);
                         }
                         if (batch.getMaxGapBetweenResidenciesInDays() < daysBetween) {
@@ -146,7 +145,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                             if (batch.getMaxGapBetweenResidenciesInDays() < (daysBetween - diff)) {
                                 hardScore -= (daysBetween - batch.getMaxGapBetweenResidenciesInDays());
                                 constraintsBroken.add(entry.getKey().getName() + " >>> #14. Check max gap between 2 residencies " +
-                                         " - " + prevResidencyDate + "  > " + dateTimeSlot.getDate() + " : " + daysBetween);
+                                        " - " + prevResidencyDate + "  > " + dateTimeSlot.getDate() + " : " + daysBetween);
                             }
                         }
                     }
@@ -162,7 +161,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
         for (Map.Entry<DateTimeSlot, Map<String, Set<String>>> entry : courseDateTimeSlotMap.entrySet()) {
             for (Map.Entry<String, Set<String>> setEntry : entry.getValue().entrySet()) {
                 if (setEntry.getValue().size() > 1) {
-                    hardScore -= 2*setEntry.getValue().size();
+                    hardScore -= 2 * setEntry.getValue().size();
                     constraintsBroken.add("#3. #conflicting courses for batch " + entry.getKey() + " ; " + setEntry);
                 }
             }
@@ -230,7 +229,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                 if (setEntry.getValue().size() > setEntry.getKey().getRooms()) {
                     hardScore -= (setEntry.getValue().size() - setEntry.getKey().getRooms());
                     constraintsBroken.add("#6. No. of residencies in a location on same day should not exceed number of rooms. " + entry.getKey()
-                            + ">>" + setEntry.getKey() + ">>>"+ setEntry.getValue());
+                            + ">>" + setEntry.getKey() + ">>>" + setEntry.getValue());
                 }
             }
         }
@@ -340,9 +339,26 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                  * #16.A faculty should not be teaching both slots in a day for same batch
                  */
                 if (preDateTimeSlot.getDate().equals(currDateTimeSlot.getDate())) {
-                    if (entrySet.get(i).getValue().getName().equals(entrySet.get(i - 1).getValue().getName())) {
+                    List<CourseSchedule> schedules = calendar.get(preDateTimeSlot);
+                    boolean skip = false;
+                    if (schedules != null) {
+                        skip = isTeachingCapstone(schedules);
+                        if (!skip) {
+                            schedules = calendar.get(currDateTimeSlot);
+                            if (schedules != null) {
+                                skip = isTeachingCapstone(schedules);
+                            }
+                        }
+                    } else {
+                        schedules = calendar.get(currDateTimeSlot);
+                        if (schedules != null) {
+                            skip = isTeachingCapstone(schedules);
+                        }
+                    }
+                    if (!skip && entrySet.get(i).getValue().getName().equals(entrySet.get(i - 1).getValue().getName())) {
                         hardScore--;
-                        constraintsBroken.add("#16.A faculty should not be teaching both slots in a day for same batch " + entry.getKey() + ">>" + entrySet);
+                        constraintsBroken.add("#16.A faculty should not be teaching both slots in a day for same batch " +
+                                entry.getKey() + ">>" + preDateTimeSlot + " | " + currDateTimeSlot);
                     }
                 }
             }
@@ -350,14 +366,22 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
 
         solution.setConstraintsBroken(constraintsBroken);
 
-//        long endTime = System.currentTimeMillis();
-//
-//        System.out.println("GLCalendarScoreCalculator Time Taken " + (endTime - startTime) + " ms");
 
         if (counter.incrementAndGet() % 100000 == 0) {
             System.out.println("GLCalendarScoreCalculator " + counter.get());
         }
         return HardMediumSoftScore.valueOf(hardScore, mediumScore, softScore);
+    }
+
+    private boolean isTeachingCapstone(List<CourseSchedule> schedules) {
+        boolean skip = false;
+        for (CourseSchedule courseSchedule : schedules) {
+            if ("DVT".equals(courseSchedule.getName()) || "Capstone".equals(courseSchedule.getName())) {
+                skip = true;
+                break;
+            }
+        }
+        return skip;
     }
 
     private int checkMonthlyResidencyDays(int hardScore, List<String> constraintsBroken, Map.Entry<Batch, Map<DateTimeSlot, Set<String>>> entry, List<Integer> monthlyResidencyDays, List<List<LocalDate>> residencies, List<LocalDate> localDateList) {
@@ -382,7 +406,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             residencies.add(residency);
         }
 
-        for (int i = 0; i < residencies.size()-1; i++) {
+        for (int i = 0; i < residencies.size() - 1; i++) {
             int idx = i;
             int actualDays = residencies.get(idx).size();
             if (idx >= monthlyResidencyDays.size()) {
@@ -394,8 +418,8 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
             }
             if (expectedDays != actualDays) {
                 hardScore--;
-                constraintsBroken.add((entry.getKey().getName()) +" >>>  should follow monthly residency dates  >>> " +
-                         " expected :" + expectedDays + " - actual : " + actualDays +" >>>> scheduled dates - " + residencies.get(i));
+                constraintsBroken.add((entry.getKey().getName()) + " >>>  should follow monthly residency dates  >>> " +
+                        " expected :" + expectedDays + " - actual : " + actualDays + " >>>> scheduled dates - " + residencies.get(i));
             }
         }
         return hardScore;
@@ -421,8 +445,8 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                         violations++;
                         brokenDays.add(dateTimeSlot.getDate());
                     }
-                }else{
-                    if(!(prevDateTimeSlot.getTimeSlot().equals(TimeSlot.MORNING) && dateTimeSlot.getTimeSlot().equals(TimeSlot.AFTERNOON))){
+                } else {
+                    if (!(prevDateTimeSlot.getTimeSlot().equals(TimeSlot.MORNING) && dateTimeSlot.getTimeSlot().equals(TimeSlot.AFTERNOON))) {
                         brokenDays.add(dateTimeSlot.getDate());
                     }
                 }

@@ -47,7 +47,7 @@ public class CourseDateTimeSlotsGenerator {
         List<Integer> gaps = Arrays.asList(0);
         for (Integer gap : gaps) {
             List<DateTimeSlots> dateTimeSlots = new ArrayList<>();
-            int stringLength = course.getSlotsNum() + gap;
+            int stringLength = course.getSlots().size() + gap;
             for (int startIdx = 0; startIdx < flattenedResidencyDates.size() - stringLength; startIdx++) {
 //                List<LocalDate> subDates = flattenedResidencyDates.subList(startIdx, startIdx + stringLength);
 
@@ -62,6 +62,31 @@ public class CourseDateTimeSlotsGenerator {
                     }
                 }
             }
+            int eightHrsSlot = -1;
+
+            for (int i = 0; i < course.getSlots().size(); i++) {
+                Map.Entry<String, Integer> slot = course.getSlots().get(i);
+                if (slot.getValue() == 8) {
+                    eightHrsSlot = i;
+                }
+            }
+
+            if (eightHrsSlot != -1) {
+                for (DateTimeSlots dateTimeSlots1 : dateTimeSlots) {
+                    List<DateTimeSlot> dateTimeSlotList = dateTimeSlots1.getDateTimeSlots();
+                    DateTimeSlot dateTimeSlot = new DateTimeSlot();
+                    dateTimeSlot.setDate(dateTimeSlotList.get(eightHrsSlot).getDate());
+
+                    if(dateTimeSlotList.get(eightHrsSlot).getTimeSlot().equals(TimeSlot.AFTERNOON)){
+                        dateTimeSlot.setTimeSlot(TimeSlot.MORNING);
+                        dateTimeSlotList.add(eightHrsSlot, dateTimeSlot);
+                    }else{
+                        dateTimeSlot.setTimeSlot(TimeSlot.AFTERNOON);
+                        dateTimeSlotList.add(eightHrsSlot+1, dateTimeSlot);
+                    }
+                }
+            }
+
             dateTimeSlotsList.addAll(dateTimeSlots);
         }
         dateTimeSlotsList = new ArrayList<>(new LinkedHashSet<>(dateTimeSlotsList));

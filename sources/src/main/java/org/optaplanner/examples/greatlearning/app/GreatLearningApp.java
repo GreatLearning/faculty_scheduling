@@ -167,9 +167,15 @@ public class GreatLearningApp {
             Map.Entry<String, JsonNode> entry = courseIterator.next();
             String courseName = entry.getKey();
             int duration = entry.getValue().get("duration").asInt(); //slotNum = duration/4
+            ArrayNode slotsNode = (ArrayNode) entry.getValue().get("slots");
+            List<Map.Entry<String, Integer>> slots = new ArrayList<>();
+            for(int i = 0;i<slotsNode.size();i++){
+                slots.add(new AbstractMap.SimpleEntry<>(slotsNode.get(i).get("name").asText(), slotsNode.get(i).get("duration").asInt()));
+            }
             Course course = new Course();
             course.setName(courseName);
             course.setSlotsNum(duration / 4);
+            course.setSlots(slots);
 
             courseMap.put(courseName, course);
         }
@@ -343,28 +349,14 @@ public class GreatLearningApp {
             }
         }
 
+        if(courseIdx == (maxCourses -1)){
+            delayInMonths = 1;
+        }
+
         List<DateTimeSlot> startSlots = dateTimeSlotsList.get(0).getDateTimeSlots();
         List<DateTimeSlot> endSlots = dateTimeSlotsList.get(dateTimeSlotsList.size() - 1).getDateTimeSlots();
         LocalDate startDate = startSlots.get(0).getDate();
         LocalDate endDate = endSlots.get(endSlots.size() - 1).getDate();
-
-//        if (!batch.getName().equals("PGPBABI Chennai Jan17")) {
-//            int startIdx = 0;
-//            int endIdx = dateTimeSlotsList.size();
-//            LocalDate possibleStartMonth = startDate.plusMonths((courseIdx == 0 ? courseIdx : courseIdx - 1) / 2);
-//            LocalDate possibleEndMonth = possibleStartMonth.plusMonths(4);
-//            for (int i = 0; i < dateTimeSlotsList.size(); i++) {
-//                DateTimeSlots dateTimeSlots = dateTimeSlotsList.get(i);
-//                List<DateTimeSlot> dateTimeSlotList = dateTimeSlots.getDateTimeSlots();
-//                if (startIdx == 0 && dateTimeSlotList.get(0).getDate().compareTo(possibleStartMonth) > 0) {
-//                    startIdx = i;
-//                }
-//                if (endIdx == dateTimeSlotsList.size() && dateTimeSlotList.get(0).getDate().compareTo(possibleEndMonth) > 0) {
-//                    endIdx = i;
-//                }
-//            }
-//            return dateTimeSlotsList.subList(startIdx == 0 ? startIdx : startIdx - 1, endIdx != dateTimeSlotsList.size() ? endIdx : dateTimeSlotsList.size());
-//        }
 
         LocalDate tillDate = null;
 
@@ -379,6 +371,8 @@ public class GreatLearningApp {
                 tillDate = startDate;
             }
         }
+
+        tillDate = LocalDate.of(tillDate.getYear(), tillDate.getMonth(), 1); //Start of month : dude let see what happen
 
         int idx = 0;
 
@@ -399,7 +393,7 @@ public class GreatLearningApp {
         if (add) {
             return dateTimeSlotsList.subList(0, idx > 0 ? idx + 1 : dateTimeSlotsList.size());
         } else {
-            return dateTimeSlotsList.subList(idx > 0 ? idx - 1 : 0, dateTimeSlotsList.size());
+            return dateTimeSlotsList.subList(idx > 0 ? idx : 0, dateTimeSlotsList.size());
         }
     }
 

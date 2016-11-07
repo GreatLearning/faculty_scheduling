@@ -1,6 +1,7 @@
 package org.optaplanner.examples.greatlearning.domain;
 
 import java.util.List;
+import java.util.Map;
 
 public class Course {
     private String name;
@@ -9,6 +10,8 @@ public class Course {
      * Course slots
      */
     private int slotsNum;
+
+    private List<Map.Entry<String, Integer>> slots;
 
     public String getName() {
         return name;
@@ -62,5 +65,13 @@ public class Course {
         result = 31 * result + (teachers != null ? teachers.hashCode() : 0);
         result = 31 * result + slotsNum;
         return result;
+    }
+
+    public List<Map.Entry<String, Integer>> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(List<Map.Entry<String, Integer>> slots) {
+        this.slots = slots;
     }
 }
