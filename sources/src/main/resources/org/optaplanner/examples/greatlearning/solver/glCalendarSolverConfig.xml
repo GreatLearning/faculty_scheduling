@@ -26,7 +26,7 @@
             <lateAcceptanceSize>50</lateAcceptanceSize>
         </acceptor>
         <forager>
-            <acceptedCountLimit>3500</acceptedCountLimit>
+            <acceptedCountLimit>1500</acceptedCountLimit>
             <pickEarlyType>FIRST_LAST_STEP_SCORE_IMPROVING</pickEarlyType>
         </forager>
     </localSearch>

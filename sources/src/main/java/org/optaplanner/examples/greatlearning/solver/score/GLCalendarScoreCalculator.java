@@ -204,19 +204,23 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                     constraintsBroken.add("#5. A faculty should not be teaching more than 1 location on same day " + setEntry.getKey().getName());
                 }
 
-                Set<LocalDate> holidays = setEntry.getKey().getHolidays();
-                if (holidays != null && setEntry.getKey().getHolidays().contains(entry.getKey())) {
-                    hardScore--;
-                    constraintsBroken.add("#8. Faculty unavailable days (on leave )");
+                if(setEntry.getKey() != null) {
+                    Set<LocalDate> holidays = setEntry.getKey().getHolidays();
+                    if (holidays != null && setEntry.getKey().getHolidays().contains(entry.getKey())) {
+                        hardScore--;
+                        constraintsBroken.add("#8. Faculty unavailable days (on leave ) "  +setEntry.getKey().getName());
+                    }
                 }
-                Set<String> availableLocations = setEntry.getKey().getAvailableLocations();
-                if (availableLocations == null) {
-                    availableLocations = new HashSet<>();
-                }
-                Collection allLocations = CollectionUtils.union(locations, availableLocations);
-                if (allLocations.size() > availableLocations.size()) {
-                    hardScore -= allLocations.size() - availableLocations.size();
-                    constraintsBroken.add("#10. Faculty restricted location");
+                if(setEntry.getKey() != null) {
+                    Set<String> availableLocations = setEntry.getKey().getAvailableLocations();
+                    if (availableLocations == null) {
+                        availableLocations = new HashSet<>();
+                    }
+                    Collection allLocations = CollectionUtils.union(locations, availableLocations);
+                    if (allLocations.size() > availableLocations.size()) {
+                        hardScore -= allLocations.size() - availableLocations.size();
+                        constraintsBroken.add("#10. Faculty restricted location " + setEntry.getKey().getName());
+                    }
                 }
             }
         }
@@ -249,9 +253,6 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
          * #1. Max inflight course violations
          * #13.No more than 1 free slot in a residency
          */
-        int violations = 0;
-        DateTimeSlot lastDateTimeSlot = null;
-
         for (Map.Entry<DateTimeSlot, List<CourseSchedule>> entry : calendar.entrySet()) {
             List<CourseSchedule> scheduleList = entry.getValue();
             for (CourseSchedule schedule : scheduleList) {
@@ -288,25 +289,6 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                 }
                 batchInflightMap.put(batch, inflightViolation);
             }
-//            if (lastDateTimeSlot == null) {
-//                lastDateTimeSlot = entry.getKey();
-//            } else {
-//                DateTimeSlot currDateTimeSlot = entry.getKey();
-//                long days = ChronoUnit.DAYS.between(lastDateTimeSlot.getDate(), currDateTimeSlot.getDate());
-//                if (days <= 1) {
-//                    if (lastDateTimeSlot.getTimeSlot() == TimeSlot.AFTERNOON && currDateTimeSlot.getTimeSlot() == TimeSlot.AFTERNOON ||
-//                            lastDateTimeSlot.getTimeSlot() == TimeSlot.MORNING && currDateTimeSlot.getTimeSlot() == TimeSlot.MORNING ||
-//                            lastDateTimeSlot.getTimeSlot() == TimeSlot.MORNING && currDateTimeSlot.getTimeSlot() == TimeSlot.AFTERNOON) {
-//                        violations++;
-//                    }
-//                    if (violations > 1) {
-//                        hardScore--;
-//                        constraintsBroken.add("#13.No more than 1 free slot in a residency");
-//                    }
-//                } else {
-//                    violations = 0;
-//                }
-//            }
         }
         for (Map.Entry<Batch, Integer> entry : batchInflightMap.entrySet()) {
             if (entry.getValue() > 0) {
@@ -365,7 +347,6 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
         }
 
         solution.setConstraintsBroken(constraintsBroken);
-
 
         if (counter.incrementAndGet() % 100000 == 0) {
             System.out.println("GLCalendarScoreCalculator " + counter.get());
@@ -426,31 +407,25 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
     }
 
     private int checkContinousSlots(int softScore, List<String> constraintsBroken, Map.Entry<Batch, Map<DateTimeSlot, Set<String>>> entry, List<DateTimeSlot> dateTimeSlotList) {
-        DateTimeSlot prevDateTimeSlot = null;
         int violations = 0;
         /**
          * 20. Both slot should be filled per day.
          */
         List<LocalDate> brokenDays = new ArrayList<>();
+        Map<LocalDate, Set<TimeSlot>> localDateSetMap = new HashMap<>();
+
         for (DateTimeSlot dateTimeSlot : dateTimeSlotList) {
-            if (prevDateTimeSlot == null) {
-                prevDateTimeSlot = dateTimeSlot;
-                if (!prevDateTimeSlot.getTimeSlot().equals(TimeSlot.MORNING)) {
-                    violations++;
-                    brokenDays.add(dateTimeSlot.getDate());
-                }
-            } else {
-                if (!prevDateTimeSlot.equals(dateTimeSlot)) {
-                    if (!(prevDateTimeSlot.getTimeSlot().equals(TimeSlot.AFTERNOON) && dateTimeSlot.getTimeSlot().equals(TimeSlot.MORNING))) {
-                        violations++;
-                        brokenDays.add(dateTimeSlot.getDate());
-                    }
-                } else {
-                    if (!(prevDateTimeSlot.getTimeSlot().equals(TimeSlot.MORNING) && dateTimeSlot.getTimeSlot().equals(TimeSlot.AFTERNOON))) {
-                        brokenDays.add(dateTimeSlot.getDate());
-                    }
-                }
-                prevDateTimeSlot = dateTimeSlot;
+            Set<TimeSlot> timeSlotSet = localDateSetMap.get(dateTimeSlot.getDate());
+            if (timeSlotSet == null) {
+                timeSlotSet = new HashSet<>();
+            }
+            timeSlotSet.add(dateTimeSlot.getTimeSlot());
+            localDateSetMap.put(dateTimeSlot.getDate(), timeSlotSet);
+        }
+        for (Map.Entry<LocalDate, Set<TimeSlot>> localDateSetEntry : localDateSetMap.entrySet()) {
+            if (localDateSetEntry.getValue().size() < 2) {
+                brokenDays.add(localDateSetEntry.getKey());
+                violations++;
             }
         }
         if (violations > 1) {
@@ -549,6 +524,10 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
         DateTimeSlots dateTimeSlots = getDateTimeSlots(courseSchedule);
         for (DateTimeSlot dateTimeSlot : dateTimeSlots.getDateTimeSlots()) {
             String batchName = courseSchedule.getBatch().getName();
+            Teacher teacher = courseSchedule.getTeacher();
+            if(teacher == null){
+                continue;
+            }
             String teacherName = courseSchedule.getTeacher().getName();
             Map<String, Set<String>> map = teacherDateTimeSlotMap.get(dateTimeSlot);
             if (map == null) {

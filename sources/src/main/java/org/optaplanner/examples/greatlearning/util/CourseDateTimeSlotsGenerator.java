@@ -1,5 +1,6 @@
 package org.optaplanner.examples.greatlearning.util;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.optaplanner.examples.greatlearning.domain.*;
 
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public class CourseDateTimeSlotsGenerator {
             flattenedResidencyDates.addAll(residencyDates);
         }
         flattenedResidencyDates = new ArrayList<>(new LinkedHashSet<>(flattenedResidencyDates));
-        flattenedResidencyDates.sort(LocalDate::compareTo);
+        //flattenedResidencyDates.sort(LocalDate::compareTo);
 
         List<List<LocalDate>> residencies = new ArrayList<>();
         LocalDate prevDate = null;
@@ -45,6 +46,13 @@ public class CourseDateTimeSlotsGenerator {
          * Generate slots with gap of {0,1,2}
          */
         List<Integer> gaps = Arrays.asList(0, 1, 2); //the more gaps, the possibilities of calendar
+        if (course.getSlots().size() <= 2) {
+            gaps = Arrays.asList(0);
+        } else if (course.getSlots().size() <= 3) {
+            gaps = Arrays.asList(0, 1);
+        } else {
+            gaps = Arrays.asList(1, 2);
+        }
         for (Integer gap : gaps) {
             List<DateTimeSlots> dateTimeSlots = new ArrayList<>();
             int stringLength = course.getSlots().size() + gap;
@@ -77,12 +85,12 @@ public class CourseDateTimeSlotsGenerator {
                     DateTimeSlot dateTimeSlot = new DateTimeSlot();
                     dateTimeSlot.setDate(dateTimeSlotList.get(eightHrsSlot).getDate());
 
-                    if(dateTimeSlotList.get(eightHrsSlot).getTimeSlot().equals(TimeSlot.AFTERNOON)){
+                    if (dateTimeSlotList.get(eightHrsSlot).getTimeSlot().equals(TimeSlot.AFTERNOON)) {
                         dateTimeSlot.setTimeSlot(TimeSlot.MORNING);
                         dateTimeSlotList.add(eightHrsSlot, dateTimeSlot);
-                    }else{
+                    } else {
                         dateTimeSlot.setTimeSlot(TimeSlot.AFTERNOON);
-                        dateTimeSlotList.add(eightHrsSlot+1, dateTimeSlot);
+                        dateTimeSlotList.add(eightHrsSlot + 1, dateTimeSlot);
                     }
                 }
             }
@@ -90,13 +98,25 @@ public class CourseDateTimeSlotsGenerator {
             dateTimeSlotsList.addAll(dateTimeSlots);
         }
         dateTimeSlotsList = new ArrayList<>(new LinkedHashSet<>(dateTimeSlotsList));
+        /**
+         * sorting individual dates
+         */
+        for (DateTimeSlots dateTimeSlots : dateTimeSlotsList) {
+            Collections.sort(dateTimeSlots.getDateTimeSlots());
+        }
+
         Collections.sort(dateTimeSlotsList, new Comparator<DateTimeSlots>() {
             @Override
             public int compare(DateTimeSlots o1, DateTimeSlots o2) {
                 List<DateTimeSlot> dateTimeSlots1 = o1.getDateTimeSlots();
                 List<DateTimeSlot> dateTimeSlots2 = o2.getDateTimeSlots();
 
-                return dateTimeSlots1.get(0).compareTo(dateTimeSlots2.get(0));
+                CompareToBuilder builder =  new CompareToBuilder();
+                for(int i=0;i<dateTimeSlots1.size();i++){
+                    builder.append(dateTimeSlots1.get(i), dateTimeSlots2.get(i));
+                }
+                return builder.toComparison();
+                //return dateTimeSlots1.get(0).compareTo(dateTimeSlots2.get(0));
             }
         });
         return dateTimeSlotsList;

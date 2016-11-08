@@ -46,7 +46,7 @@ public class GreatLearningApp {
         GLCalendar glCalendar = new GLCalendar();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        InputStream resourceAsStream = GreatLearningApp.class.getResourceAsStream("/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v13.json");
+        InputStream resourceAsStream = GreatLearningApp.class.getResourceAsStream("/org/optaplanner/examples/greatlearning/faculty_scheduling_input_Saba_v17.json");
         String testData = IOUtils.toString(resourceAsStream, "UTF-8");
         JsonNode jsonNode = objectMapper.readTree(testData);
         JsonNode programs = jsonNode.get("programs");
@@ -304,15 +304,15 @@ public class GreatLearningApp {
                         dateTimeSlotsList = dateTimeSlotsList.subList(0, idx > 0 ? idx : dateTimeSlotsList.size());
 
                     } else {
-                        if (Arrays.asList("PGPBABI Chennai Jan17").contains(batch.getName()) || "Capstone".equals(course.getName())) {
-                            dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.get(course.getName()), courseIndices.size(), batch);
-                        } else {
+//                        if ("Capstone".equals(course.getName())) {
+//                            dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.get(course.getName()), courseIndices.size(), batch);
+//                        } else {
                             dateTimeSlotsList = trimDateSlots(dateTimeSlotsList, course, batch, courses, courseMap);
-                        }
+                        //}
                     }
 
                     courseSchedule.setDateTimeSlotsList(dateTimeSlotsList);
-                    courseSchedule.setSlotsNum(course.getSlotsNum());
+                    courseSchedule.setSlotsNum(course.getSlots().size());
                     courseScheduleList.add(courseSchedule);
                 }
             }
@@ -320,6 +320,7 @@ public class GreatLearningApp {
         glCalendar.setCourseScheduleList(courseScheduleList);
         return glCalendar;
     }
+
 
     private static List<DateTimeSlots> trimDateSlots(List<DateTimeSlots> dateTimeSlotsList, Course course, Batch batch, List<Course> courses, Map<String, Course> courseMap) {
         LocalDate startDateBatch = batch.getStartDate();
@@ -343,13 +344,13 @@ public class GreatLearningApp {
         }
 
         int divider = 5;
-        if("PGPM-Ex Gurgaon Jan17".equals(batch.getName()) || "PGPM-Ex Bangalore Jan17".equals(batch.getName())){
+        if (batch.getName().startsWith("PGPM-Ex")) {
             divider = 4;
         }
         int idx = myCount / divider;
 
         LocalDate pLocalDate = startLocalDateIndices.get(idx);
-        LocalDate ppLocalDate = pLocalDate.minusMonths(1);
+        LocalDate ppLocalDate = pLocalDate.minusMonths(2);
         ppLocalDate = LocalDate.of(ppLocalDate.getYear(), ppLocalDate.getMonth(), 1);
         LocalDate apLocalDate = pLocalDate.plusMonths(2);
         apLocalDate = LocalDate.of(apLocalDate.getYear(), apLocalDate.getMonth(), 28);
@@ -368,70 +369,6 @@ public class GreatLearningApp {
             }
         }
         return dateTimeSlotsList.subList(startIdx == 0 ? startIdx : startIdx, endIdx == dateTimeSlotsList.size() ? endIdx : endIdx+1);
-    }
-
-    private static List<DateTimeSlots> filter(List<DateTimeSlots> dateTimeSlotsList, int courseIdx, int maxCourses, Batch batch) {
-        int delayInMonths = 0;
-        boolean add = true;
-        if (courseIdx + 2 > 12) {
-            delayInMonths = (maxCourses - 1 - courseIdx + 2);
-            if (delayInMonths > 10) {
-                delayInMonths -= 4;
-            }
-            add = false;
-        } else {
-            delayInMonths = courseIdx + 2;
-            if (delayInMonths > 8) {
-                delayInMonths -= 2;
-            }
-        }
-
-        if (courseIdx == (maxCourses - 1)) {
-            delayInMonths = 1;
-        }
-
-        List<DateTimeSlot> startSlots = dateTimeSlotsList.get(0).getDateTimeSlots();
-        List<DateTimeSlot> endSlots = dateTimeSlotsList.get(dateTimeSlotsList.size() - 1).getDateTimeSlots();
-        LocalDate startDate = startSlots.get(0).getDate();
-        LocalDate endDate = endSlots.get(endSlots.size() - 1).getDate();
-
-        LocalDate tillDate = null;
-
-        if (add) {
-            tillDate = startDate.plusMonths(delayInMonths);
-            if (tillDate.compareTo(endDate) > 0) {
-                tillDate = endDate;
-            }
-        } else {
-            tillDate = endDate.minusMonths(delayInMonths);
-            if (tillDate.compareTo(startDate) < 0) {
-                tillDate = startDate;
-            }
-        }
-
-        tillDate = LocalDate.of(tillDate.getYear(), tillDate.getMonth(), 1); //Start of month : dude let see what happen
-
-        int idx = 0;
-
-        for (int i = 0; i < dateTimeSlotsList.size(); i++) {
-            DateTimeSlots dateTimeSlots = dateTimeSlotsList.get(i);
-            List<DateTimeSlot> dateTimeSlotList = dateTimeSlots.getDateTimeSlots();
-
-            if (add && dateTimeSlotList.get(0).getDate().compareTo(tillDate) > 0) {
-                idx = i;
-                break;
-            }
-            if (!add && dateTimeSlotList.get(0).getDate().compareTo(tillDate) > 0) {
-                idx = i;
-                break;
-            }
-        }
-
-        if (add) {
-            return dateTimeSlotsList.subList(0, idx > 0 ? idx + 1 : dateTimeSlotsList.size());
-        } else {
-            return dateTimeSlotsList.subList(idx > 0 ? idx : 0, dateTimeSlotsList.size());
-        }
     }
 
     private static void displayCalendar(GLCalendar glCalendar) {
@@ -463,6 +400,8 @@ public class GreatLearningApp {
                 localDateIntegerEntry = new AbstractMap.SimpleEntry<>(entry.getKey().getDate(), preCount);
 
                 System.out.print("R-" + (preCount + 1));
+                System.out.print("\t");
+                System.out.print(schedule.getBatch().getLocation().getName());
 
                 residencyCounterTracker.put(schedule.getBatch(), localDateIntegerEntry);
 

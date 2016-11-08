@@ -43,7 +43,7 @@ public class Batch {
     private List<List<LocalDate>> generatePossibleResidencyDates() {
         List<List<LocalDate>> possibleResidencyDates = new ArrayList<>();
 
-        LocalDate nextYearEndDate = startDate.plusYears(1).plusMonths(1);
+        LocalDate nextYearEndDate = startDate.plusYears(1);
 
         Map<Integer, Map<Month, Integer>> yearMapMap = buildExpectedMonthlyDaysMap();
 
@@ -81,7 +81,7 @@ public class Batch {
                         int year = currentDates.get(0).getYear();
                         Month month = currentDates.get(0).getMonth();
 
-                        if(yearMapMap.get(year).get(month) == currentDates.size()){
+                        if(yearMapMap.get(year).get(month) == currentDates.size() && currentDates.get(0).getMonth().equals(currentDates.get(currentDates.size()-1).getMonth())){
                             workingResidencyDates.add(currentDates);
                         }
                     } else if (lastWeekHolidays && currentDates.size() > 0) {
@@ -107,53 +107,21 @@ public class Batch {
             }
         }
 
-//        possibleResidencyDates = filter(possibleResidencyDates);
+        for (List<LocalDate> dateTimeSlots : possibleResidencyDates) {
+            Collections.sort(dateTimeSlots);
+        }
+
+        Collections.sort(possibleResidencyDates, new Comparator<List<LocalDate>>() {
+            @Override
+            public int compare(List<LocalDate> o1, List<LocalDate> o2) {
+
+                return o1.get(0).compareTo(o2.get(0));
+            }
+        });
 
         return possibleResidencyDates;
     }
 
-    private List<List<LocalDate>> filter(List<List<LocalDate>> possibleResidencyDates) {
-        List<List<LocalDate>> toReturn = new ArrayList<>();
-        Map<Integer, Map<Month, List<List<LocalDate>>>> grouped = new LinkedHashMap<>();
-
-        for (List<LocalDate> localDateList : possibleResidencyDates) {
-            Month currMonth = localDateList.get(0).getMonth();
-            Integer year = localDateList.get(0).getYear();
-
-            Map<Month, List<List<LocalDate>>> monthListMap = grouped.get(year);
-
-            if (monthListMap == null) {
-                monthListMap = new LinkedHashMap<>();
-            }
-
-            List<List<LocalDate>> lists = monthListMap.get(currMonth);
-            if (lists == null) {
-                lists = new ArrayList<>();
-            }
-            lists.add(localDateList);
-            monthListMap.put(currMonth, lists);
-
-            grouped.put(year, monthListMap);
-        }
-
-        Map<Integer, Map<Month, Integer>> yearMapMap = buildExpectedMonthlyDaysMap();
-
-        for (Map.Entry<Integer, Map<Month, List<List<LocalDate>>>> entry : grouped.entrySet()) {
-            int year = entry.getKey();
-            Map<Month, List<List<LocalDate>>> monthListMap = entry.getValue();
-            for (Map.Entry<Month, List<List<LocalDate>>> monthListEntry : monthListMap.entrySet()) {
-
-                int expected = yearMapMap.get(year).get(monthListEntry.getKey());
-                for (List<LocalDate> localDates : monthListEntry.getValue()) {
-                    if (expected == localDates.size()) {
-                        toReturn.add(localDates);
-                    }
-                }
-            }
-        }
-
-        return toReturn;
-    }
 
     private Map<Integer, Map<Month, Integer>> buildExpectedMonthlyDaysMap() {
         LocalDate yearTracker = LocalDate.of(startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth());
