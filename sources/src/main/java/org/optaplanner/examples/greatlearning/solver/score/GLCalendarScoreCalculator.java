@@ -208,7 +208,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                     Set<LocalDate> holidays = setEntry.getKey().getHolidays();
                     if (holidays != null && setEntry.getKey().getHolidays().contains(entry.getKey())) {
                         hardScore--;
-                        constraintsBroken.add("#8. Faculty unavailable days (on leave ) "  +setEntry.getKey().getName());
+                        constraintsBroken.add("#8. Faculty unavailable days (on leave ) "  +setEntry.getKey().getName() + " : " + entry.getKey());
                     }
                 }
                 if(setEntry.getKey() != null) {
@@ -398,7 +398,7 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
                 expectedDays = monthlyResidencyDays.get(idx + 1);
             }
             if (expectedDays != actualDays) {
-                hardScore--;
+                hardScore -= Math.abs(expectedDays - actualDays);
                 constraintsBroken.add((entry.getKey().getName()) + " >>>  should follow monthly residency dates  >>> " +
                         " expected :" + expectedDays + " - actual : " + actualDays + " >>>> scheduled dates - " + residencies.get(i));
             }

@@ -42,6 +42,7 @@ public class CourseDateTimeSlotsGenerator {
             }
         }
 
+        residencies.add(residency);
         /**
          * Generate slots with gap of {0,1,2}
          */
@@ -57,10 +58,22 @@ public class CourseDateTimeSlotsGenerator {
             List<DateTimeSlots> dateTimeSlots = new ArrayList<>();
             int stringLength = course.getSlots().size() + gap;
             for (int startIdx = 0; startIdx < flattenedResidencyDates.size() - stringLength; startIdx++) {
-//                List<LocalDate> subDates = flattenedResidencyDates.subList(startIdx, startIdx + stringLength);
 
                 List<LocalDate> workingDates = flattenedResidencyDates.subList(startIdx, flattenedResidencyDates.size());
                 List<List<LocalDate>> eligibleResidencies = getEligibleDates(workingDates, residencies, stringLength, batch);
+
+                //Checker
+                List<List<LocalDate>> toDelete = new ArrayList<>();
+
+                for(List<LocalDate> localDateList : eligibleResidencies){
+                    Set<LocalDate> set = new HashSet<>(localDateList);
+                    if(set.size() != localDateList.size()){
+                        toDelete.add(localDateList);
+                    }
+                }
+                for(List<LocalDate> localDateList : toDelete){
+                    eligibleResidencies.remove(localDateList);
+                }
 
                 for (List<LocalDate> residencyDates : eligibleResidencies) {
                     if (gap == 0) {
@@ -193,7 +206,9 @@ public class CourseDateTimeSlotsGenerator {
                  */
                 List<LocalDate> secWorkingDates = new ArrayList<>();
                 for (LocalDate localDate : residency) {
-                    secWorkingDates.add(localDate);
+                    if(!eligibleDates.contains(localDate)){
+                        secWorkingDates.add(localDate);
+                    }
                     if (secWorkingDates.size() >= limit - eligibleDates.size()) {
                         List<LocalDate> toPut1 = new ArrayList<>();
                         toPut1.addAll(eligibleDates);
@@ -232,7 +247,9 @@ public class CourseDateTimeSlotsGenerator {
                          */
                         List<LocalDate> secWorkingDates = new ArrayList<>();
                         for (LocalDate localDate : residency) {
-                            secWorkingDates.add(localDate);
+                            if(!workingDatesCopy.contains(localDate)){
+                                secWorkingDates.add(localDate);
+                            }
                             if (secWorkingDates.size() + workingDatesCopy.size() >= limit - eligibleDates.size()) {
                                 List<LocalDate> toPut1 = new ArrayList<>();
                                 toPut1.addAll(eligibleDates);
@@ -328,6 +345,8 @@ public class CourseDateTimeSlotsGenerator {
             }
             DateTimeSlots dateTimeSlots = new DateTimeSlots();
             dateTimeSlots.setDateTimeSlots(slots);
+
+            //checker
 
             dateTimeSlotsList.add(dateTimeSlots);
         }

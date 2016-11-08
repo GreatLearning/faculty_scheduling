@@ -318,6 +318,12 @@ public class GreatLearningApp {
             }
         }
         glCalendar.setCourseScheduleList(courseScheduleList);
+        long count = 0;
+        for(CourseSchedule schedule : courseScheduleList){
+            count += (schedule.getTeacherList().size() * schedule.getDateTimeSlotsList().size());
+        }
+        System.out.println(count);
+
         return glCalendar;
     }
 
@@ -346,14 +352,19 @@ public class GreatLearningApp {
         int divider = 5;
         if (batch.getName().startsWith("PGPM-Ex")) {
             divider = 4;
+        } else if (batch.getName().equals("PGPBABI Chennai Jan17")) {
+            divider = 10;
         }
         int idx = myCount / divider;
+        if(batch.getName().equals("PGPBABI Chennai Jan17")){
+            idx *= 2; //Since chennai has got 5,0 residencies days, to handle missing residency days
+        }
 
         LocalDate pLocalDate = startLocalDateIndices.get(idx);
         LocalDate ppLocalDate = pLocalDate.minusMonths(2);
         ppLocalDate = LocalDate.of(ppLocalDate.getYear(), ppLocalDate.getMonth(), 1);
-        LocalDate apLocalDate = pLocalDate.plusMonths(2);
-        apLocalDate = LocalDate.of(apLocalDate.getYear(), apLocalDate.getMonth(), 28);
+        LocalDate apLocalDate = pLocalDate.plusMonths(3);
+        apLocalDate = LocalDate.of(apLocalDate.getYear(), apLocalDate.getMonth(), 1);
 
         int startIdx = 0;
         int endIdx = dateTimeSlotsList.size();

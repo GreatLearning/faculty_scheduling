@@ -43,7 +43,7 @@ public class Batch {
     private List<List<LocalDate>> generatePossibleResidencyDates() {
         List<List<LocalDate>> possibleResidencyDates = new ArrayList<>();
 
-        LocalDate nextYearEndDate = startDate.plusYears(1);
+        LocalDate nextYearEndDate = startDate.plusYears(1).plusMonths(1);
 
         Map<Integer, Map<Month, Integer>> yearMapMap = buildExpectedMonthlyDaysMap();
 
