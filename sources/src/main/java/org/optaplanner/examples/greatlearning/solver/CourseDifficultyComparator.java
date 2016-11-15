@@ -15,6 +15,10 @@ public class CourseDifficultyComparator implements Comparator<CourseSchedule>, S
         long t1 = o1.getBatch().getStartDate().getLong(EPOCH_DAY);
         Integer o2Order = o2.getBatch().getProgram().getCourseIndices().get(o2.getName());
         long t2 = o2.getBatch().getStartDate().getLong(EPOCH_DAY);
+
+//        LocalDate o1Start = o1.getDateTimeSlotsList().get(0).getDateTimeSlots().get(0).getDate();
+//        LocalDate o2Start = o2.getDateTimeSlotsList().get(0).getDateTimeSlots().get(0).getDate();
+
         return new CompareToBuilder()
                 .append(t2+30*o2Order, t1+30*o1Order)
 //                .append(t2, t1)

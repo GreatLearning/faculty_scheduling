@@ -15,9 +15,12 @@ import static java.time.temporal.ChronoField.EPOCH_DAY;
 
 public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar> {
     private static AtomicLong counter = new AtomicLong(0);
+    private static AtomicLong timer = new AtomicLong(0);
 
     @Override
     public HardMediumSoftScore calculateScore(GLCalendar solution) {
+
+        long start = System.currentTimeMillis();
 
         int hardScore = 0;
         int mediumScore = 0;
@@ -348,8 +351,11 @@ public class GLCalendarScoreCalculator implements EasyScoreCalculator<GLCalendar
 
         solution.setConstraintsBroken(constraintsBroken);
 
+        timer.addAndGet(System.currentTimeMillis() - start);
+
         if (counter.incrementAndGet() % 100000 == 0) {
             System.out.println("GLCalendarScoreCalculator " + counter.get());
+            System.out.println("Total time taken from start, GLCalendarScoreCalculator " + timer.get());
         }
         return HardMediumSoftScore.valueOf(hardScore, mediumScore, softScore);
     }

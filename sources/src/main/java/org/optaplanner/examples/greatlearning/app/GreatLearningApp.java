@@ -8,6 +8,7 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.examples.greatlearning.domain.*;
 import org.optaplanner.examples.greatlearning.util.CourseDateTimeSlotsGenerator;
+import org.optaplanner.examples.greatlearning.util.DateTimeSlotsGenerator;
 import org.optaplanner.examples.greatlearning.util.Util;
 
 import java.io.IOException;
@@ -248,9 +249,6 @@ public class GreatLearningApp {
 
         List<CourseSchedule> courseScheduleList = new ArrayList<>();
 
-        Random random = new Random(System.currentTimeMillis());
-
-
         for (Map.Entry<String, Program> entry : programMap.entrySet()) {
             Program program = entry.getValue();
             List<Course> courses = program.getCourseList();
@@ -278,38 +276,15 @@ public class GreatLearningApp {
                         System.exit(1);
                     }
 
-                    //Collections.shuffle(availableTeachers, random);
-
                     courseSchedule.setTeacherList(availableTeachers);
 
-                    List<DateTimeSlots> dateTimeSlotsList = CourseDateTimeSlotsGenerator.generate(course, batch);
-
-                    //dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.size() - 1 - courseIndices.get(course.getName()), courseIndices.size() - 1);
-
-                    if ("Batch Inauguration".equals(course.getName())) {
-                        int idx = 0;
-                        List<DateTimeSlot> startSlots = dateTimeSlotsList.get(0).getDateTimeSlots();
-                        LocalDate startDate = startSlots.get(0).getDate();
-                        LocalDate newStartDate = startDate.plusMonths(1);
-
-                        for (int i = 0; i < dateTimeSlotsList.size(); i++) {
-                            DateTimeSlots dateTimeSlots = dateTimeSlotsList.get(i);
-                            List<DateTimeSlot> dateTimeSlotList = dateTimeSlots.getDateTimeSlots();
-
-                            if (dateTimeSlotList.get(0).getDate().compareTo(newStartDate) > 0) {
-                                idx = i;
-                                break;
-                            }
-                        }
-                        dateTimeSlotsList = dateTimeSlotsList.subList(0, idx > 0 ? idx : dateTimeSlotsList.size());
-
-                    } else {
-//                        if ("Capstone".equals(course.getName())) {
-//                            dateTimeSlotsList = filter(dateTimeSlotsList, courseIndices.get(course.getName()), courseIndices.size(), batch);
-//                        } else {
-                            dateTimeSlotsList = trimDateSlots(dateTimeSlotsList, course, batch, courses, courseMap);
-                        //}
-                    }
+                    List<DateTimeSlots> dateTimeSlotsList = null;
+//                    if ("PGPBABI Chennai Jan17".equals(batch.getName())) {
+//                        dateTimeSlotsList = CourseDateTimeSlotsGenerator.generate(course, batch);
+//                        dateTimeSlotsList = trimDateSlots(dateTimeSlotsList, course, batch, courses, courseMap);
+//                    } else {
+                        dateTimeSlotsList = DateTimeSlotsGenerator.generate(batch, course, courses, courseMap);
+            //        }
 
                     courseSchedule.setDateTimeSlotsList(dateTimeSlotsList);
                     courseSchedule.setSlotsNum(course.getSlots().size());
@@ -319,7 +294,10 @@ public class GreatLearningApp {
         }
         glCalendar.setCourseScheduleList(courseScheduleList);
         long count = 0;
-        for(CourseSchedule schedule : courseScheduleList){
+        for (CourseSchedule schedule : courseScheduleList) {
+            if (schedule.getDateTimeSlotsList().size() == 0) {
+                System.out.println(schedule.getBatch().getName() + " :: " + schedule.getName());
+            }
             count += (schedule.getTeacherList().size() * schedule.getDateTimeSlotsList().size());
         }
         System.out.println(count);
@@ -356,14 +334,20 @@ public class GreatLearningApp {
             divider = 10;
         }
         int idx = myCount / divider;
-        if(batch.getName().equals("PGPBABI Chennai Jan17")){
+        if (batch.getName().equals("PGPBABI Chennai Jan17")) {
             idx *= 2; //Since chennai has got 5,0 residencies days, to handle missing residency days
         }
 
         LocalDate pLocalDate = startLocalDateIndices.get(idx);
         LocalDate ppLocalDate = pLocalDate.minusMonths(2);
+        if (!batch.getName().equals("PGPBABI Chennai Jan17")) {
+            ppLocalDate = pLocalDate.minusMonths(1);
+        }
         ppLocalDate = LocalDate.of(ppLocalDate.getYear(), ppLocalDate.getMonth(), 1);
         LocalDate apLocalDate = pLocalDate.plusMonths(3);
+        if (!batch.getName().equals("PGPBABI Chennai Jan17")) {
+            apLocalDate = pLocalDate.plusMonths(1);
+        }
         apLocalDate = LocalDate.of(apLocalDate.getYear(), apLocalDate.getMonth(), 1);
 
         int startIdx = 0;
@@ -379,7 +363,7 @@ public class GreatLearningApp {
                 endIdx = i;
             }
         }
-        return dateTimeSlotsList.subList(startIdx == 0 ? startIdx : startIdx, endIdx == dateTimeSlotsList.size() ? endIdx : endIdx+1);
+        return dateTimeSlotsList.subList(startIdx == 0 ? startIdx : startIdx, endIdx == dateTimeSlotsList.size() ? endIdx : endIdx + 1);
     }
 
     private static void displayCalendar(GLCalendar glCalendar) {

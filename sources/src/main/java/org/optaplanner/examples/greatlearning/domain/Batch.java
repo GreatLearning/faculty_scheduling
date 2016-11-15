@@ -43,7 +43,7 @@ public class Batch {
     private List<List<LocalDate>> generatePossibleResidencyDates() {
         List<List<LocalDate>> possibleResidencyDates = new ArrayList<>();
 
-        LocalDate nextYearEndDate = startDate.plusYears(1).plusMonths(1);
+        LocalDate nextYearEndDate = startDate.plusYears(1).minusDays(21);
 
         Map<Integer, Map<Month, Integer>> yearMapMap = buildExpectedMonthlyDaysMap();
 
@@ -72,7 +72,7 @@ public class Batch {
                     long daysBetween = 0;
                     if (currentDates.size() > 0) {
                         daysBetween = ChronoUnit.DAYS.between(workingDates.get(workingDates.size() - 1), currentDates.get(0));
-                        stop = (daysBetween > maxGapBetweenResidenciesInDays || nextYearEndDate.compareTo(currentDates.get(currentDates.size() - 1)) < 0);
+                        stop = (daysBetween > maxGapBetweenResidenciesInDays || nextYearEndDate.compareTo(currentDates.get(0)) < 0);
                     }
                     if (nextYearEndDate.compareTo(newEndDate) < 0) {
                         break;
@@ -107,9 +107,7 @@ public class Batch {
             }
         }
 
-        for (List<LocalDate> dateTimeSlots : possibleResidencyDates) {
-            Collections.sort(dateTimeSlots);
-        }
+        possibleResidencyDates.forEach(Collections::sort);
 
         Collections.sort(possibleResidencyDates, new Comparator<List<LocalDate>>() {
             @Override

@@ -1,6 +1,5 @@
 package org.optaplanner.examples.greatlearning.util;
 
-import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.optaplanner.examples.greatlearning.domain.*;
 
 import java.time.LocalDate;
@@ -48,11 +47,11 @@ public class CourseDateTimeSlotsGenerator {
          */
         List<Integer> gaps = Arrays.asList(0, 1, 2); //the more gaps, the possibilities of calendar
         if (course.getSlots().size() <= 2) {
-            gaps = Arrays.asList(0);
-        } else if (course.getSlots().size() <= 3) {
             gaps = Arrays.asList(0, 1);
+        } else if (course.getSlots().size() <= 3) {
+            gaps = Arrays.asList(0, 1, 2);
         } else {
-            gaps = Arrays.asList(1, 2);
+            gaps = Arrays.asList(0, 1);
         }
         for (Integer gap : gaps) {
             List<DateTimeSlots> dateTimeSlots = new ArrayList<>();
@@ -60,18 +59,18 @@ public class CourseDateTimeSlotsGenerator {
             for (int startIdx = 0; startIdx < flattenedResidencyDates.size() - stringLength; startIdx++) {
 
                 List<LocalDate> workingDates = flattenedResidencyDates.subList(startIdx, flattenedResidencyDates.size());
-                List<List<LocalDate>> eligibleResidencies = getEligibleDates(workingDates, residencies, stringLength, batch);
+                List<List<LocalDate>> eligibleResidencies = getEligibleDates(workingDates, residencies, stringLength, batch, gap);
 
                 //Checker
                 List<List<LocalDate>> toDelete = new ArrayList<>();
 
-                for(List<LocalDate> localDateList : eligibleResidencies){
+                for (List<LocalDate> localDateList : eligibleResidencies) {
                     Set<LocalDate> set = new HashSet<>(localDateList);
-                    if(set.size() != localDateList.size()){
+                    if (set.size() != localDateList.size()) {
                         toDelete.add(localDateList);
                     }
                 }
-                for(List<LocalDate> localDateList : toDelete){
+                for (List<LocalDate> localDateList : toDelete) {
                     eligibleResidencies.remove(localDateList);
                 }
 
@@ -79,7 +78,7 @@ public class CourseDateTimeSlotsGenerator {
                     if (gap == 0) {
                         appendDateTimeSlots(dateTimeSlots, residencyDates);
                     } else {
-                        pickSlots(course, dateTimeSlots, residencyDates);
+                        pickSlots(course, dateTimeSlots, residencyDates, course.getSlots().size());
                     }
                 }
             }
@@ -124,18 +123,18 @@ public class CourseDateTimeSlotsGenerator {
                 List<DateTimeSlot> dateTimeSlots1 = o1.getDateTimeSlots();
                 List<DateTimeSlot> dateTimeSlots2 = o2.getDateTimeSlots();
 
-                CompareToBuilder builder =  new CompareToBuilder();
-                for(int i=0;i<dateTimeSlots1.size();i++){
-                    builder.append(dateTimeSlots1.get(i), dateTimeSlots2.get(i));
-                }
-                return builder.toComparison();
-                //return dateTimeSlots1.get(0).compareTo(dateTimeSlots2.get(0));
+//                CompareToBuilder builder =  new CompareToBuilder();
+//                for (int i = dateTimeSlots1.size() - 1; i >= 0; i--) {
+//                    builder.append(dateTimeSlots1.get(i), dateTimeSlots2.get(i));
+//                }
+//                return builder.toComparison();
+                return dateTimeSlots1.get(0).compareTo(dateTimeSlots2.get(0));
             }
         });
         return dateTimeSlotsList;
     }
 
-    private static List<List<LocalDate>> getEligibleDates(List<LocalDate> allDates, List<List<LocalDate>> residencies, int limit, Batch batch) {
+    private static List<List<LocalDate>> getEligibleDates(List<LocalDate> allDates, List<List<LocalDate>> residencies, int limit, Batch batch, Integer gap) {
         List<List<LocalDate>> allEligibleDates = new ArrayList<>();
         LocalDate startDate = allDates.get(0);
         int i = 0;
@@ -206,7 +205,7 @@ public class CourseDateTimeSlotsGenerator {
                  */
                 List<LocalDate> secWorkingDates = new ArrayList<>();
                 for (LocalDate localDate : residency) {
-                    if(!eligibleDates.contains(localDate)){
+                    if (!eligibleDates.contains(localDate)) {
                         secWorkingDates.add(localDate);
                     }
                     if (secWorkingDates.size() >= limit - eligibleDates.size()) {
@@ -247,7 +246,7 @@ public class CourseDateTimeSlotsGenerator {
                          */
                         List<LocalDate> secWorkingDates = new ArrayList<>();
                         for (LocalDate localDate : residency) {
-                            if(!workingDatesCopy.contains(localDate)){
+                            if (!workingDatesCopy.contains(localDate)) {
                                 secWorkingDates.add(localDate);
                             }
                             if (secWorkingDates.size() + workingDatesCopy.size() >= limit - eligibleDates.size()) {
@@ -306,10 +305,14 @@ public class CourseDateTimeSlotsGenerator {
         return prevDate;
     }
 
-    private static void pickSlots(Course course, List<DateTimeSlots> dateTimeSlots, List<LocalDate> subDates) {
+    private static void pickSlots(Course course, List<DateTimeSlots> dateTimeSlots, List<LocalDate> subDates, int size) {
         List<LocalDate> workingDates = new ArrayList<>();
         workingDates.add(subDates.get(0));
         workingDates.add(subDates.get(subDates.size() - 1));
+        if (workingDates.size() == size) {
+            appendDateTimeSlots(dateTimeSlots, workingDates);
+            return;
+        }
 
         int pendingToPick = course.getSlotsNum() - workingDates.size();
         int target = 1 << (subDates.size() - 2);
